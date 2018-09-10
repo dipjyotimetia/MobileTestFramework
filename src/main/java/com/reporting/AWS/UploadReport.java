@@ -28,7 +28,7 @@ public class UploadReport {
         String filePath = "build/reports/allure-report";
 
         try {
-            BasicAWSCredentials awsCreds = new BasicAWSCredentials("", "/");
+            BasicAWSCredentials awsCreds = new BasicAWSCredentials("/", "/");
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withRegion(Regions.AP_SOUTHEAST_2)
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))

@@ -58,8 +58,8 @@ public class TC007_ST_TransactionHistoryDepositByDate extends ApiActions {
             ArrayList<Integer> AcTransactionId = jsonPathEvaluator.get("Results.ACTransactionID");
             ArrayList<String> Amount = jsonPathEvaluator.get("Results.Amount");
 
-            log("AcTransactionId: " + AcTransactionId);
-            log("Amount: " + Amount);
+            logged("AcTransactionId: " + AcTransactionId);
+            logged("Amount: " + Amount);
         } catch (Exception e) {
             logger.error(e);
         } finally {

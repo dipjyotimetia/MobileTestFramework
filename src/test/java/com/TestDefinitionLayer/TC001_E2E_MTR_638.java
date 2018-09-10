@@ -20,16 +20,10 @@ public class TC001_E2E_MTR_638 extends UserActions {
         String Tname = "TC001_E2E_MTR_638";
 
         HomePage homePage = new HomePage();
-        BetPlacePage betPage = new BetPlacePage();
-        MyAccountPage myAccount = new MyAccountPage();
-        RegistrationPage registration = new RegistrationPage();
-        DepositPage depositPage = new DepositPage();
-        BetslipPage betSlip = new BetslipPage();
 
         ExtentTestManager.getTest().setDescription("");
 
         try {
-            
             CreateImageDoc(Tname);
         } catch (Exception e) {
             catchBlock(e);

@@ -53,6 +53,7 @@ public class UserActions extends DriverManager {
 
     private static final Faker faker = new Faker();
     private Logger logger = LogManager.getLogger(UserActions.class);
+
     /**
      * Capture screenshot
      *
@@ -920,5 +921,17 @@ public class UserActions extends DriverManager {
         Counter = 0;
         logger.error("Error Description", e);
         Assert.fail("TestCase Failed", e);
+    }
+
+    protected String readData(String data) {
+        Properties prop = new Properties();
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("credential.properties");
+            prop.load(inputStream);
+            return prop.getProperty(data);
+        } catch (IOException ex) {
+            logger.error(ex);
+        }
+        return null;
     }
 }

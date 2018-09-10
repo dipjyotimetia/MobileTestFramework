@@ -15,7 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ApiActions {
+public class ApiActions extends UserActions {
 
     protected static final Faker faker = new Faker();
     private Logger logger = LogManager.getLogger(ApiActions.class);
@@ -27,8 +27,8 @@ public class ApiActions {
                 .contentType(ContentType.JSON);
 
         JSONObject requestParams = new JSONObject();
-        requestParams.put("", ""); // Cast
-        requestParams.put("", "");
+        requestParams.put("username", readData("username"));
+        requestParams.put("password", readData("password"));
 
         Response response = httpRequest.body(requestParams.toJSONString()).
                 request(Method.POST, "/Account/Login");
@@ -36,7 +36,7 @@ public class ApiActions {
         return response.getHeaders().getValue("ClientAuth");
     }
 
-    protected String SystemDateFormat() {
+    protected String sysDateFormat() {
         try {
             DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
             Date date1 = new Date();
@@ -49,7 +49,7 @@ public class ApiActions {
     }
 
     @Step("{0}")
-    protected void log(String message) {
+    protected void logged(String message) {
         logger.info(message);
     }
 

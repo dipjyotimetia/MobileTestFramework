@@ -5,17 +5,17 @@
         <listener class-name="com.reporting.Listeners.TestListener"/>
         <listener class-name="com.reporting.Listeners.AnnotationTransfomer"/>
     </listeners>
-    <test name="Feature Api Test Mobile">
-        <classes>
-            <class name=""/>
-        </classes>
-    </test>
+    <!--<test name="Feature Api Test Mobile">-->
+        <!--<classes>-->
+            <!--<class name=""/>-->
+        <!--</classes>-->
+    <!--</test>-->
     <test name="E2E Tests Android">
         <parameter name="device" value="S9"/>
         <parameter name="apk" value="N"/>
         <parameter name="serverIp" value="172.23.126.97"/>
         <classes>
-            <class name=""/>
+            <class name="com.TestDefinitionLayer.TC001_E2E_MTR_638"/>
         </classes>
     </test>
 </suite>
