@@ -107,7 +107,6 @@ sourceSets {
 
 dependencies {
     compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.402'
-//    compile group: 'com.experitest', name: 'appium', version: '4.1.2'
     compile group: 'io.appium', name: 'java-client', version: '6.1.0'
     compile group: 'net.reini', name: 'slf4-cdi', version: '1.0'
     compile group: 'org.assertj', name: 'assertj-core', version: '3.11.0'
@@ -137,6 +136,7 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.1'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.1'
     testCompile 'org.jmockit:jmockit:1.42'
+    compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
 }
 
 task E2E(type: Test) {
@@ -185,6 +185,12 @@ publishing{
             artifact("test-output/Build.zip")
         }
     }
+}
+
+javadoc {
+    source = project.sourceSets.main.java.srcDirs
+    options.linkSource true
+    failOnError false
 }
 
 gradle.startParameter.continueOnFailure = true
