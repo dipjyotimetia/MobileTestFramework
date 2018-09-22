@@ -107,7 +107,6 @@ sourceSets {
 
 dependencies {
     compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.402'
-//    compile group: 'com.experitest', name: 'appium', version: '4.1.2'
     compile group: 'io.appium', name: 'java-client', version: '6.1.0'
     compile group: 'net.reini', name: 'slf4-cdi', version: '1.0'
     compile group: 'org.assertj', name: 'assertj-core', version: '3.11.0'
@@ -186,6 +185,12 @@ publishing{
             artifact("test-output/Build.zip")
         }
     }
+}
+
+javadoc {
+    source = project.sourceSets.main.java.srcDirs
+    options.linkSource true
+    failOnError false
 }
 
 gradle.startParameter.continueOnFailure = true
