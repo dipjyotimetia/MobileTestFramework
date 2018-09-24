@@ -168,6 +168,36 @@ public class UserActions extends DriverManager {
         return false;
     }
 
+    public Dimension getDimension(MobileElement element){
+        return element.getSize();
+    }
+
+    public Point getLocation(MobileElement element) {
+        return element.getLocation();
+    }
+
+    public String getDescription(MobileElement element) {
+        String elementText = "";
+        try {
+            elementText = element.getText();
+            if (!elementText.isEmpty()) {
+                return elementText;
+            } else {
+                String elementTag = element.getTagName();
+                if (elementTag != null) {
+                    return elementTag + " at " + element.getCoordinates();
+                } else {
+                    return "OldElement at " + element.getCoordinates();
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("Could not get the element description");
+            logger.warn(e.getMessage());
+        }
+
+        return elementText;
+    }
+
     /**
      * Element is enabled
      *
