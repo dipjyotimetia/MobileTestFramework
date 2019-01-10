@@ -20,12 +20,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class AppiumController {
+public class AppiumController implements Access{
 
     private DesiredCapabilities _caps = new DesiredCapabilities();
     private static AppiumDriver<MobileElement> _driver = null;
     private Logger logger = LogManager.getLogger(AppiumController.class);
     private String appiumPort = "4723";
+    private static BrowserMobProxy server;
     //    private String serverIp = "127.0.0.1";    //Local
     //    private String serverIp = "172.23.126.97";  //Jenkins
 
@@ -102,7 +103,29 @@ public class AppiumController {
         _caps.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "ios.intent.action.MAIN");
         _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "");
     }
-
+    
+    private void _performanceCapability(){
+        server = new BrowserMobProxyServer();
+                server.setTrustAllServers(true);
+                server.start(PROXY_Port);
+                server.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
+                server.enableHarCaptureTypes(CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
+                Proxy proxy = ClientUtil.createSeleniumProxy(server);
+                if (device.equals("PIXEL")) {
+                    logger.info("Selected device is PIXEL 2");
+                    caps.setCapability(MobileCapabilityType.UDID, PIXEL);
+                    caps.setCapability(MobileCapabilityType.DEVICE_NAME, PIXEL);
+                } else if (device.equals("S9")) {
+                    logger.info("Selected device is S9");
+                    caps.setCapability(MobileCapabilityType.UDID, S9);
+                    caps.setCapability(MobileCapabilityType.DEVICE_NAME, S9);
+                }
+                caps.setCapability(MobileCapabilityType.PROXY, proxy);
+                //addDesiredCapabilities(caps);
+                logger.info("Argument to driver object : " + serverUrl);
+                driver = new AndroidDriver<>(new URL(serverUrl), caps);
+                server.newHar("appiumPerf.har");
+    }
     @AfterClass
     public void tearDown() {
         _driver.quit();
