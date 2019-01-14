@@ -1,5 +1,6 @@
 package com.core;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
@@ -24,10 +25,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class AppiumController implements Access {
+public class AppiumController extends WebDriverController implements Access {
 
     private DesiredCapabilities _caps = new DesiredCapabilities();
-    private static WebDriver _driver = null;
+    private static AppiumDriver _driver = null;
     private Logger logger = LogManager.getLogger(AppiumController.class);
     private String appiumPort = "4723";
     private static BrowserMobProxy server;
@@ -40,7 +41,7 @@ public class AppiumController implements Access {
         initDriver(device, apk, serverIp);
     }
 
-    public WebDriver getDriver() {
+    public AppiumDriver getDriver() {
         return _driver;
     }
 

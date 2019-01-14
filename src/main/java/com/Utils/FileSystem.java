@@ -7,6 +7,7 @@ import org.testng.Assert;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,6 +18,16 @@ import java.nio.file.Paths;
 public class FileSystem {
 
     private static Logger logger = LogManager.getLogger(FileSystem.class);
+
+    private void downloadDriver(){
+        String fromFile="";
+        String toFile = "Driver/";
+        try {
+            FileUtils.copyURLToFile(new URL(fromFile), new File(toFile), 10000, 10000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Delete file path.

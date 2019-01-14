@@ -41,7 +41,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.*;
 
-public class UserActions extends DriverManager {
+public class MobileActions extends DriverManager {
 
     private static String datetimeabc = null;
     private static int Counter = 0;
@@ -52,7 +52,7 @@ public class UserActions extends DriverManager {
     private static String _dburl;
 
     private static final Faker faker = new Faker();
-    private Logger logger = LogManager.getLogger(UserActions.class);
+    private Logger logger = LogManager.getLogger(MobileActions.class);
 
     /**
      * Capture screenshot
@@ -94,7 +94,7 @@ public class UserActions extends DriverManager {
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until(ExpectedConditions.elementToBeClickable(element));
+            wait.until(ExpectedConditions.visibilityOf(element));
 
         } catch (ElementNotVisibleException e) {
             logger.error("Element not visible", e);
