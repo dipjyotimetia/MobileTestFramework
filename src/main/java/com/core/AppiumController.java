@@ -1,15 +1,19 @@
 package com.core;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Proxy;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -20,10 +24,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class AppiumController implements Access{
+public class AppiumController implements Access {
 
     private DesiredCapabilities _caps = new DesiredCapabilities();
-    private static AppiumDriver<MobileElement> _driver = null;
+    private static WebDriver _driver = null;
     private Logger logger = LogManager.getLogger(AppiumController.class);
     private String appiumPort = "4723";
     private static BrowserMobProxy server;
@@ -36,7 +40,7 @@ public class AppiumController implements Access{
         initDriver(device, apk, serverIp);
     }
 
-    public AppiumDriver getDriver() {
+    public WebDriver getDriver() {
         return _driver;
     }
 
@@ -52,16 +56,6 @@ public class AppiumController implements Access{
                 }
                 _caps.setCapability(MobileCapabilityType.UDID, "9889d6324131325a34");
                 _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "9889d6324131325a34");
-                _androidCapabilities(_caps);
-                logger.info("Argument to driver object : " + serverUrl);
-                _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
-            } else if (device.equals("S9")) {
-                logger.info("Selected device is S9");
-                if (apk.equals("Y")) {
-                    _caps.setCapability(MobileCapabilityType.APP, app);
-                }
-                _caps.setCapability(MobileCapabilityType.UDID, "1cb4062d0b037ece");
-                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "1cb4062d0b037ece");
                 _androidCapabilities(_caps);
                 logger.info("Argument to driver object : " + serverUrl);
                 _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
@@ -103,29 +97,18 @@ public class AppiumController implements Access{
         _caps.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "ios.intent.action.MAIN");
         _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "");
     }
-    
-    private void _performanceCapability(){
+
+    private void _performanceCapability(DesiredCapabilities _caps) {
         server = new BrowserMobProxyServer();
-                server.setTrustAllServers(true);
-                server.start(PROXY_Port);
-                server.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
-                server.enableHarCaptureTypes(CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
-                Proxy proxy = ClientUtil.createSeleniumProxy(server);
-                if (device.equals("PIXEL")) {
-                    logger.info("Selected device is PIXEL 2");
-                    caps.setCapability(MobileCapabilityType.UDID, PIXEL);
-                    caps.setCapability(MobileCapabilityType.DEVICE_NAME, PIXEL);
-                } else if (device.equals("S9")) {
-                    logger.info("Selected device is S9");
-                    caps.setCapability(MobileCapabilityType.UDID, S9);
-                    caps.setCapability(MobileCapabilityType.DEVICE_NAME, S9);
-                }
-                caps.setCapability(MobileCapabilityType.PROXY, proxy);
-                //addDesiredCapabilities(caps);
-                logger.info("Argument to driver object : " + serverUrl);
-                driver = new AndroidDriver<>(new URL(serverUrl), caps);
-                server.newHar("appiumPerf.har");
+        server.setTrustAllServers(true);
+        server.start(PROXY_Port);
+        server.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
+        server.enableHarCaptureTypes(CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
+        Proxy proxy = ClientUtil.createSeleniumProxy(server);
+        _caps.setCapability(MobileCapabilityType.PROXY, proxy);
+        server.newHar("appiumPerf.har");
     }
+
     @AfterClass
     public void tearDown() {
         _driver.quit();
