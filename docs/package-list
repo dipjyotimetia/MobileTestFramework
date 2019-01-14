@@ -1,0 +1,13 @@
+com.Common
+com.Exception
+com.MockServiceLayer
+com.ServiceLayer
+com.TestDefinitionLayer
+com.Utils
+com.core
+com.logging
+com.pages
+com.reporting.AWS
+com.reporting.ExtentReports
+com.reporting.Jira
+com.reporting.Listeners
