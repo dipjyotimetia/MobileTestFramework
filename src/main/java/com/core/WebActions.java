@@ -1,14 +1,9 @@
 package com.core;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
 
+import java.time.Duration;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -17,7 +12,33 @@ public class WebActions extends DriverManager {
     private static WebDriverWait wait;
     private static JavascriptExecutor jsExec;
 
-    //Get the driver
+    public void navigate(String url){
+        webDriver.navigate().to(url);
+    }
+
+    private void fluentWait(WebElement element, int timeout) {
+        try {
+            Wait wait = new FluentWait(driver)
+                    .withTimeout(Duration.ofSeconds(timeout))
+                    .pollingEvery(Duration.ofMillis(5))
+                    .ignoring(NoSuchElementException.class);
+            wait.until(ExpectedConditions.visibilityOf(element));
+
+        } catch (ElementNotVisibleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void click(WebElement element){
+        fluentWait(element,10);
+        element.click();
+    }
+
+    public void enter(WebElement element,String value){
+        fluentWait(element,10);
+        element.sendKeys(value);
+    }
+
     public void setDriver() {
         wait = new WebDriverWait(webDriver, 10);
         jsExec = (JavascriptExecutor) webDriver;

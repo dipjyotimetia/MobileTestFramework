@@ -11,10 +11,11 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="E2E Tests Android">
-        <parameter name="browser" value="CHROME"/>
+        <parameter name="browser" value="chrome"/>
         <parameter name="grid" value="NO"/>
         <classes>
-            <class name="com.TestDefinitionLayer.TC001_E2E_MTR_638"/>
+            <!--<class name="com.TestDefinitionLayer.TC001_E2E_MTR_638"/>-->
+            <class name="com.TestDefinitionLayer.TC003_E2E_Web"/>
         </classes>
     </test>
 </suite>
