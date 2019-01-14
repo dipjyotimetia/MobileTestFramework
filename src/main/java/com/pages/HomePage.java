@@ -1,6 +1,6 @@
 package com.pages;
 
-import com.core.UserActions;
+import com.core.MobileActions;
 
-public class HomePage extends UserActions {
+public class HomePage extends MobileActions {
 }

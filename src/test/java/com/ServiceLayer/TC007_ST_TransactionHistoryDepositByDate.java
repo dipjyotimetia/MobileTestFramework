@@ -1,8 +1,10 @@
 package com.ServiceLayer;
 
+import com.Common.Property;
 import com.core.ApiActions;
 import com.reporting.ExtentReports.ExtentTestManager;
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
@@ -18,19 +20,20 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
-public class TC007_ST_TransactionHistoryDepositByDate extends ApiActions {
+public class TC007_ST_TransactionHistoryDepositByDate<T> extends ApiActions<T> {
     private Logger logger = LogManager.getLogger(ApiActions.class);
 
-    @Test
-    @Description("")
+    @Feature("")
+    @Test(description = "")
     public void TransactionHistoryDepositByDate() {
         ExtentTestManager.getTest().setDescription("");
 
+
         try {
-            String DateTo = "2018-06-30T13:59:59Z";
+            String DateTo = "2018-10-30T13:59:59Z";
             String DateFrom = "2018-03-31T13:00:00Z";
 
-            RestAssured.baseURI = "";
+            RestAssured.baseURI = Property.baseURI.getValue();
 
             JSONObject params = new JSONObject();
             params.put("CurrentPage", "0");
@@ -40,26 +43,13 @@ public class TC007_ST_TransactionHistoryDepositByDate extends ApiActions {
             params.put("DateFrom", DateFrom);
             params.put("Detail", "true");
 
-            RequestSpecification httpRequest = RestAssured
-                    .given()
-                    .with()
-                    .header("ClientAuth", AuthLogin())
-                    .contentType(ContentType.JSON)
-                    .with()
-                    .body(params.toJSONString());
-
-            Response response = httpRequest.request(Method.POST, "/Account/TransactionSearch");
-            ResponseBody responseBody = response.getBody();
-            Assert.assertEquals(response.getStatusCode() /*actual value*/, 200 /*expected value*/, "Correct status code returned");
-
-            logger.info("Response Body is =>  " + responseBody.prettyPrint());
-
-            JsonPath jsonPathEvaluator = response.jsonPath();
-            ArrayList<Integer> AcTransactionId = jsonPathEvaluator.get("Results.ACTransactionID");
-            ArrayList<String> Amount = jsonPathEvaluator.get("Results.Amount");
-
-            logged("AcTransactionId: " + AcTransactionId);
-            logged("Amount: " + Amount);
+            Response response = httpPost(params, "/Account/TransactionSearch");
+            Assert.assertEquals(getStatusCode(response) /*actual value*/, 200 /*expected value*/, "Correct status code returned");
+            logger.info("Response Body is =>  " + getBody(response));
+            T AcTransactionId = jsonPathEvaluator(response, "Results.ACTransactionID");
+            T Amount = jsonPathEvaluator(response, "Results.Amount");
+            log("AcTransactionId: " + AcTransactionId);
+            log("Amount: " + Amount);
         } catch (Exception e) {
             logger.error(e);
         } finally {

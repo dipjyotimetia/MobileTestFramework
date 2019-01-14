@@ -25,7 +25,14 @@ public enum Property {
     Android(""),
     iOS(""),
     Simulator(""),
-    Emulator("");
+    Emulator(""),
+    baseURI("baseURI"),
+    tokenURI("tokenURI"),
+    userName("username"),
+    passWord("password"),
+    serverIp("serverIp"),
+    clientUser("clientUser"),
+    clientPassword("clientPassword");
 
     private static Properties properties = null;
     private String value;
