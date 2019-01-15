@@ -41,7 +41,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.*;
 
-public class MobileActions extends DriverManager {
+public class UserActions extends DriverManager {
 
     private static String datetimeabc = null;
     private static int Counter = 0;
@@ -52,7 +52,7 @@ public class MobileActions extends DriverManager {
     private static String _dburl;
 
     private static final Faker faker = new Faker();
-    private Logger logger = LogManager.getLogger(MobileActions.class);
+    private Logger logger = LogManager.getLogger(UserActions.class);
 
     /**
      * Capture screenshot

@@ -19,16 +19,6 @@ public class FileSystem {
 
     private static Logger logger = LogManager.getLogger(FileSystem.class);
 
-    private void downloadDriver(){
-        String fromFile="";
-        String toFile = "Driver/";
-        try {
-            FileUtils.copyURLToFile(new URL(fromFile), new File(toFile), 10000, 10000);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Delete file path.
      *

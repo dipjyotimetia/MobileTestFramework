@@ -14,7 +14,6 @@ import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Proxy;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -25,7 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class AppiumController extends WebDriverController implements Access {
+public class AppiumController implements Access {
 
     private DesiredCapabilities _caps = new DesiredCapabilities();
     private static AppiumDriver _driver = null;
