@@ -14,14 +14,7 @@ import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Proxy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -31,10 +24,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class AppiumController extends WebDriverController implements Access {
+public class AppiumController implements Access {
 
     private DesiredCapabilities _caps = new DesiredCapabilities();
-    private static WebDriver _driverThread = null;
     private static AppiumDriver _driver = null;
     private Logger logger = LogManager.getLogger(AppiumController.class);
     private String appiumPort = "4723";
@@ -42,7 +34,7 @@ public class AppiumController extends WebDriverController implements Access {
     //    private String serverIp = "127.0.0.1";    //Local
     //    private String serverIp = "172.23.126.97";  //Jenkins
 
-    @Parameters({"device", "apk", "serverIp","browser","grid"})
+    @Parameters({"device", "apk", "serverIp"})
     @BeforeClass
     public void setup(String device, String apk, String serverIp) {
         initDriver(device, apk, serverIp);
@@ -115,54 +107,6 @@ public class AppiumController extends WebDriverController implements Access {
         Proxy proxy = ClientUtil.createSeleniumProxy(server);
         _caps.setCapability(MobileCapabilityType.PROXY, proxy);
         server.newHar("appiumPerf.har");
-    }
-
-    //Get Chrome Options
-    public static ChromeOptions getChromeOptions() {
-        System.setProperty("webdriver.chrome.driver","Driver/chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-        options.addArguments("--ignore-certificate-errors");
-        options.addArguments("--disable-popup-blocking");
-        //options.addArguments("--incognito");
-        return options;
-        /*ChromeDriverService service = new ChromeDriverService.Builder()
-                .usingAnyFreePort()
-                .build();
-        ChromeDriver driver = new ChromeDriver(service, options);*/
-    }
-
-    //Get Firefox Options
-    public static FirefoxOptions getFirefoxOptions() {
-        FirefoxOptions options = new FirefoxOptions();
-        FirefoxProfile profile = new FirefoxProfile();
-        //Accept Untrusted Certificates
-        profile.setAcceptUntrustedCertificates(true);
-        profile.setAssumeUntrustedCertificateIssuer(false);
-        //Use No Proxy Settings
-        profile.setPreference("network.proxy.type", 0);
-        //Set Firefox profile to capabilities
-        options.setCapability(FirefoxDriver.PROFILE, profile);
-        return options;
-    }
-
-    public synchronized static void initDriver (String browser,String grid) {
-        try {
-            if (browser.equals("firefox")) {
-                _driverThread = new FirefoxDriver(getFirefoxOptions());
-                if (grid.equalsIgnoreCase("YES")){
-                    _driverThread = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),getFirefoxOptions());
-                }
-            } else if (browser.equals("chrome")) {
-                _driverThread = new ChromeDriver(getChromeOptions());
-                if (grid.equalsIgnoreCase("YES")){
-                    _driverThread = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),getChromeOptions());
-                }
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     @AfterClass

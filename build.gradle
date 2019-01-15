@@ -65,30 +65,30 @@ allure {
     downloadLink = 'https://github.com/allure-framework/allure2/releases/download/2.7.0/allure-2.7.0.zip'
 }
 
-loadConfig()
+//loadConfig()
+//
+//def loadConfig(){
+//    def configFile = this.hasProperty('env')? getProperty('env'):'ST'
+//    println "environment is set to $configFile"
+//    def props = new Properties()
+//    def environment = "input/envproperties/$configFile"+".properties"
+//    println "Reading"+"$environment"+"file"
+//
+//    new File(environment).withInputStream {
+//        stream -> props.load(stream)
+//    }
+//    def configProp = new ConfigSlurper().parse(props)
+//    ext.Testbrowser = this.hasProperty('Browser')?getProperty('Browser'):'X'
+//    ext.TestEnv = System.getProperty("ENV")?System.getenv("ENV"):configProp.ENV
+//    ext.TestServer = System.getProperty("TestServer")?System.getenv("TestServer"):configProp.TestServer
+//}
 
-def loadConfig(){
-    def configFile = this.hasProperty('env')? getProperty('env'):'ST'
-    println "environment is set to $configFile"
-    def props = new Properties()
-    def environment = "input/envproperties/$configFile"+".properties"
-    println "Reading"+"$environment"+"file"
-
-    new File(environment).withInputStream {
-        stream -> props.load(stream)
-    }
-    def configProp = new ConfigSlurper().parse(props)
-    ext.Testbrowser = this.hasProperty('Browser')?getProperty('Browser'):'X'
-    ext.TestEnv = System.getProperty("ENV")?System.getenv("ENV"):configProp.ENV
-    ext.TestServer = System.getProperty("TestServer")?System.getenv("TestServer"):configProp.TestServer
-}
-
-test{
-    if(System.getProperty('DEBUG','false') == 'true'){
-        jvmArgs '-Xdebug',
-                '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5006'
-    }
-}
+//test{
+//    if(System.getProperty('DEBUG','false') == 'true'){
+//        jvmArgs '-Xdebug',
+//                '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5006'
+//    }
+//}
 
 
 sourceSets {
@@ -144,7 +144,7 @@ task E2E(type: Test) {
     useTestNG() {
         outputDirectory = file("$project.buildDir/testngOutput")
         useDefaultListeners = true
-        suiteXmlFiles << new File("src/test/suite/testng.xml")
+        suiteXmlFiles << new File("src/test/suite/testweb.xml")
         setSuiteXmlFiles(suiteXmlFiles)
     }
     testLogging {
@@ -156,7 +156,7 @@ task E2E(type: Test) {
         junitXml.enabled = false
         html.enabled = true
     }
-    systemProperties=["TestEnv":"${TestEnv}","TestServer":"${TestServer}"]
+//    systemProperties=["TestEnv":"${TestEnv}","TestServer":"${TestServer}"]
 }
 
 task Report(type: Test) {
