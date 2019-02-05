@@ -1,12 +1,11 @@
 package com.core;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileCommand;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.ios.IOSMobileCommandHelper;
+import io.appium.java_client.remote.*;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
@@ -94,8 +93,23 @@ public class AppiumController implements Access {
         _caps.setCapability("report.disable", "true");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         _caps.setCapability("gpsEnabled", "true");
+        _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
+        _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
+        _caps.setCapability(IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID, "");
         _caps.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "ios.intent.action.MAIN");
         _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "");
+    }
+
+    private void _browserCapabilities(DesiredCapabilities _caps,String browser) {
+        if (browser.contains("chrome")) {
+            _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
+            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "72");
+        }
+        else {
+            _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
+            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION,"8.1");
+        }
+
     }
 
     private void _performanceCapability(DesiredCapabilities _caps) {

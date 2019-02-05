@@ -885,6 +885,16 @@ public class UserActions extends DriverManager {
         }
     }
 
+    protected void switchToContext(String type){
+        Set<String> s = driver.getContextHandles();
+        for(String handle: s){
+            if (handle.contains(type)){
+                driver.context(handle);
+                break;
+            }
+        }
+    }
+
     /**
      * SQL server windows authentication
      */
