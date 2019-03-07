@@ -1,23 +1,48 @@
-node {
-agent  { label 'win' }
-stage('Stage Checkout')
-{
-  checkout scm
- }
-stage('Gradle Clean') {
-     bat 'gradle clean'
-  }
-  stage('Gradle Build'){
-   bat 'gradle build'
-  }
-  stage('End to End Test'){
-      bat 'gradle task E2E'
+pipeline {
+    agent  { label 'win-local' }
+    stages {
+          stage('Build') {
+            steps {
+                bat 'gradle clean'
+            }
+          }
+
+          stage('SonarQube analysis') {
+            steps {
+              withSonarQubeEnv('My SonarQube Server') {
+                 bat 'gradle sonarqube'
+              }
+            }
+          }
+
+          stage('End to End Test'){
+            steps {
+                bat 'gradle E2E -Pdownload=NO -Pcloud=YES'
+            }
+          }
     }
-  stage('Reporting'){
-      bat 'gradle allureReport'
-  }
 
-allure includeProperties: false, jdk: '', results: [[path: 'build\\allure-results']]
-publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'build\\reports\\tests\\E2E', reportFiles: 'index.html', reportName: 'Gradle Report', reportTitles: ''])
+    post {
+      always {
+           bat 'gradle allureReport'
+              script {
+                  allure([
+                      includeProperties: false,
+                      jdk: '',
+                      properties: [],
+                      reportBuildPolicy: 'ALWAYS',
+                      results: [[path: 'build/allure-results']]
+                  ])
+              }
+                publishHTML target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: false,
+                    reportDir: 'build/reports/tests/E2E',
+                    reportFiles: 'index.html',
+                    reportName: 'Gradle Report'
+                ]
 
+      }
+    }
 }
