@@ -5,6 +5,8 @@
 ### Introduction:
 The main purpose of this framework to add automation capability to mobile applications
 
+<img src="https://github.com/TestautoDev/MobileTestFramework/blob/master/screens/architecture.png" width="600">
+
 ### Supported Platforms
 
 AppiumStudio supports app automation across a variety of platforms, like iOS,Android, from Windows platform. Each platform is supported by one or more "drivers",
@@ -41,8 +43,6 @@ which know how to automate that particular platform. Choose a driver below for s
 ### Connect - Local Devices:
 Connect an Android and an iOS Device using a USB cable to your PC
  - Follow documentation for device connection
- - https://docs.experitest.com/display/AS/Android+-+Build+your+first+test
- - https://docs.experitest.com/display/AS/iOS+-+Build+your+first+test
 
 ### Getting Started
 ```sh
