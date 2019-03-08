@@ -1,26 +1,32 @@
 package com.core;
 
+import com.Constants.Arg;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileCommand;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSMobileCommandHelper;
 import io.appium.java_client.remote.*;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.service.DriverService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class AppiumController implements Access {
@@ -30,6 +36,10 @@ public class AppiumController implements Access {
     private Logger logger = LogManager.getLogger(AppiumController.class);
     private String appiumPort = "4723";
     private static BrowserMobProxy server;
+    private static String nodeJS = System.getenv("APPIUM_HOME")+"/node.exe";
+    private static String appiumJS = System.getenv("APPIUM_HOME")+"/node_modules/appium/bin/appium.js";
+    private static DriverService service;
+
     //    private String serverIp = "127.0.0.1";    //Local
     //    private String serverIp = "172.23.126.97";  //Jenkins
 
@@ -123,8 +133,42 @@ public class AppiumController implements Access {
         server.newHar("appiumPerf.har");
     }
 
+    private static DriverService createService() throws MalformedURLException {
+        service = new AppiumServiceBuilder()
+                .usingDriverExecutable(new File(nodeJS))
+                .withAppiumJS(new File(appiumJS))
+                .withIPAddress("localhost")
+                .usingPort(4723)
+                .withArgument(Arg.TIMEOUT, "120")
+                .withArgument(Arg.LOG_LEVEL, "warn")
+                .build();
+        return service;
+    }
+
+    /**
+     * @return sysDateTime
+     */
+    private String sysTime() {
+        try {
+            DateFormat dates = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date date = new Date();
+            return dates.format(date);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
     @AfterClass
     public void tearDown() {
+        try {
+            Har har = server.getHar();
+            FileOutputStream fos = new FileOutputStream("C:\\temp\\perf.har");
+            har.writeTo(fos);
+            server.stop();
+        } catch (Exception e) {
+            logger.info("Performance test not included");
+        }
         _driver.quit();
     }
 
