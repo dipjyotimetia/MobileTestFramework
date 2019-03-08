@@ -214,7 +214,7 @@ public class ApiActions<T> {
      * @param token token
      * @return response
      */
-    protected Response httpGetPendingBets(String path,String token) {
+    protected Response httpGetMicroServices(String path,String token) {
         return httpLogin(token).request(Method.GET, path);
     }
 
