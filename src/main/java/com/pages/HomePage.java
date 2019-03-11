@@ -3,12 +3,14 @@ package com.pages;
 import com.core.UserActions;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidBy;
+import io.appium.java_client.pagefactory.iOSXCUITBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class HomePage extends UserActions {
 
     @AndroidBy(xpath = "")
-    MobileElement username;
+    @iOSXCUITBy(xpath = "")
+    private MobileElement username;
 
     public HomePage(){
         super();
