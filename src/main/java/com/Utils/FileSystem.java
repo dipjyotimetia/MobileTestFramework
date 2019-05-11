@@ -7,7 +7,6 @@ import org.testng.Assert;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -61,7 +60,7 @@ public class FileSystem {
      * @throws IOException When fail to write in file.
      */
     public static void appendFile(String filePath, String text) throws IOException {
-        FileUtils.writeStringToFile(new File(filePath), text, "UTF-8",true);
+        FileUtils.writeStringToFile(new File(filePath), text, "UTF-8", true);
     }
 
     /**
@@ -72,7 +71,7 @@ public class FileSystem {
      * @throws IOException When fail to write in file.
      */
     public static void writeFile(String filePath, String text) throws IOException {
-        FileUtils.writeStringToFile(new File(filePath), text,"UTF-8");
+        FileUtils.writeStringToFile(new File(filePath), text, "UTF-8");
     }
 
     /**

@@ -14,6 +14,7 @@ public class Retry extends DriverManager implements IRetryAnalyzer {
 
     /**
      * Retry Times
+     *
      * @param iTestResult
      * @return
      */
@@ -34,6 +35,7 @@ public class Retry extends DriverManager implements IRetryAnalyzer {
 
     /**
      * Report Fail Operation
+     *
      * @param iTestResult
      */
     public void extendReportsFailOperations(ITestResult iTestResult) {

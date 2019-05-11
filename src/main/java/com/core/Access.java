@@ -2,10 +2,10 @@ package com.core;
 
 public interface Access {
 
-    String APPIUM_Port = "4723";
+    int APPIUM_Port = 4723;
     int PROXY_Port = 9001;
-    String PIXEL = "";
-    String S9 = "";
+    String PIXEL = "emulator-5556";
+    String NEXUS = "emulator-5554";
     String ANDROID_APP = "";
     String AWS_KEY = "";
     String AWS_SECRET = "";

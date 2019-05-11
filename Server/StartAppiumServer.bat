@@ -1,1 +1,0 @@
-"C:\Program Files\nodejs\node.exe" "C:\Users\dipjyoti.metia\AppData\Roaming\npm\node_modules\appium\build\lib\main.js"
