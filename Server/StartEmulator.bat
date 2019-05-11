@@ -1,1 +1,0 @@
-C:\Users\dipjyoti.metia\AppData\Local\Android\Sdk\emulator\emulator -avd Pixel2

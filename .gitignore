@@ -1,0 +1,9 @@
+.gradle
+.idea
+allure-results
+build
+out
+logs
+Reports
+ScreensDoc
+Screenshots

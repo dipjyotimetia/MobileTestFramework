@@ -5,7 +5,7 @@
 ### Introduction:
 The main purpose of this framework to add automation capability to mobile applications
 
-<img src="https://github.com/TestautoDev/MobileTestFramework/blob/master/screens/architecture.png" width="600">
+<img src="https://github.com/TestautoDev/Tricks-And-Tips/blob/master/architecture.png" width="600">
 
 ### Supported Platforms
 
