@@ -3,16 +3,46 @@ package com.core;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class ADB {
     private Logger logger = LogManager.getLogger(ADB.class);
+
+    private static String sdkPath = System.getenv("ANDROID_HOME");
+    private static String adbPath = sdkPath + "platform-tools" + File.separator + "adb";
+    private static String emulatorPath = sdkPath +File.separator + "emulator";
 
     private String ID;
 
     public ADB(String deviceID) {
         ID = deviceID;
+    }
+
+    public static void launchEmulator(String nameOfAVD) {
+        System.out.println("Starting emulator for '" + nameOfAVD + "' ...");
+        String[] aCommand = new String[] { emulatorPath, "-avd", nameOfAVD };
+        try {
+            Process process = new ProcessBuilder(aCommand).start();
+            process.waitFor(180, TimeUnit.SECONDS);
+            System.out.println("Emulator launched successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void closeEmulator() {
+        System.out.println("Killing emulator...");
+        String[] aCommand = new String[] { adbPath, "emu", "kill" };
+        try {
+            Process process = new ProcessBuilder(aCommand).start();
+            process.waitFor(1, TimeUnit.SECONDS);
+            System.out.println("Emulator closed successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String command(String command) {
