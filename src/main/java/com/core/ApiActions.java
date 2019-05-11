@@ -62,6 +62,7 @@ public class ApiActions<T> {
 
     /**
      * Authentication token generate
+     *
      * @return auth token
      */
     protected String authToken() {
@@ -106,11 +107,12 @@ public class ApiActions<T> {
 
     /**
      * http request with parameter and auth token
+     *
      * @param params jsonObject
-     * @param token token
+     * @param token  token
      * @return httpRequest
      */
-    private RequestSpecification httpRequestLogin(JSONObject params,String token) {
+    private RequestSpecification httpRequestLogin(JSONObject params, String token) {
         return RestAssured
                 .given()
                 .with()
@@ -134,6 +136,7 @@ public class ApiActions<T> {
 
     /**
      * http request with token
+     *
      * @param token token
      * @return http request
      */
@@ -189,13 +192,14 @@ public class ApiActions<T> {
 
     /**
      * http post cancel
+     *
      * @param params params
-     * @param path endpoint
-     * @param token token
+     * @param path   endpoint
+     * @param token  token
      * @return response
      */
-    protected Response httpPostCancelPendingBets(JSONObject params, String path,String token) {
-        return httpRequestLogin(params,token).request(Method.POST, path);
+    protected Response httpPostCancelPendingBets(JSONObject params, String path, String token) {
+        return httpRequestLogin(params, token).request(Method.POST, path);
     }
 
     /**
@@ -210,11 +214,12 @@ public class ApiActions<T> {
 
     /**
      * http get pending
-     * @param path endpoint
+     *
+     * @param path  endpoint
      * @param token token
      * @return response
      */
-    protected Response httpGetMicroServices(String path,String token) {
+    protected Response httpGetMicroServices(String path, String token) {
         return httpLogin(token).request(Method.GET, path);
     }
 

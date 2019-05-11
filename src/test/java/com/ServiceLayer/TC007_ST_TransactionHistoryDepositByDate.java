@@ -3,22 +3,14 @@ package com.ServiceLayer;
 import com.Common.Property;
 import com.core.ApiActions;
 import com.reporting.ExtentReports.ExtentTestManager;
-import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.http.Method;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
-import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
 
 public class TC007_ST_TransactionHistoryDepositByDate<T> extends ApiActions<T> {
     private Logger logger = LogManager.getLogger(ApiActions.class);

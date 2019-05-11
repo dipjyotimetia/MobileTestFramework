@@ -2,7 +2,9 @@ package com.reporting.Jira;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.reporting.Jira.JiraConfig.JIRA_REST_PATH;
 

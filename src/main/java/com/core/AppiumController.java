@@ -36,45 +36,46 @@ public class AppiumController implements Access {
     private Logger logger = LogManager.getLogger(AppiumController.class);
     private String appiumPort = "4723";
     private static BrowserMobProxy server;
-    private static String nodeJS = System.getenv("APPIUM_HOME")+"/node.exe";
-    private static String appiumJS = System.getenv("APPIUM_HOME")+"/node_modules/appium/bin/appium.js";
+    private static String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
+    private static String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
     private static DriverService service;
 
-    //    private String serverIp = "127.0.0.1";    //Local
+    private static String serverIp = "127.0.0.1";    //Local
     //    private String serverIp = "172.23.126.97";  //Jenkins
 
-    @Parameters({"device", "apk", "serverIp"})
+    @Parameters({"device", "apk"})
     @BeforeClass
-    public void setup(String device, String apk, String serverIp) {
-        initDriver(device, apk, serverIp);
+    public void setup(String device, String apk) throws Exception {
+        initDriver(device, apk);
     }
 
     public AppiumDriver getDriver() {
         return _driver;
     }
 
-    private void initDriver(String device, String apk, String serverIp) {
+    private void initDriver(String device, String apk) throws Exception {
         try {
             File appDir = new File("AndroidApp");
             File app = new File(appDir, "***.apk");
             String serverUrl = "http://" + serverIp + ":" + appiumPort + "/wd/hub";
-            if (device.equals("S8")) {
-                logger.info("Selected device is S8");
+            if (device.equals("NEXUS")) {
+                logger.info("Selected device is NEXUS");
                 if (apk.equals("Y")) {
                     _caps.setCapability(MobileCapabilityType.APP, app);
                 }
-                _caps.setCapability(MobileCapabilityType.UDID, "9889d6324131325a34");
-                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "9889d6324131325a34");
+                _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
+                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
                 _androidCapabilities(_caps);
+                _createService().start();
                 logger.info("Argument to driver object : " + serverUrl);
                 _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
-            } else if (device.equals("Iphone8")) {
-                logger.info("Selected device is iphone8");
+            } else if (device.equals("PIXEL")) {
+                logger.info("Selected device is PIXEL");
                 if (apk.equals("Y")) {
                     _caps.setCapability(MobileCapabilityType.APP, app);
                 }
-                _caps.setCapability(MobileCapabilityType.UDID, "1cb4062d0b037ece");
-                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "1cb4062d0b037ece");
+                _caps.setCapability(MobileCapabilityType.UDID, PIXEL);
+                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
                 _iosCapabilities(_caps);
                 logger.info("Argument to driver object : " + serverUrl);
                 _driver = new IOSDriver<>(new URL(serverUrl), _caps);
@@ -90,19 +91,23 @@ public class AppiumController implements Access {
 
     private void _androidCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-        _caps.setCapability("report.disable", "true");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
-        _caps.setCapability("gpsEnabled", "true");
-        _caps.setCapability(AndroidMobileCapabilityType.INTENT_ACTION, "android.intent.action.MAIN");
-        _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "au.com.test.uat");
-        _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "au.com.test.ui.SplashActivity");
+        _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
+        _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
+        _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
+        _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
+        _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
+        _caps.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, "input/Driver/chromedriver.exe");
+        _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.booking");
+        _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".startup.HomeActivity");
     }
 
     private void _iosCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
-        _caps.setCapability("report.disable", "true");
+        _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
+        _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
+        _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "XCUITest");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
-        _caps.setCapability("gpsEnabled", "true");
         _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
         _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
         _caps.setCapability(IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID, "");
@@ -110,14 +115,13 @@ public class AppiumController implements Access {
         _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "");
     }
 
-    private void _browserCapabilities(DesiredCapabilities _caps,String browser) {
+    private void _browserCapabilities(DesiredCapabilities _caps, String browser) {
         if (browser.contains("chrome")) {
             _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
             _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "72");
-        }
-        else {
+        } else {
             _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION,"8.1");
+            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1");
         }
 
     }
@@ -133,12 +137,12 @@ public class AppiumController implements Access {
         server.newHar("appiumPerf.har");
     }
 
-    private static DriverService createService() throws MalformedURLException {
+    private static DriverService _createService() throws MalformedURLException {
         service = new AppiumServiceBuilder()
                 .usingDriverExecutable(new File(nodeJS))
                 .withAppiumJS(new File(appiumJS))
-                .withIPAddress("localhost")
-                .usingPort(4723)
+                .withIPAddress(serverIp)
+                .usingPort(APPIUM_Port)
                 .withArgument(Arg.TIMEOUT, "120")
                 .withArgument(Arg.LOG_LEVEL, "warn")
                 .build();
@@ -160,7 +164,7 @@ public class AppiumController implements Access {
     }
 
     @AfterClass
-    public void tearDown() {
+    public void tearDown() throws Exception {
         try {
             Har har = server.getHar();
             FileOutputStream fos = new FileOutputStream("C:\\temp\\perf.har");

@@ -10,7 +10,7 @@ public enum Arg implements ServerArgument {
 
     private final String arg;
 
-    Arg(String arg){
+    Arg(String arg) {
         this.arg = arg;
     }
 

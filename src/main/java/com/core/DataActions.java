@@ -39,6 +39,7 @@ public class DataActions<T> extends ApiActions<T> {
 
     /**
      * Execute query
+     *
      * @param query query
      * @return result
      */
@@ -111,6 +112,7 @@ public class DataActions<T> extends ApiActions<T> {
 
     /**
      * Query executer
+     *
      * @param query query
      * @return resultset
      */

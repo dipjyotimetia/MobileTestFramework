@@ -1,9 +1,9 @@
 package com.MockServiceLayer;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-
 import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.stubbing.Scenario;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 
 public class WireMock {
