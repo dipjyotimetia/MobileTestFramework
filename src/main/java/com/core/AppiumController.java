@@ -53,6 +53,12 @@ public class AppiumController implements Access {
         return _driver;
     }
 
+    /**
+     * Initialize Driver
+     * @param device device
+     * @param apk apk
+     * @throws Exception exception
+     */
     private void initDriver(String device, String apk) throws Exception {
         try {
             File appDir = new File("AndroidApp");
@@ -79,6 +85,14 @@ public class AppiumController implements Access {
                 _iosCapabilities(_caps);
                 logger.info("Argument to driver object : " + serverUrl);
                 _driver = new IOSDriver<>(new URL(serverUrl), _caps);
+            } else if (device.equals("WEB")){
+                logger.info("Selected device is WEB");
+                _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
+                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
+                _createService().start();
+                _browserCapabilities(_caps,"chrome");
+                logger.info("Argument to driver object : " + serverUrl);
+                _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
             }
         } catch (NullPointerException |
                 MalformedURLException ex) {
@@ -89,6 +103,10 @@ public class AppiumController implements Access {
 
     }
 
+    /**
+     * Android capabilities
+     * @param _caps capabilities
+     */
     private void _androidCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
@@ -97,11 +115,14 @@ public class AppiumController implements Access {
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
-        _caps.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, "input/Driver/chromedriver.exe");
         _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.booking");
         _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".startup.HomeActivity");
     }
 
+    /**
+     * IOS capabilities
+     * @param _caps capabilities
+     */
     private void _iosCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
@@ -115,10 +136,16 @@ public class AppiumController implements Access {
         _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "");
     }
 
+    /**
+     * Add Browser capability
+     * @param _caps capabilities
+     * @param browser browser
+     */
     private void _browserCapabilities(DesiredCapabilities _caps, String browser) {
         if (browser.contains("chrome")) {
+            _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
             _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
-            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "72");
+            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "69");
         } else {
             _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
             _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1");
@@ -126,6 +153,10 @@ public class AppiumController implements Access {
 
     }
 
+    /**
+     * Add Performance capability
+     * @param _caps capability
+     */
     private void _performanceCapability(DesiredCapabilities _caps) {
         server = new BrowserMobProxyServer();
         server.setTrustAllServers(true);
@@ -137,6 +168,11 @@ public class AppiumController implements Access {
         server.newHar("appiumPerf.har");
     }
 
+    /**
+     * Create appium driver service
+     * @return service
+     * @throws MalformedURLException url exception
+     */
     private static DriverService _createService() throws MalformedURLException {
         service = new AppiumServiceBuilder()
                 .usingDriverExecutable(new File(nodeJS))
@@ -173,6 +209,7 @@ public class AppiumController implements Access {
         } catch (Exception e) {
             logger.info("Performance test not included");
         }
+        _createService().stop();
         _driver.quit();
     }
 
