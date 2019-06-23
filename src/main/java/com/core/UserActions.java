@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class UserActions extends DriverManager {
 
@@ -66,6 +67,16 @@ public class UserActions extends DriverManager {
         File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE.FILE);
         String dest = System.getProperty("user.dir") + "\\Screenshots\\" + name + ".png";
         FileUtils.copyFile(file, new File(dest));
+    }
+
+    public void navigate(String url) {
+        try {
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.navigate().to(url);
+        } catch (Exception e) {
+            logger.error(e);
+            throw new RuntimeException("Not able to navigate to url");
+        }
     }
 
     /**
