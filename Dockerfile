@@ -20,14 +20,3 @@ RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.bashrc
 
 ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre"
 ENV PATH $JAVA_HOME/bin:$PATH
-
-COPY build.gradle .
-COPY gradle.properties .
-COPY settings.gradle .
-RUN gradle
-
-COPY . .
-
-RUN gradle clean
-
-RUN gradle task E2E
