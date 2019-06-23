@@ -120,7 +120,7 @@ sourceSets {
 }
 
 dependencies {
-    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.550'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.578'
     compile group: 'io.appium', name: 'java-client', version: '7.0.0'
     compile group: 'net.reini', name: 'slf4-cdi', version: '1.0'
     compile group: 'org.assertj', name: 'assertj-core', version: '3.11.0'
@@ -150,7 +150,7 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
     compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
-    compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.23.0'
+    compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.23.2'
     compile group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
