@@ -147,6 +147,32 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Filter element
+     * @param elements elements
+     * @return filtered values
+     */
+    public long filterElement(List<MobileElement> elements) {
+        return elements.stream().filter(item -> item.isDisplayed()).count();
+    }
+
+    /**
+     * ENter visible element
+     * @param elements elements
+     * @param value value
+     */
+    public void enterVisibleElement(List<MobileElement> elements,String value) {
+        elements.stream().filter(item -> item.isDisplayed()).findFirst().get().setValue(value);
+    }
+
+    /**
+     * Get all values
+     * @param elements elements
+     */
+    public void getAllValues(List<MobileElement> elements){
+        elements.forEach(e -> System.out.println(e));
+    }
+
+    /**
      * Write value in text field
      *
      * @param element element
