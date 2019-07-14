@@ -10,7 +10,7 @@ public class DataActions<T> extends ApiActions<T> {
 
     private Logger logger = LogManager.getLogger(DataActions.class);
 
-    private static String JDBC_URL = "jdbc:sqlserver://wgtuatdbs1;databaseName=TBS;integratedSecurity=true";
+    private static String JDBC_URL = "jdbc:sqlserver://databaseserver;databaseName=Database;integratedSecurity=true";
 
     /**
      * Get DB connection
