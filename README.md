@@ -5,7 +5,7 @@
 ### Introduction:
 The main purpose of this framework to add automation capability to mobile applications
 
-<img src="https://github.com/TestautoDev/Tricks-And-Tips/blob/master/architecture.png" width="600">
+<img src="https://github.com/TestautoDev/Tricks-And-Tips/blob/master/NewArchitecture.png" width="600">
 
 ### Supported Platforms  
 Appium Studio supports app automation across a variety of platforms, like iOS,Android, from Windows platform. Each platform is supported by one or more "drivers",
