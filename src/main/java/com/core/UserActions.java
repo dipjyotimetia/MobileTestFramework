@@ -3,12 +3,15 @@ package com.core;
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 import com.github.javafaker.Faker;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
 import com.relevantcodes.extentreports.LogStatus;
 import com.reporting.ExtentReports.ExtentTestManager;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
@@ -18,7 +21,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -36,32 +38,30 @@ import org.testng.Assert;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * @author dipjyoti.metia
+ */
 public class UserActions extends DriverManager {
 
-    private static String datetimeabc = null;
-    private static int Counter = 0;
-    private static String abc1 = null;
-    private Dictionary dicttoread = new Hashtable();
-    private static String _dbusername;
-    private static String _dbpassword;
-    private static String _dburl;
-
     private static final Faker faker = new Faker();
+    private static String datetimeabc = null;
+    private static int counter = 0;
+    private Dictionary dicttoread = new Hashtable();
     private Logger logger = LogManager.getLogger(UserActions.class);
 
     /**
      * Capture screenshot
      *
      * @param name Screen name
-     * @throws Exception
      */
     protected void captureScreen(String name) throws Exception {
         File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE.FILE);
@@ -69,22 +69,12 @@ public class UserActions extends DriverManager {
         FileUtils.copyFile(file, new File(dest));
     }
 
-    public void navigate(String url) {
-        try {
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-            driver.navigate().to(url);
-        } catch (Exception e) {
-            logger.error(e);
-            throw new RuntimeException("Not able to navigate to url");
-        }
-    }
-
     /**
      * Capture screens in log
      *
      * @param screenShotName screenshotName
      * @return destinationPath
-     * @throws IOException Exception
+     * @throws IOException exception
      */
     private String capture(String screenShotName) throws IOException {
         TakesScreenshot ts = (TakesScreenshot) driver;
@@ -107,7 +97,7 @@ public class UserActions extends DriverManager {
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
 
         } catch (ElementNotVisibleException e) {
             logger.error("Element not visible", e);
@@ -129,13 +119,50 @@ public class UserActions extends DriverManager {
         }
     }
 
+    protected void scrollClick(String scrollableListId, String selectionText) {
+        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)."
+                + "resourceId(\"" + scrollableListId + "\"))"
+                + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
+    }
+
+    /**
+     * Click on element with timeout
+     *
+     * @param element element
+     * @param timeOut timeOut
+     */
+    public void click(MobileElement element, int timeOut) {
+        try {
+            fluentWait(element, timeOut);
+            element.click();
+            logger.info("Clicked on element: " + element);
+        } catch (ElementNotVisibleException e) {
+            logger.error("Element not visible", e);
+        }
+    }
+
+    /**
+     * click on element
+     *
+     * @param xpath element
+     */
+    protected void clickByXpath(String xpath) {
+        try {
+            driver.findElementByXPath(xpath).click();
+            logger.info("Clicked on element: " + xpath);
+        } catch (ElementNotVisibleException e) {
+            logger.error("Element not visible", e);
+        }
+    }
+
+
     /**
      * Enter value in text field
      *
      * @param element element
      * @param value   value
      */
-    public void enter(MobileElement element, String value) {
+    protected void enter(MobileElement element, String value) {
         try {
             fluentWait(element, 10);
             element.click();
@@ -144,32 +171,6 @@ public class UserActions extends DriverManager {
         } catch (ElementNotVisibleException e) {
             logger.error("Element not visible", e);
         }
-    }
-
-    /**
-     * Filter element
-     * @param elements elements
-     * @return filtered values
-     */
-    public long filterElement(List<MobileElement> elements) {
-        return elements.stream().filter(item -> item.isDisplayed()).count();
-    }
-
-    /**
-     * ENter visible element
-     * @param elements elements
-     * @param value value
-     */
-    public void enterVisibleElement(List<MobileElement> elements,String value) {
-        elements.stream().filter(item -> item.isDisplayed()).findFirst().get().setValue(value);
-    }
-
-    /**
-     * Get all values
-     * @param elements elements
-     */
-    public void getAllValues(List<MobileElement> elements){
-        elements.forEach(e -> System.out.println(e));
     }
 
     /**
@@ -193,48 +194,14 @@ public class UserActions extends DriverManager {
      * @param element element
      * @return boolean
      */
-    public boolean isDisplayed(MobileElement element) {
-        try {
-            if (element.isDisplayed()) {
-                return true;
-            } else {
-                logInfo("Element is Not displayed");
-                return false;
-            }
-        } catch (Exception e) {
-            logger.error("Element not visible", e);
+    public boolean isDisplayed(MobileElement element) throws Exception {
+        if (element.isDisplayed()) {
+            logInfo(element + ": element is Displayed");
+            return true;
+        } else {
+            logFail("Element is not displayed");
         }
         return false;
-    }
-
-    public Dimension getDimension(MobileElement element) {
-        return element.getSize();
-    }
-
-    public Point getLocation(MobileElement element) {
-        return element.getLocation();
-    }
-
-    public String getDescription(MobileElement element) {
-        String elementText = "";
-        try {
-            elementText = element.getText();
-            if (!elementText.isEmpty()) {
-                return elementText;
-            } else {
-                String elementTag = element.getTagName();
-                if (elementTag != null) {
-                    return elementTag + " at " + element.getCoordinates();
-                } else {
-                    return "OldElement at " + element.getCoordinates();
-                }
-            }
-        } catch (Exception e) {
-            logger.warn("Could not get the element description");
-            logger.warn(e.getMessage());
-        }
-
-        return elementText;
     }
 
     /**
@@ -243,18 +210,155 @@ public class UserActions extends DriverManager {
      * @param element element
      * @return boolean
      */
-    public boolean isEnabled(MobileElement element) {
-        try {
-            if (element.isEnabled()) {
-                return true;
-            } else {
-                logFail("Element Not enabled");
-                throw new Exception("Element is not displayed");
-            }
-        } catch (Exception e) {
-            logger.error("Element not visible", e);
+    protected boolean isEnabled(MobileElement element) {
+        if (element.isEnabled()) {
+            logInfo(element + ": element is Enabled");
+            return true;
         }
         return false;
+    }
+
+    /**
+     * Is element visible
+     *
+     * @param xpath xpath String
+     * @return boolean
+     */
+    protected boolean isElementVisible(String xpath) {
+        if (driver.findElementsByXPath(xpath).size() != 0) {
+            logInfo(xpath + ": element is Visible");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * is present
+     *
+     * @param elements elements
+     * @return boolean
+     */
+    protected boolean isPresent(List<MobileElement> elements) {
+        if (elements.size() != 0) {
+            logInfo(elements + ": element is Present");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get page source
+     *
+     * @return pageSource
+     */
+    public String getPageSource() {
+        return driver.getPageSource();
+    }
+
+    /**
+     * Get mobile element
+     *
+     * @param mobileElement mobileElement
+     * @param type          typeOf element
+     * @return element
+     * @throws Exception exception
+     */
+    public MobileElement getMobileElement(String mobileElement, String type) throws Exception {
+        MobileElement element = null;
+        switch (type) {
+            case "xpath":
+                element = (MobileElement) driver.findElementByXPath(mobileElement);
+                break;
+            case "id":
+                element = (MobileElement) driver.findElementById(mobileElement);
+                break;
+            case "name":
+                element = (MobileElement) driver.findElementByName(mobileElement);
+                break;
+            case "access_id":
+                element = (MobileElement) driver.findElementByAccessibilityId(mobileElement);
+                break;
+        }
+        if (element == null) {
+            logger.error("Mobile element not found");
+            throw new Exception(mobileElement + "not found");
+        }
+        return element;
+    }
+
+    /**
+     * Verify text content
+     *
+     * @param actual   actual
+     * @param expected expected
+     */
+    public void verifyTextContent(String actual, String expected) {
+        Assert.assertEquals(actual, expected);
+    }
+
+    /**
+     * Get Text content
+     *
+     * @param containText contain text
+     * @return text
+     */
+    public String getTextContent(String containText) {
+        return driver.findElementByXPath("//*[contains(text(),'" + containText + "')]").getText();
+    }
+
+    /**
+     * Is Text present
+     *
+     * @param containsText contains text
+     * @return boolean
+     */
+    public boolean isTextPresent(String containsText) throws Exception {
+        if (driver.getPageSource().contains(containsText)) {
+            return true;
+        } else {
+            logFail("Text is not present");
+        }
+        return false;
+    }
+
+    /**
+     * Press Back
+     */
+    public void pressBack() {
+        driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        logInfo("Press Back");
+    }
+
+    /**
+     * Swipe Down
+     */
+    public void swipeDown() {
+        driver.executeScript("mobile:scroll", ImmutableMap.of("direction", "down"));
+        logInfo("Swipe Down");
+    }
+
+    /**
+     * Swipe Up
+     */
+    public void swipeUP() {
+        driver.executeScript("mobile:scroll", ImmutableMap.of("direction", "up"));
+        logInfo("Swipe Up");
+    }
+
+    /**
+     * Accept Alert
+     */
+    public void acceptAlert() {
+        driver.executeScript("mobile:acceptAlert");
+        logInfo("Accept Alert");
+    }
+
+    /**
+     * Dismiss Alert
+     */
+    public void dismissAlert() {
+        driver.executeScript("mobile:dismissAlert");
+        logInfo("Dismiss Alert");
     }
 
     /**
@@ -333,6 +437,23 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Get text from the element
+     *
+     * @param element element
+     * @return string
+     */
+    protected String getTextByXpath(String element) {
+        try {
+            String value;
+            value = driver.findElementByXPath(element).getText();
+            return value;
+        } catch (ElementNotVisibleException e) {
+            logger.error("Element not visible", e);
+        }
+        return null;
+    }
+
+    /**
      * Get attribute text from the element
      *
      * @param element element
@@ -349,6 +470,7 @@ public class UserActions extends DriverManager {
         }
         return null;
     }
+
 
     /**
      * Longpress key
@@ -401,10 +523,23 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Threaded sleep
+     *
+     * @param time time
+     */
+    protected void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
+    /**
      * Log screen capture
      *
      * @param screenName screenName
-     * @throws Exception Exception
+     * @throws Exception exception
      */
     public void logScreenCapture(String screenName) throws Exception {
         String screenShotPath = capture(screenName);
@@ -431,7 +566,6 @@ public class UserActions extends DriverManager {
      */
     protected void logPass(String details) throws Exception {
         ExtentTestManager.getTest().log(LogStatus.PASS, details);
-        captureScreen(details);
         log(details);
     }
 
@@ -500,7 +634,7 @@ public class UserActions extends DriverManager {
      * @param id locatorId
      */
     public void waitForElementToDisAppear(String id) {
-        WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebDriverWait wait = new WebDriverWait(driver, 25);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
     }
 
@@ -556,7 +690,7 @@ public class UserActions extends DriverManager {
     }
 
     protected String generateRandomFirstName() {
-        String name = faker.name().firstName();
+        String name = "testauto" + faker.name().firstName();
         logger.info("FirstName: " + name);
         return name;
     }
@@ -590,7 +724,7 @@ public class UserActions extends DriverManager {
      * @return string
      */
     protected String generateRandomEmail() {
-        String email = faker.internet().emailAddress();
+        String email = "testauto" + faker.internet().emailAddress();
         logger.info("EmailAddress: " + email);
         return email;
     }
@@ -607,6 +741,23 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Touch Actions
+     *
+     * @param a1   axis 1
+     * @param b1   axis 2
+     * @param a2   axis 3
+     * @param b2   axis 4
+     * @param time time
+     */
+    private void touchActions(int a1, int b1, int a2, int b2, int time) {
+        TouchAction touchAction = new TouchAction(driver);
+        touchAction.press(PointOption.point(a1, b1)).
+                waitAction(WaitOptions.waitOptions(Duration.ofMillis(time))).
+                moveTo(PointOption.point(a2, b2)).release();
+        touchAction.perform();
+    }
+
+    /**
      * Swipe with axix
      *
      * @param X    x axis
@@ -617,11 +768,7 @@ public class UserActions extends DriverManager {
      */
     protected void swipeAxis(int X, int Y, int X1, int Y1, int count, int time) {
         for (int i = 0; i < count; i++) {
-            TouchAction touchAction = new TouchAction(driver);
-            touchAction.press(PointOption.point(X, Y)).
-                    waitAction(WaitOptions.waitOptions(Duration.ofMillis(time))).
-                    moveTo(PointOption.point(X1, Y1)).release();
-            touchAction.perform();
+            touchActions(X, Y, X1, Y1, time);
         }
     }
 
@@ -753,23 +900,6 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     * Touch Actions
-     *
-     * @param a1   axis 1
-     * @param b1   axis 2
-     * @param a2   axis 3
-     * @param b2   axis 4
-     * @param time time
-     */
-    private void touchActions(int a1, int b1, int a2, int b2, int time) {
-        TouchAction touchAction = new TouchAction(driver);
-        touchAction.press(PointOption.point(a1, b1)).
-                waitAction(WaitOptions.waitOptions(Duration.ofMillis(time))).
-                moveTo(PointOption.point(a2, b2)).release();
-        touchAction.perform();
-    }
-
-    /**
      * Swipe touch (UP,DOWN,LEFT,RIGHT)
      *
      * @param direction direction
@@ -820,7 +950,6 @@ public class UserActions extends DriverManager {
         } catch (Exception e) {
             logger.error("Not able to perform swipe operation", e);
         }
-
     }
 
     public JSONObject getUserData(int threadID) {
@@ -847,7 +976,6 @@ public class UserActions extends DriverManager {
      * @param t_fieldName    filedName
      * @param t_instance     instance
      * @return fieldValue
-     * @throws Exception Exception
      */
     protected String getData(String t_testcaseName, String t_fieldName, int t_instance) {
         try {
@@ -881,13 +1009,46 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * GetData from SQlite
+     *
+     * @param testCaseName test name
+     * @param filedName    filed name
+     * @return data
+     */
+    protected String getData(String testCaseName, String filedName) {
+        String filed = filedName;
+        String testCase = testCaseName;
+        String url = "jdbc:sqlite:input/testdata";
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement stmt = null;
+        String value = null;
+        try {
+            conn = java.sql.DriverManager.getConnection(url);
+            if (conn != null) {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("select " + filed + " from testdata where TestcaseName = '" + testCase + "'");
+                while (rs.next()) {
+                    logger.info(rs.getString(filed));
+                    value = rs.getString(filed);
+                }
+            }
+            conn.close();
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return value;
+    }
+
+    /**
      * Write data to csv
      *
      * @param t_testcasename testcaseName
      * @param t_field        filedName
      * @param t_value        value
      * @param t_instance     instance
-     * @throws IOException IOException
      */
     protected void writeData(String t_testcasename, String t_field, String t_value, int t_instance) {
         try {
@@ -942,13 +1103,47 @@ public class UserActions extends DriverManager {
         }
     }
 
+    /**
+     * WriteData to Sqlite
+     *
+     * @param testCaseName testName
+     * @param fieldName    fieldName
+     * @param updatedValue updated Value
+     */
+    protected void writeData(String testCaseName, String fieldName, String updatedValue) {
+        String filed = fieldName;
+        String value = updatedValue;
+        String testCase = testCaseName;
+        String url = "jdbc:sqlite:input/testdata";
+        String selectQuery = "select " + filed + " from testdata where TestcaseName='" + testCase + "'";
+        String query = "update testdata set " + filed + "='" + value + "' where TestcaseName='" + testCase + "'";
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement stmt = null;
+        try {
+            conn = java.sql.DriverManager.getConnection(url);
+            if (conn != null) {
+                stmt = conn.createStatement();
+                stmt.executeUpdate(query);
+                rs = stmt.executeQuery(selectQuery);
+                while (rs.next()) {
+                    System.out.println(rs.getString(filed));
+                    logger.info("New Field: " + filed + " is added successfully with value: " + rs.getString(filed));
+                }
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
 
     /**
      * Rename csv file
      *
      * @param source sourceFile
      * @param dest   destinationFile
-     * @return
      */
     private boolean RenameCsvFile(String source, String dest) {
         boolean b = false;
@@ -977,13 +1172,12 @@ public class UserActions extends DriverManager {
      * Capture image
      *
      * @param p_testcaseName testcaseName
-     * @throws IOException Exception
      */
-    public void captureImage(String p_testcaseName) throws IOException {
+    public void captureImage(String p_testcaseName) {
         try {
-            Counter = Counter + 1;
+            counter = counter + 1;
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(src, new File(("ScreensDoc\\" + p_testcaseName + "\\" + datetimeabc + "\\" + Counter + ".png")));
+            FileUtils.copyFile(src, new File(("ScreensDoc\\" + p_testcaseName + "\\" + datetimeabc + "\\" + counter + ".png")));
         } catch (Exception e) {
             logger.error("Capture screenShot failed", e);
         }
@@ -993,14 +1187,12 @@ public class UserActions extends DriverManager {
      * Create image doc
      *
      * @param p_testcaseName1 testcaseName
-     * @throws IOException            IoException
-     * @throws InvalidFormatException invalidFormatException
      */
     protected void CreateImageDoc(String p_testcaseName1) {
         try (XWPFDocument doc = new XWPFDocument()) {
             XWPFParagraph p = doc.createParagraph();
             XWPFRun r = p.createRun();
-            for (int i = 1; i <= Counter; i++) {
+            for (int i = 1; i <= counter; i++) {
                 String path = "ScreensDoc\\" + p_testcaseName1 + "\\" + datetimeabc + "\\" + i + ".png";
                 try (FileInputStream pic = new FileInputStream(path)) {
                     r.addBreak();
@@ -1015,11 +1207,11 @@ public class UserActions extends DriverManager {
                     logger.error(io);
                 }
             }
-            for (int i = 1; i <= Counter; i++) {
+            for (int i = 1; i <= counter; i++) {
                 File src1 = new File("ScreensDoc\\" + p_testcaseName1 + "\\" + datetimeabc + "\\" + i + ".png");
                 deleteDir(src1);
             }
-            Counter = 0;
+            counter = 0;
         } catch (Exception e) {
             logger.error(e);
         }
@@ -1041,6 +1233,7 @@ public class UserActions extends DriverManager {
     }
 
     protected void SystemDateFormat() {
+        String abc1 = null;
         try {
             DateFormat date = new SimpleDateFormat("yyyy.MM.dd_hh.mm");
             Date date1 = new Date();
@@ -1051,20 +1244,10 @@ public class UserActions extends DriverManager {
         }
     }
 
-    protected void switchToContext(String type) {
-        Set<String> s = driver.getContextHandles();
-        for (String handle : s) {
-            if (handle.contains(type)) {
-                driver.context(handle);
-                break;
-            }
-        }
-    }
-
     /**
      * SQL server windows authentication
      */
-    public void WindowsAuthentication() {
+    public void windowsAuthentication() {
         String path = System.getProperty("java.library.path");
         path = "input/sqljdbc_auth.dll" + ";" + path;
         System.setProperty("java.library.path", path);
@@ -1078,66 +1261,96 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     * Execute SQL query
+     * Rotate screen
      *
-     * @param query sqlQuery
-     * @return result string
-     * @throws SQLException SQLException
+     * @param rotation rotation
      */
-    public String ExecuteQuery(String query) throws SQLException {
-        String resultValue = "";
-        String columnName = "";
+    protected void rotateScreen(String rotation) {
+        if (rotation.toLowerCase().equals("landscape")) {
+            driver.rotate(ScreenOrientation.LANDSCAPE);
+            logInfo("Screen rotated in landscape");
+        } else {
+            driver.rotate(ScreenOrientation.PORTRAIT);
+            logInfo("Screen rotated in portrait");
+        }
+    }
+
+    /**
+     * Check element exists or not
+     *
+     * @param id id
+     * @return return data
+     */
+    public boolean isExistsById(String id) {
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        } catch (ClassNotFoundException e) {
-            logger.error("Class not found", e);
-        }
-        try (Connection connection = java.sql.DriverManager.getConnection(_dburl, _dbusername, _dbpassword)) {
-            try (Statement stmt = connection.createStatement()) {
-                try (ResultSet rs = stmt.executeQuery(query)) {
-                    while (rs.next()) {
-                        ResultSetMetaData rsmd = rs.getMetaData();
-                        int columnCount = rsmd.getColumnCount();
-                        for (int i = 1; i <= columnCount; i++) {
-                            try {
-                                if (rs.getString(i).toString() == null && i != columnCount) {
-                                }
-                            } catch (NullPointerException e) {
-                                resultValue = "NULL";
-                                logger.info("column name:" + columnName + "|" + "Column value:" + resultValue);
-                                continue;
-                            }
-                            columnName = rsmd.getColumnName(i);
-                            resultValue = rs.getString(i).toString();
-                            logger.info("column name:" + columnName + "|" + "Column value:" + resultValue);
-                        }
-                    }
-                }
-                connection.close();
-            } catch (SQLException sq) {
-                logger.error(sq);
+            if (driver.findElementsById(id).size() != 0) {
+                return true;
             }
-        } catch (SQLException sq) {
-            logger.error(sq);
+        } catch (Exception e) {
+            logger.error(e);
         }
-        return resultValue;
+        return false;
+    }
+
+    /**
+     * Check element exists or not
+     *
+     * @param xpath xpath
+     * @return return data
+     */
+    public boolean isExistsByXpath(String xpath) {
+        try {
+            if (driver.findElementsByXPath(xpath).size() != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return false;
+    }
+
+    /**
+     * Click by see
+     *
+     * @param element element
+     */
+    private void clickBySee(String element) {
+        try {
+            client.click("1", element, 1, 1);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
+    /**
+     * Get text by see
+     *
+     * @param element element
+     */
+    private void getTextBySee(String element) {
+        try {
+            client.elementGetText("1", element, 1);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
+    /**
+     * Swipe while not found
+     *
+     * @param element element
+     */
+    private void swipeWhileNotFoundBySee(String element) {
+        try {
+            client.swipeWhileNotFound("UP", 1, 100, "1", "element", 1, 10, 2, true);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     protected void catchBlock(Exception e) {
-        Counter = 0;
+        counter = 0;
         logger.error("Error Description", e);
         Assert.fail("TestCase Failed", e);
-    }
-
-    protected String readData(String data) {
-        Properties prop = new Properties();
-        try {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("credential.properties");
-            prop.load(inputStream);
-            return prop.getProperty(data);
-        } catch (IOException ex) {
-            logger.error(ex);
-        }
-        return null;
     }
 }
