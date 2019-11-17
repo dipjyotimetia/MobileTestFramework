@@ -119,11 +119,11 @@ public class UserActions extends DriverManager {
         }
     }
 
-    protected void scrollClick(String scrollableListId, String selectionText) {
-        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)."
-                + "resourceId(\"" + scrollableListId + "\"))"
-                + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
-    }
+//    protected void scrollClick(String scrollableListId, String selectionText) {
+//        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)."
+//                + "resourceId(\"" + scrollableListId + "\"))"
+//                + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
+//    }
 
     /**
      * Click on element with timeout
@@ -321,13 +321,13 @@ public class UserActions extends DriverManager {
         return false;
     }
 
-    /**
-     * Press Back
-     */
-    public void pressBack() {
-        driver.pressKey(new KeyEvent(AndroidKey.BACK));
-        logInfo("Press Back");
-    }
+//    /**
+//     * Press Back
+//     */
+//    public void pressBack() {
+//        driver.pressKey(new KeyEvent(AndroidKey.BACK));
+//        logInfo("Press Back");
+//    }
 
     /**
      * Swipe Down
@@ -1307,45 +1307,6 @@ public class UserActions extends DriverManager {
             logger.error(e);
         }
         return false;
-    }
-
-    /**
-     * Click by see
-     *
-     * @param element element
-     */
-    private void clickBySee(String element) {
-        try {
-            client.click("1", element, 1, 1);
-        } catch (Exception e) {
-            logger.error(e);
-        }
-    }
-
-    /**
-     * Get text by see
-     *
-     * @param element element
-     */
-    private void getTextBySee(String element) {
-        try {
-            client.elementGetText("1", element, 1);
-        } catch (Exception e) {
-            logger.error(e);
-        }
-    }
-
-    /**
-     * Swipe while not found
-     *
-     * @param element element
-     */
-    private void swipeWhileNotFoundBySee(String element) {
-        try {
-            client.swipeWhileNotFound("UP", 1, 100, "1", "element", 1, 10, 2, true);
-        } catch (Exception e) {
-            logger.error(e);
-        }
     }
 
     protected void catchBlock(Exception e) {
