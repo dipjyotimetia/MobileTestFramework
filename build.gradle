@@ -126,6 +126,7 @@ dependencies {
     compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.25.1'
     compile group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.28.0'
 }
 
 task E2E(type: Test) {

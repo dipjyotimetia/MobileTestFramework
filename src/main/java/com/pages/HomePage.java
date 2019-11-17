@@ -1,5 +1,6 @@
 package com.pages;
 
+import com.core.Constants;
 import com.core.UserActions;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -7,7 +8,7 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class HomePage extends UserActions {
+public class HomePage extends UserActions implements Constants {
 
     @AndroidFindBy(id = "com.booking:id/search_details_text")
     @iOSXCUITBy(xpath = "")
