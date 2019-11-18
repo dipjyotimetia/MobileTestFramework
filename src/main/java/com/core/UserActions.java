@@ -120,7 +120,7 @@ public class UserActions extends DriverManager {
         }
     }
 
-    protected void scrollClick(String scrollableListId, String selectionText) {
+    protected void android_ScrollClick(String scrollableListId, String selectionText) {
         ((AndroidDriver)driver).findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)."
                 + "resourceId(\"" + scrollableListId + "\"))"
                 + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
