@@ -106,11 +106,47 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Get mobile element
+     *
+     * @param mobileElement mobileElement
+     * @param elementType   typeOf element
+     * @return element
+     * @throws Exception exception
+     */
+    public MobileElement getMobileElement(String mobileElement, String elementType) throws Exception {
+        MobileElement element = null;
+        switch (elementType) {
+            case "XPATH":
+                element = (MobileElement) driver.findElementByXPath(mobileElement);
+                break;
+            case "ID":
+                element = (MobileElement) driver.findElementById(mobileElement);
+                break;
+            case "NAME":
+                element = (MobileElement) driver.findElementByName(mobileElement);
+                break;
+            case "ACCESS_ID":
+                element = (MobileElement) driver.findElementByAccessibilityId(mobileElement);
+                break;
+            case "CLASS":
+                element = (MobileElement) driver.findElementByClassName(mobileElement);
+                break;
+            default:
+                logInfo("Element type not found");
+        }
+        if (element == null) {
+            logger.error("Mobile element not found");
+            throw new Exception(mobileElement + "not found");
+        }
+        return element;
+    }
+
+    /**
      * Click on element
      *
      * @param element element
      */
-    public void click(MobileElement element) {
+    protected void click(MobileElement element) {
         try {
             fluentWait(element, 10);
             element.click();
@@ -120,8 +156,24 @@ public class UserActions extends DriverManager {
         }
     }
 
+    /**
+     * Click
+     *
+     * @param element     mobileElement
+     * @param elementType elementType
+     */
+    public void click(String element, String elementType) throws Exception {
+        click(getMobileElement(element, elementType));
+    }
+
+    /**
+     * AndroidScrollCLick
+     *
+     * @param scrollableListId scrollableId
+     * @param selectionText    selectionText
+     */
     protected void android_ScrollClick(String scrollableListId, String selectionText) {
-        ((AndroidDriver)driver).findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)."
+        ((AndroidDriver) driver).findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)."
                 + "resourceId(\"" + scrollableListId + "\"))"
                 + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
     }
@@ -143,21 +195,6 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     * click on element
-     *
-     * @param xpath element
-     */
-    protected void clickByXpath(String xpath) {
-        try {
-            driver.findElementByXPath(xpath).click();
-            logger.info("Clicked on element: " + xpath);
-        } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
-        }
-    }
-
-
-    /**
      * Enter value in text field
      *
      * @param element element
@@ -175,18 +212,14 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     * Write value in text field
+     * Enter
      *
-     * @param element element
-     * @param value   value
+     * @param element     mobileElement
+     * @param elementType elementType
+     * @param value       value
      */
-    public void write(MobileElement element, String value) {
-        try {
-            fluentWait(element, 10);
-            element.setValue(value);
-        } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
-        }
+    protected void enter(String element, String elementType, String value) throws Exception {
+        enter(getMobileElement(element, elementType), value);
     }
 
     /**
@@ -220,17 +253,34 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     * Is element visible
+     * Is Exists
      *
-     * @param xpath xpath String
+     * @param element     mobileElement
+     * @param elementType elementType
      * @return boolean
      */
-    protected boolean isElementVisible(String xpath) {
-        if (driver.findElementsByXPath(xpath).size() != 0) {
-            logInfo(xpath + ": element is Visible");
-            return true;
+    protected boolean isExist(String element, String elementType) {
+        boolean returnValue = false;
+        switch (elementType) {
+            case "XPATH":
+                if (driver.findElementsByXPath(element).size() != 0) {
+                    logInfo(element + ": element is exists");
+                    returnValue = true;
+                }
+            case "ID":
+                if (driver.findElementsById(element).size() != 0) {
+                    logInfo(element + ": element is exists");
+                    returnValue = true;
+                }
+            case "CLASS":
+                if (driver.findElementsByClassName(element).size() != 0) {
+                    logInfo(element + ": element is exists");
+                    returnValue = true;
+                }
+            default:
+                logInfo("Element type is not available");
         }
-        return false;
+        return returnValue;
     }
 
     /**
@@ -254,37 +304,6 @@ public class UserActions extends DriverManager {
      */
     public String getPageSource() {
         return driver.getPageSource();
-    }
-
-    /**
-     * Get mobile element
-     *
-     * @param mobileElement mobileElement
-     * @param type          typeOf element
-     * @return element
-     * @throws Exception exception
-     */
-    public MobileElement getMobileElement(String mobileElement, String type) throws Exception {
-        MobileElement element = null;
-        switch (type) {
-            case "xpath":
-                element = (MobileElement) driver.findElementByXPath(mobileElement);
-                break;
-            case "id":
-                element = (MobileElement) driver.findElementById(mobileElement);
-                break;
-            case "name":
-                element = (MobileElement) driver.findElementByName(mobileElement);
-                break;
-            case "access_id":
-                element = (MobileElement) driver.findElementByAccessibilityId(mobileElement);
-                break;
-        }
-        if (element == null) {
-            logger.error("Mobile element not found");
-            throw new Exception(mobileElement + "not found");
-        }
-        return element;
     }
 
     /**
@@ -326,7 +345,7 @@ public class UserActions extends DriverManager {
      * Press Back
      */
     public void pressBack() {
-        ((AndroidDriver)driver).pressKey(new KeyEvent(AndroidKey.BACK));
+        ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.BACK));
         logInfo("Press Back");
     }
 
@@ -471,7 +490,6 @@ public class UserActions extends DriverManager {
         }
         return null;
     }
-
 
     /**
      * Longpress key
@@ -953,6 +971,12 @@ public class UserActions extends DriverManager {
         }
     }
 
+    /**
+     * Get user Data
+     *
+     * @param threadID
+     * @return
+     */
     public JSONObject getUserData(int threadID) {
         JSONParser parser = new JSONParser();
         try {
@@ -1233,6 +1257,9 @@ public class UserActions extends DriverManager {
         file.delete();
     }
 
+    /**
+     * System date format
+     */
     protected void SystemDateFormat() {
         String abc1 = null;
         try {
@@ -1274,40 +1301,6 @@ public class UserActions extends DriverManager {
             driver.rotate(ScreenOrientation.PORTRAIT);
             logInfo("Screen rotated in portrait");
         }
-    }
-
-    /**
-     * Check element exists or not
-     *
-     * @param id id
-     * @return return data
-     */
-    public boolean isExistsById(String id) {
-        try {
-            if (driver.findElementsById(id).size() != 0) {
-                return true;
-            }
-        } catch (Exception e) {
-            logger.error(e);
-        }
-        return false;
-    }
-
-    /**
-     * Check element exists or not
-     *
-     * @param xpath xpath
-     * @return return data
-     */
-    public boolean isExistsByXpath(String xpath) {
-        try {
-            if (driver.findElementsByXPath(xpath).size() != 0) {
-                return true;
-            }
-        } catch (Exception e) {
-            logger.error(e);
-        }
-        return false;
     }
 
     protected void catchBlock(Exception e) {
