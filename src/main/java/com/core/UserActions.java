@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
 import com.relevantcodes.extentreports.LogStatus;
 import com.reporting.ExtentReports.ExtentTestManager;
+import io.appium.java_client.AppiumFluentWait;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
@@ -32,7 +33,6 @@ import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -93,16 +93,11 @@ public class UserActions extends DriverManager {
      * @param timeout timeoutInMilli
      */
     private void fluentWait(MobileElement element, int timeout) {
-        try {
-            Wait wait = new FluentWait(driver)
-                    .withTimeout(Duration.ofSeconds(timeout))
-                    .pollingEvery(Duration.ofMillis(5))
-                    .ignoring(NoSuchElementException.class);
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-
-        } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
-        }
+        Wait wait = new AppiumFluentWait(driver)
+                .withTimeout(Duration.ofSeconds(timeout))
+                .pollingEvery(Duration.ofMillis(5))
+                .ignoring(NoSuchElementException.class);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     /**
@@ -356,20 +351,6 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     *Rotate landscape
-     */
-    public void landscape() {
-        driver.rotate(ScreenOrientation.LANDSCAPE);
-    }
-
-    /**
-     * Rotate portrait
-     */
-    public void portrait() {
-        driver.rotate(ScreenOrientation.PORTRAIT);
-    }
-
-    /**
      * Press Back
      */
     public void pressBack() {
@@ -410,59 +391,38 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     * Wait untill progressbar
+     * Wait until element invisible
      *
-     * @param timeout timeoutInMilli
+     * @param element     mobileElement
+     * @param elementType elementType
+     * @param timeout     timeout
+     * @throws Exception exception
      */
-    protected void waitUntilProgress(int timeout) {
-        try {
-            if (driver.findElementsById("au.com.wgtech.uat:id/progressBar1").size() != 0) {
-                Wait wait = new FluentWait(driver)
-                        .withTimeout(Duration.ofSeconds(timeout))
-                        .pollingEvery(Duration.ofMillis(5))
-                        .ignoring(NoSuchElementException.class);
-                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("au.com.wgtech.uat:id/progressBar1")));
-            }
-        } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+    protected void waitUntilElementInvisible(String element, String elementType, int timeout) throws Exception {
+        if (isExist(element, elementType)) {
+            Wait wait = new AppiumFluentWait(driver)
+                    .withTimeout(Duration.ofSeconds(timeout))
+                    .pollingEvery(Duration.ofMillis(5))
+                    .ignoring(NoSuchElementException.class);
+            wait.until(ExpectedConditions.invisibilityOf(getMobileElement(element, elementType)));
         }
     }
 
     /**
-     * Wait untill progressbar home
+     * Wait until element visible
      *
-     * @param timeout timeoutInMilli
+     * @param element     mobileElement
+     * @param elementType elementType
+     * @param timeout     timeout
+     * @throws Exception exception
      */
-    protected void waitUntilProgressHome(int timeout) {
-        try {
-            if (driver.findElementsById("au.com.wgtech.uat:id/progressbar_home").size() != 0) {
-                Wait wait = new FluentWait(driver)
-                        .withTimeout(Duration.ofSeconds(timeout))
-                        .pollingEvery(Duration.ofMillis(5))
-                        .ignoring(NoSuchElementException.class);
-                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("au.com.wgtech.uat:id/progressbar_home")));
-            }
-        } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
-        }
-    }
-
-    /**
-     * Wait untill progressbar home
-     *
-     * @param timeout timeoutInMilli
-     */
-    protected void waitUntilVisionAppear(int timeout) {
-        try {
-            if (driver.findElementsById("au.com.wgtech.uat:id/progressbar_home").size() != 0) {
-                Wait wait = new FluentWait(driver)
-                        .withTimeout(Duration.ofSeconds(timeout))
-                        .pollingEvery(Duration.ofMillis(5))
-                        .ignoring(NoSuchElementException.class);
-                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("au.com.wgtech.uat:id/race_details_progress")));
-            }
-        } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+    protected void waitUntilElementVisible(String element, String elementType, int timeout) throws Exception {
+        if (isExist(element, elementType)) {
+            Wait wait = new AppiumFluentWait(driver)
+                    .withTimeout(Duration.ofSeconds(timeout))
+                    .pollingEvery(Duration.ofMillis(5))
+                    .ignoring(NoSuchElementException.class);
+            wait.until(ExpectedConditions.visibilityOf(getMobileElement(element, elementType)));
         }
     }
 
@@ -717,7 +677,6 @@ public class UserActions extends DriverManager {
      * @return boolean
      */
     public boolean checkListIsSorted(List<String> ListToSort) {
-
         if (ListToSort.size() > 0) {
             try {
                 if (Ordering.natural().isOrdered(ListToSort)) {
@@ -857,6 +816,20 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * LongPress by element
+     *
+     * @param element element
+     * @param seconds time
+     */
+    public void longPressByElement(MobileElement element, long seconds) {
+        new TouchAction(driver)
+                .longPress(ElementOption.element(element))
+                .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(seconds)))
+                .release()
+                .perform();
+    }
+
+    /**
      * Press by co-ordinates
      *
      * @param x       x
@@ -953,9 +926,8 @@ public class UserActions extends DriverManager {
      * @param count     count
      */
     protected void swipe(String direction, int count, int time) {
-        String dire = direction;
         try {
-            if (dire.equalsIgnoreCase("LEFT")) {
+            if (direction.equalsIgnoreCase("LEFT")) {
                 for (int i = 0; i < count; i++) {
                     Dimension size = driver.manage()
                             .window().getSize();
@@ -965,7 +937,7 @@ public class UserActions extends DriverManager {
                     touchActions(startx, starty, endx, starty, time);
                     logger.info("Swipe Left");
                 }
-            } else if (dire.equalsIgnoreCase("RIGHT")) {
+            } else if (direction.equalsIgnoreCase("RIGHT")) {
                 for (int j = 0; j < count; j++) {
                     Dimension size = driver.manage()
                             .window().getSize();
@@ -975,7 +947,7 @@ public class UserActions extends DriverManager {
                     touchActions(startx, starty, endx, starty, time);
                     logger.info("Swipe Right");
                 }
-            } else if (dire.equalsIgnoreCase("UP")) {
+            } else if (direction.equalsIgnoreCase("UP")) {
                 for (int j = 0; j < count; j++) {
                     Dimension size = driver.manage().window().getSize();
                     int starty = (int) (size.height * 0.80);
@@ -984,7 +956,7 @@ public class UserActions extends DriverManager {
                     touchActions(startx, starty, startx, endy, time);
                     logger.info("Swipe Up");
                 }
-            } else if (dire.equalsIgnoreCase("DOWN")) {
+            } else if (direction.equalsIgnoreCase("DOWN")) {
                 for (int j = 0; j < count; j++) {
                     Dimension size = driver.manage().window().getSize();
                     int starty = (int) (size.height * 0.80);
@@ -1000,10 +972,25 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Rotate screen
+     *
+     * @param rotation rotation
+     */
+    protected void rotateScreen(String rotation) {
+        if (rotation.toLowerCase().equals("landscape")) {
+            driver.rotate(ScreenOrientation.LANDSCAPE);
+            logInfo("Screen rotated in landscape");
+        } else {
+            driver.rotate(ScreenOrientation.PORTRAIT);
+            logInfo("Screen rotated in portrait");
+        }
+    }
+
+    /**
      * Get user Data
      *
-     * @param threadID
-     * @return
+     * @param threadID threadId
+     * @return data
      */
     public JSONObject getUserData(int threadID) {
         JSONParser parser = new JSONParser();
@@ -1313,21 +1300,6 @@ public class UserActions extends DriverManager {
             sysPathFiled.set(null, null);
         } catch (Exception e) {
             logger.error(e);
-        }
-    }
-
-    /**
-     * Rotate screen
-     *
-     * @param rotation rotation
-     */
-    protected void rotateScreen(String rotation) {
-        if (rotation.toLowerCase().equals("landscape")) {
-            driver.rotate(ScreenOrientation.LANDSCAPE);
-            logInfo("Screen rotated in landscape");
-        } else {
-            driver.rotate(ScreenOrientation.PORTRAIT);
-            logInfo("Screen rotated in portrait");
         }
     }
 
