@@ -754,30 +754,6 @@ public class UserActions extends DriverManager {
     }
 
     /**
-     * Log fail
-     *
-     * @param details logDetails
-     */
-    protected void logFail(String details) throws Exception {
-        String screenShotPath = capture(details);
-        ExtentTestManager.getTest().log(LogStatus.FAIL, details);
-        ExtentTestManager.getTest().log(LogStatus.INFO,
-                details + ExtentTestManager.getTest().addScreenCapture(screenShotPath));
-        log(details);
-        throw new Exception(details);
-    }
-
-    /**
-     * Log info
-     *
-     * @param details logDetails
-     */
-    protected void logInfo(String details) {
-        ExtentTestManager.getTest().log(LogStatus.INFO, details);
-        log(details);
-    }
-
-    /**
      * Wait for page to get loaded
      *
      * @param id locatorId
@@ -847,55 +823,62 @@ public class UserActions extends DriverManager {
         return false;
     }
 
-    protected String generateRandomFirstName() {
-        String name = "testauto" + faker.name().firstName();
-        logger.info("FirstName: " + name);
-        return name;
-    }
-
-    protected String generateRandomLastName() {
-        String name = faker.name().lastName();
-        logger.info("LastName: " + name);
-        return name;
-    }
-
-    protected String generateRandomUserName() {
-        String name = RandomStringUtils.randomAlphabetic(6);
-        logger.info("Username: " + name);
-        return name;
+    /**
+     * Generate random Data
+     *
+     * @param randomType randomType
+     * @return value
+     */
+    protected String generateRandomData(String randomType) {
+        String value = null;
+        switch (randomType) {
+            case "FirstName":
+                value = "testauto" + faker.name().firstName();
+                logger.info("FirstName: " + value);
+                break;
+            case "LastName":
+                value = faker.name().lastName();
+                logger.info("LastName: " + value);
+                break;
+            case "UserName":
+                value = RandomStringUtils.randomAlphabetic(6);
+                logger.info("Username: " + value);
+                break;
+            case "Email":
+                value = "testauto" + faker.internet().emailAddress();
+                logger.info("EmailAddress: " + value);
+            case "Mobile":
+                value = "0" + RandomStringUtils.randomNumeric(9);
+                logger.info("MobileNo: " + value);
+            default:
+                logInfo("Random type not found");
+                break;
+        }
+        return value;
     }
 
     /**
-     * Generate random strings
+     * Generate random string
      *
-     * @return string
+     * @param count count
+     * @return value
      */
-    public String generateRandomString() {
-        String name = RandomStringUtils.randomAlphabetic(5);
+    public String generateRandomString(int count) {
+        String name = RandomStringUtils.randomAlphabetic(count);
         logger.info(name);
         return name;
     }
 
     /**
-     * Generate random email
+     * Generate random ascii
      *
-     * @return string
+     * @param count count
+     * @return value
      */
-    protected String generateRandomEmail() {
-        String email = "testauto" + faker.internet().emailAddress();
-        logger.info("EmailAddress: " + email);
-        return email;
-    }
-
-    /**
-     * Generate random mobile no
-     *
-     * @return string
-     */
-    protected String generateRandomMobileNo() {
-        String mobNo = "0" + RandomStringUtils.randomNumeric(9);
-        logger.info("MobileNo: " + mobNo);
-        return mobNo;
+    public String generateRandomAscii(int count) {
+        String name = RandomStringUtils.randomAscii(count);
+        logger.info(name);
+        return name;
     }
 
     /**
@@ -1078,45 +1061,53 @@ public class UserActions extends DriverManager {
      * @param count     count
      */
     protected void swipe(String direction, int count, int time) {
+        Dimension size = driver.manage()
+                .window().getSize();
         try {
-            if (direction.equalsIgnoreCase("LEFT")) {
-                for (int i = 0; i < count; i++) {
-                    Dimension size = driver.manage()
-                            .window().getSize();
-                    int startx = (int) (size.width * 0.8);
-                    int endx = (int) (size.width * 0.20);
-                    int starty = size.height / 2;
-                    touchActions(startx, starty, endx, starty, time);
-                    logger.info("Swipe Left");
-                }
-            } else if (direction.equalsIgnoreCase("RIGHT")) {
-                for (int j = 0; j < count; j++) {
-                    Dimension size = driver.manage()
-                            .window().getSize();
-                    int endx = (int) (size.width * 0.8);
-                    int startx = (int) (size.width * 0.20);
-                    int starty = size.height / 2;
-                    touchActions(startx, starty, endx, starty, time);
-                    logger.info("Swipe Right");
-                }
-            } else if (direction.equalsIgnoreCase("UP")) {
-                for (int j = 0; j < count; j++) {
-                    Dimension size = driver.manage().window().getSize();
-                    int starty = (int) (size.height * 0.80);
-                    int endy = (int) (size.height * 0.20);
-                    int startx = size.width / 2;
-                    touchActions(startx, starty, startx, endy, time);
-                    logger.info("Swipe Up");
-                }
-            } else if (direction.equalsIgnoreCase("DOWN")) {
-                for (int j = 0; j < count; j++) {
-                    Dimension size = driver.manage().window().getSize();
-                    int starty = (int) (size.height * 0.80);
-                    int endy = (int) (size.height * 0.20);
-                    int startx = size.width / 2;
-                    touchActions(startx, endy, startx, starty, time);
-                    logger.info("Swipe Down");
-                }
+            switch (direction) {
+                case "left":
+                case "LEFT":
+                    for (int i = 0; i < count; i++) {
+                        int startx = (int) (size.width * 0.8);
+                        int endx = (int) (size.width * 0.20);
+                        int starty = size.height / 2;
+                        touchActions(startx, starty, endx, starty, time);
+                        logger.info("Swipe Left");
+                    }
+                    break;
+                case "right":
+                case "RIGHT":
+                    for (int j = 0; j < count; j++) {
+                        int endx = (int) (size.width * 0.8);
+                        int startx = (int) (size.width * 0.20);
+                        int starty = size.height / 2;
+                        touchActions(startx, starty, endx, starty, time);
+                        logger.info("Swipe Right");
+                    }
+                    break;
+                case "up":
+                case "UP":
+                    for (int j = 0; j < count; j++) {
+                        int starty = (int) (size.height * 0.80);
+                        int endy = (int) (size.height * 0.20);
+                        int startx = size.width / 2;
+                        touchActions(startx, starty, startx, endy, time);
+                        logger.info("Swipe Up");
+                    }
+                    break;
+                case "down":
+                case "DOWN":
+                    for (int j = 0; j < count; j++) {
+                        int starty = (int) (size.height * 0.80);
+                        int endy = (int) (size.height * 0.20);
+                        int startx = size.width / 2;
+                        touchActions(startx, endy, startx, starty, time);
+                        logger.info("Swipe Down");
+                    }
+                    break;
+                default:
+                    logInfo("Direction not found");
+                    break;
             }
         } catch (Exception e) {
             logger.error("Not able to perform swipe operation", e);
@@ -1219,7 +1210,7 @@ public class UserActions extends DriverManager {
             conn = java.sql.DriverManager.getConnection(url);
             if (conn != null) {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("select " + filed + " from testdata where TestcaseName = '" + testCase + "'");
+                rs = stmt.executeQuery("SELECT " + filed + " FROM testdata WHERE TestcaseName = '" + testCase + "'");
                 while (rs.next()) {
                     logger.info(rs.getString(filed));
                     value = rs.getString(filed);
@@ -1307,8 +1298,8 @@ public class UserActions extends DriverManager {
         String value = updatedValue;
         String testCase = testCaseName;
         String url = "jdbc:sqlite:input/testdata";
-        String selectQuery = "select " + filed + " from testdata where TestcaseName='" + testCase + "'";
-        String query = "update testdata set " + filed + "='" + value + "' where TestcaseName='" + testCase + "'";
+        String selectQuery = "SELECT " + filed + " FROM testdata WHERE TestcaseName='" + testCase + "'";
+        String query = "UPDATE testdata SET " + filed + "='" + value + "' WHERE TestcaseName='" + testCase + "'";
         Connection conn = null;
         ResultSet rs = null;
         Statement stmt = null;
@@ -1453,6 +1444,30 @@ public class UserActions extends DriverManager {
         } catch (Exception e) {
             logger.error(e);
         }
+    }
+
+    /**
+     * Log fail
+     *
+     * @param details logDetails
+     */
+    private void logFail(String details) throws Exception {
+        String screenShotPath = capture(details);
+        ExtentTestManager.getTest().log(LogStatus.FAIL, details);
+        ExtentTestManager.getTest().log(LogStatus.INFO,
+                details + ExtentTestManager.getTest().addScreenCapture(screenShotPath));
+        log(details);
+        throw new Exception(details);
+    }
+
+    /**
+     * Log info
+     *
+     * @param details logDetails
+     */
+    private void logInfo(String details) {
+        ExtentTestManager.getTest().log(LogStatus.INFO, details);
+        log(details);
     }
 
     protected void catchBlock(Exception e) {
