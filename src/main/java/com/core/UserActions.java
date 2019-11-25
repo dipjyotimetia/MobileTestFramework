@@ -253,6 +253,20 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Element is Selected
+     *
+     * @param element element
+     * @return boolean
+     */
+    protected boolean isSelected(MobileElement element) {
+        if (element.isSelected()) {
+            logInfo(element + ": element is Selected");
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Is Exists
      *
      * @param element     mobileElement
