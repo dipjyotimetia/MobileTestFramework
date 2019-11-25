@@ -131,6 +131,7 @@ public class UserActions extends DriverManager {
                 break;
             default:
                 logInfo("Element type not found");
+                break;
         }
         if (element == null) {
             logger.error("Mobile element not found");
@@ -291,6 +292,7 @@ public class UserActions extends DriverManager {
                 }
             default:
                 logInfo("Element type is not available");
+                break;
         }
         return returnValue;
     }
