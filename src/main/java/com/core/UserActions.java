@@ -356,6 +356,20 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     *Rotate landscape
+     */
+    public void landscape() {
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+    }
+
+    /**
+     * Rotate portrait
+     */
+    public void portrait() {
+        driver.rotate(ScreenOrientation.PORTRAIT);
+    }
+
+    /**
      * Press Back
      */
     public void pressBack() {
