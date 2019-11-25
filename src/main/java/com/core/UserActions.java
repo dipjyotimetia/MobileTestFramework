@@ -11,9 +11,11 @@ import io.appium.java_client.AppiumFluentWait;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.*;
+import io.appium.java_client.android.connection.ConnectionState;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
@@ -32,6 +34,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
+import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -108,7 +111,7 @@ public class UserActions extends DriverManager {
      * @return element
      * @throws Exception exception
      */
-    public MobileElement getMobileElement(String mobileElement, String elementType) throws Exception {
+    private MobileElement getMobileElement(String mobileElement, String elementType) throws Exception {
         MobileElement element = null;
         switch (elementType) {
             case "XPATH":
@@ -167,7 +170,7 @@ public class UserActions extends DriverManager {
      * @param scrollableListId scrollableId
      * @param selectionText    selectionText
      */
-    protected void android_ScrollClick(String scrollableListId, String selectionText) {
+    protected void ScrollClick_android(String scrollableListId, String selectionText) {
         ((AndroidDriver) driver).findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)."
                 + "resourceId(\"" + scrollableListId + "\"))"
                 + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
@@ -351,11 +354,158 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * NetworkSPeed Android
+     *
+     * @param networkSpeed networkSpeed
+     */
+    public void networkSpeed_android(String networkSpeed) {
+        switch (networkSpeed) {
+            case "FULL":
+                ((AndroidDriver) driver).setNetworkSpeed(NetworkSpeed.FULL);
+                break;
+            case "GPRS":
+                ((AndroidDriver) driver).setNetworkSpeed(NetworkSpeed.GPRS);
+                break;
+            case "HSDPA":
+                ((AndroidDriver) driver).setNetworkSpeed(NetworkSpeed.HSDPA);
+                break;
+            case "LTE":
+                ((AndroidDriver) driver).setNetworkSpeed(NetworkSpeed.LTE);
+                break;
+            default:
+                logInfo("network speed not available");
+                break;
+        }
+    }
+
+    /**
+     * SignalStrength Android
+     *
+     * @param signalStrength signalStrength
+     */
+    public void signalStrength_android(String signalStrength) {
+        switch (signalStrength) {
+            case "GREAT":
+                ((AndroidDriver) driver).setGsmSignalStrength(GsmSignalStrength.GREAT);
+                break;
+            case "MODERATE":
+                ((AndroidDriver) driver).setGsmSignalStrength(GsmSignalStrength.MODERATE);
+                break;
+            case "NONE":
+                ((AndroidDriver) driver).setGsmSignalStrength(GsmSignalStrength.NONE_OR_UNKNOWN);
+                break;
+            default:
+                logInfo("Signal Strength not available");
+                break;
+        }
+    }
+
+    /**
+     * SignalStrength Android
+     *
+     * @param voiceState voiceState
+     */
+    public void voiceState_android(String voiceState) {
+        switch (voiceState) {
+            case "UNREGISTERED":
+                ((AndroidDriver) driver).setGsmVoice(GsmVoiceState.UNREGISTERED);
+                break;
+            case "ROAMING":
+                ((AndroidDriver) driver).setGsmVoice(GsmVoiceState.ROAMING);
+                break;
+            case "SEARCHING":
+                ((AndroidDriver) driver).setGsmVoice(GsmVoiceState.SEARCHING);
+                break;
+            default:
+                logInfo("Voice state not available");
+                break;
+        }
+    }
+
+    /**
+     * SignalStrength Android
+     *
+     * @param powerState powerState
+     */
+    public void powerState_android(String powerState) {
+        switch (powerState) {
+            case "ON":
+                ((AndroidDriver) driver).setPowerAC(PowerACState.ON);
+                break;
+            case "OFF":
+                ((AndroidDriver) driver).setPowerAC(PowerACState.OFF);
+                break;
+            default:
+                logInfo("Voice state not available");
+                break;
+        }
+    }
+
+    /**
+     * Connection State
+     *
+     * @param connectionState connectionState
+     * @param enabled         boolean
+     */
+    public void connectionState_android(String connectionState, boolean enabled) {
+        switch (connectionState) {
+            case "AIRPLANE":
+                if (enabled) {
+                    ((AndroidDriver) driver).setConnection(new ConnectionState(ConnectionState.AIRPLANE_MODE_MASK)).isAirplaneModeEnabled();
+                }
+                ((AndroidDriver) driver).setConnection(new ConnectionState(ConnectionState.AIRPLANE_MODE_MASK));
+                break;
+            case "DATA":
+                if (enabled) {
+                    ((AndroidDriver) driver).setConnection(new ConnectionState(ConnectionState.DATA_MASK)).isDataEnabled();
+                }
+                ((AndroidDriver) driver).setConnection(new ConnectionState(ConnectionState.DATA_MASK));
+                break;
+            case "WIFI":
+                if (enabled) {
+                    ((AndroidDriver) driver).setConnection(new ConnectionState(ConnectionState.WIFI_MASK)).isWiFiEnabled();
+                }
+                ((AndroidDriver) driver).setConnection(new ConnectionState(ConnectionState.WIFI_MASK));
+                break;
+            default:
+                logInfo("Connection state not available");
+                break;
+        }
+    }
+
+    /**
+     * SetLocation
+     *
+     * @param latitude  latitude
+     * @param longitude longitude
+     * @param altitude  altitude
+     */
+    public void setLocation(double latitude, double longitude, double altitude) {
+        driver.setLocation(new Location(latitude, longitude, altitude));
+    }
+
+    /**
      * Press Back
      */
-    public void pressBack() {
+    public void pressBack_android() {
         ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.BACK));
         logInfo("Press Back");
+    }
+
+    /**
+     * Shake Device
+     */
+    public void shakeDevice_ios() {
+        ((IOSDriver) driver).shake();
+        logInfo("Shake Device");
+    }
+
+    /**
+     * Press Back
+     */
+    public void setKeyboardCorrection_ios(boolean bool) {
+        ((IOSDriver) driver).setKeyboardAutocorrection(bool);
+        logInfo("Shake Device");
     }
 
     /**
