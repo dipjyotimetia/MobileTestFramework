@@ -103,30 +103,34 @@ public class UserActions extends DriverManager {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
+    public enum MobileBy {
+        XPATH, ID, NAME, CLASS, ACCESS_ID
+    }
+
     /**
      * Get mobile element
      *
      * @param mobileElement mobileElement
-     * @param elementType   typeOf element
+     * @param mobileBy   typeOf element
      * @return element
      * @throws Exception exception
      */
-    private MobileElement getMobileElement(String mobileElement, String elementType) throws Exception {
+    private MobileElement getMobileElement(String mobileElement, MobileBy mobileBy) throws Exception {
         MobileElement element = null;
-        switch (elementType) {
-            case "XPATH":
+        switch (mobileBy) {
+            case XPATH:
                 element = (MobileElement) driver.findElementByXPath(mobileElement);
                 break;
-            case "ID":
+            case ID:
                 element = (MobileElement) driver.findElementById(mobileElement);
                 break;
-            case "NAME":
+            case NAME:
                 element = (MobileElement) driver.findElementByName(mobileElement);
                 break;
-            case "ACCESS_ID":
+            case ACCESS_ID:
                 element = (MobileElement) driver.findElementByAccessibilityId(mobileElement);
                 break;
-            case "CLASS":
+            case CLASS:
                 element = (MobileElement) driver.findElementByClassName(mobileElement);
                 break;
             default:
@@ -161,7 +165,7 @@ public class UserActions extends DriverManager {
      * @param element     mobileElement
      * @param elementType elementType
      */
-    public void click(String element, String elementType) throws Exception {
+    public void click(String element, MobileBy elementType) throws Exception {
         click(getMobileElement(element, elementType));
     }
 
@@ -217,7 +221,7 @@ public class UserActions extends DriverManager {
      * @param elementType elementType
      * @param value       value
      */
-    protected void enter(String element, String elementType, String value) throws Exception {
+    protected void enter(String element, MobileBy elementType, String value) throws Exception {
         enter(getMobileElement(element, elementType), value);
     }
 
@@ -272,20 +276,20 @@ public class UserActions extends DriverManager {
      * @param elementType elementType
      * @return boolean
      */
-    protected boolean isExist(String element, String elementType) {
+    protected boolean isExist(String element, MobileBy elementType) {
         boolean returnValue = false;
         switch (elementType) {
-            case "XPATH":
+            case XPATH:
                 if (driver.findElementsByXPath(element).size() != 0) {
                     logInfo(element + ": element is exists");
                     returnValue = true;
                 }
-            case "ID":
+            case ID:
                 if (driver.findElementsById(element).size() != 0) {
                     logInfo(element + ": element is exists");
                     returnValue = true;
                 }
-            case "CLASS":
+            case CLASS:
                 if (driver.findElementsByClassName(element).size() != 0) {
                     logInfo(element + ": element is exists");
                     returnValue = true;
@@ -550,7 +554,7 @@ public class UserActions extends DriverManager {
      * @param timeout     timeout
      * @throws Exception exception
      */
-    protected void waitUntilElementInvisible(String element, String elementType, int timeout) throws Exception {
+    protected void waitUntilElementInvisible(String element, MobileBy elementType, int timeout) throws Exception {
         if (isExist(element, elementType)) {
             Wait wait = new AppiumFluentWait(driver)
                     .withTimeout(Duration.ofSeconds(timeout))
@@ -568,7 +572,7 @@ public class UserActions extends DriverManager {
      * @param timeout     timeout
      * @throws Exception exception
      */
-    protected void waitUntilElementVisible(String element, String elementType, int timeout) throws Exception {
+    protected void waitUntilElementVisible(String element, MobileBy elementType, int timeout) throws Exception {
         if (isExist(element, elementType)) {
             Wait wait = new AppiumFluentWait(driver)
                     .withTimeout(Duration.ofSeconds(timeout))
