@@ -28,11 +28,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class AppiumController implements Access {
 
     private DesiredCapabilities _caps = new DesiredCapabilities();
-    private static AppiumDriver _driver = null;
+    private static AppiumDriver _driver;
     private Logger logger = LogManager.getLogger(AppiumController.class);
     private String appiumPort = "4723";
     private static BrowserMobProxy server;
