@@ -32,7 +32,6 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -49,7 +48,10 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author dipjyoti.metia
@@ -59,7 +61,7 @@ public class UserActions extends DriverManager {
     private static final Faker faker = new Faker();
     private static String datetimeabc = null;
     private static int counter = 0;
-    private Dictionary dicttoread = new Hashtable();
+    private Map<Object, Object> dicttoread = new HashMap<>();
     private Logger logger = LogManager.getLogger(UserActions.class);
 
     /**
@@ -108,10 +110,38 @@ public class UserActions extends DriverManager {
     }
 
     /**
+     * Get Mobile ElementBY
+     * @param byElement byElement
+     * @param mobileBy mobileBy
+     * @return by
+     */
+    private By getMobileElementBy(String byElement, MobileBy mobileBy) {
+        By by = null;
+        switch (mobileBy) {
+            case ID:
+                by = (By) driver.findElementById(byElement);
+                break;
+            case XPATH:
+                by = (By) driver.findElementByXPath(byElement);
+                break;
+            case ACCESS_ID:
+                by = (By) driver.findElementByAccessibilityId(byElement);
+                break;
+            case NAME:
+                by = (By) driver.findElementByName(byElement);
+                break;
+            case CLASS:
+                by = (By) driver.findElementByClassName(byElement);
+                break;
+        }
+        return by;
+    }
+
+    /**
      * Get mobile element
      *
      * @param mobileElement mobileElement
-     * @param mobileBy   typeOf element
+     * @param mobileBy      typeOf element
      * @return element
      * @throws Exception exception
      */
@@ -552,15 +582,14 @@ public class UserActions extends DriverManager {
      * @param element     mobileElement
      * @param elementType elementType
      * @param timeout     timeout
-     * @throws Exception exception
      */
-    protected void waitUntilElementInvisible(String element, MobileBy elementType, int timeout) throws Exception {
+    protected void waitUntilElementInvisible(String element, MobileBy elementType, int timeout) {
         if (isExist(element, elementType)) {
             Wait wait = new AppiumFluentWait(driver)
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until(ExpectedConditions.invisibilityOf(getMobileElement(element, elementType)));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(getMobileElementBy(element, elementType)));
         }
     }
 
@@ -570,15 +599,14 @@ public class UserActions extends DriverManager {
      * @param element     mobileElement
      * @param elementType elementType
      * @param timeout     timeout
-     * @throws Exception exception
      */
-    protected void waitUntilElementVisible(String element, MobileBy elementType, int timeout) throws Exception {
+    protected void waitUntilElementVisible(String element, MobileBy elementType, int timeout) {
         if (isExist(element, elementType)) {
             Wait wait = new AppiumFluentWait(driver)
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until(ExpectedConditions.visibilityOf(getMobileElement(element, elementType)));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(getMobileElementBy(element, elementType)));
         }
     }
 
