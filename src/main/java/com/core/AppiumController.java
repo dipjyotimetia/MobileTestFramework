@@ -54,8 +54,9 @@ public class AppiumController implements Access {
 
     /**
      * Initialize Driver
+     *
      * @param device device
-     * @param apk apk
+     * @param apk    apk
      * @throws Exception exception
      */
     private void initDriver(String device, String apk) throws Exception {
@@ -63,35 +64,39 @@ public class AppiumController implements Access {
             File appDir = new File("AndroidApp");
             File app = new File(appDir, "***.apk");
             String serverUrl = "http://" + serverIp + ":" + appiumPort + "/wd/hub";
-            if (device.equals("NEXUS")) {
-                logger.info("Selected device is NEXUS");
-                if (apk.equals("Y")) {
-                    _caps.setCapability(MobileCapabilityType.APP, app);
-                }
-                _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
-                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
-                _androidCapabilities(_caps);
-                _createService().start();
-                logger.info("Argument to driver object : " + serverUrl);
-                _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
-            } else if (device.equals("PIXEL")) {
-                logger.info("Selected device is PIXEL");
-                if (apk.equals("Y")) {
-                    _caps.setCapability(MobileCapabilityType.APP, app);
-                }
-                _caps.setCapability(MobileCapabilityType.UDID, PIXEL);
-                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
-                _iosCapabilities(_caps);
-                logger.info("Argument to driver object : " + serverUrl);
-                _driver = new IOSDriver<>(new URL(serverUrl), _caps);
-            } else if (device.equals("WEB")){
-                logger.info("Selected device is WEB");
-                _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
-                _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
-                _createService().start();
-                _browserCapabilities(_caps,"chrome");
-                logger.info("Argument to driver object : " + serverUrl);
-                _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+            switch (device) {
+                case "NEXUS":
+                    logger.info("Selected device is NEXUS");
+                    if (apk.equals("Y")) {
+                        _caps.setCapability(MobileCapabilityType.APP, app);
+                    }
+                    _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
+                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
+                    _androidCapabilities(_caps);
+                    _createService().start();
+                    logger.info("Argument to driver object : " + serverUrl);
+                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    break;
+                case "PIXEL":
+                    logger.info("Selected device is PIXEL");
+                    if (apk.equals("Y")) {
+                        _caps.setCapability(MobileCapabilityType.APP, app);
+                    }
+                    _caps.setCapability(MobileCapabilityType.UDID, PIXEL);
+                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
+                    _iosCapabilities(_caps);
+                    logger.info("Argument to driver object : " + serverUrl);
+                    _driver = new IOSDriver<>(new URL(serverUrl), _caps);
+                    break;
+                case "WEB":
+                    logger.info("Selected device is WEB");
+                    _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
+                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
+                    _createService().start();
+                    _browserCapabilities(_caps, "chrome");
+                    logger.info("Argument to driver object : " + serverUrl);
+                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    break;
             }
         } catch (NullPointerException |
                 MalformedURLException ex) {
@@ -104,6 +109,7 @@ public class AppiumController implements Access {
 
     /**
      * Android capabilities
+     *
      * @param _caps capabilities
      */
     private void _androidCapabilities(DesiredCapabilities _caps) {
@@ -120,6 +126,7 @@ public class AppiumController implements Access {
 
     /**
      * IOS capabilities
+     *
      * @param _caps capabilities
      */
     private void _iosCapabilities(DesiredCapabilities _caps) {
@@ -137,7 +144,8 @@ public class AppiumController implements Access {
 
     /**
      * Add Browser capability
-     * @param _caps capabilities
+     *
+     * @param _caps   capabilities
      * @param browser browser
      */
     private void _browserCapabilities(DesiredCapabilities _caps, String browser) {
@@ -154,6 +162,7 @@ public class AppiumController implements Access {
 
     /**
      * Add Performance capability
+     *
      * @param _caps capability
      */
     private void _performanceCapability(DesiredCapabilities _caps) {
@@ -169,6 +178,7 @@ public class AppiumController implements Access {
 
     /**
      * Create appium driver service
+     *
      * @return service
      * @throws MalformedURLException url exception
      */
