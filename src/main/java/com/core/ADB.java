@@ -6,14 +6,19 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author dipjyoti.metia
+ */
 public class ADB {
+
     private Logger logger = LogManager.getLogger(ADB.class);
 
-    private static String sdkPath = System.getenv("ANDROID_HOME");
-    private static String adbPath = sdkPath + "platform-tools" + File.separator + "adb";
-    private static String emulatorPath = sdkPath +File.separator + "emulator";
+    private String SDK_PATH = System.getenv("ANDROID_HOME");
+    private String ADB_PATH = SDK_PATH + "platform-tools" + File.separator + "adb";
+    private String EMULATOR_PATH = SDK_PATH + File.separator + "emulator";
 
     private String ID;
 
@@ -21,30 +26,44 @@ public class ADB {
         ID = deviceID;
     }
 
-    public static void launchEmulator(String nameOfAVD) {
-        System.out.println("Starting emulator for '" + nameOfAVD + "' ...");
-        String[] aCommand = new String[] { emulatorPath, "-avd", nameOfAVD };
+    /**
+     * launch android emulator
+     *
+     * @param avdName emulator name
+     */
+    public void launchEmulator(String avdName) {
+        logger.info("Starting emulator for" + avdName + "....");
+        String[] aCommand = new String[]{EMULATOR_PATH, "-avd", avdName};
         try {
             Process process = new ProcessBuilder(aCommand).start();
             process.waitFor(180, TimeUnit.SECONDS);
-            System.out.println("Emulator launched successfully!");
+            logger.info("Emulator launched successfully");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
-    public static void closeEmulator() {
-        System.out.println("Killing emulator...");
-        String[] aCommand = new String[] { adbPath, "emu", "kill" };
+    /**
+     * Close android emulator
+     */
+    public void closeEmulator() {
+        logger.info("Closing emulator");
+        String[] aCommand = new String[]{EMULATOR_PATH, "emu", "kill"};
         try {
             Process process = new ProcessBuilder(aCommand).start();
             process.waitFor(1, TimeUnit.SECONDS);
-            System.out.println("Emulator closed successfully!");
+            logger.info("Emulator closed successfully");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
+    /**
+     * avd commands
+     *
+     * @param command command
+     * @return output
+     */
     public String command(String command) {
         logger.debug("Formatting ADB Command: " + command);
         if (command.startsWith("adb"))
@@ -65,8 +84,13 @@ public class ADB {
         command("adb start-server");
     }
 
-    public ArrayList getConnectedDevices() {
-        ArrayList devices = new ArrayList();
+    /**
+     * Get list of connected device
+     *
+     * @return devices
+     */
+    public List<Object> getConnectedDevices() {
+        List<Object> devices = new ArrayList<>();
         String output = command("adb devices");
         for (String line : output.split("\n")) {
             line = line.trim();
@@ -89,8 +113,8 @@ public class ADB {
         return Integer.parseInt(getAndroidVersionAsString().replaceAll("\\.", ""));
     }
 
-    public ArrayList getInstalledPackages() {
-        ArrayList packages = new ArrayList();
+    public List<Object> getInstalledPackages() {
+        List<Object> packages = new ArrayList<>();
         String[] output = command("adb -s " + ID + " shell pm list packages").split("\n");
         for (String packageID : output) packages.add(packageID.replace("package:", "").trim());
         return packages;
@@ -156,9 +180,14 @@ public class ADB {
         return command("adb -s " + ID + " shell getprop gsm.operator.alpha");
     }
 
-    public ArrayList getLogcatProcesses() {
+    /**
+     * Get log process
+     *
+     * @return process
+     */
+    public List<Object> getLogcatProcesses() {
         String[] output = command("adb -s " + ID + " shell top -n 1 | grep -i 'logcat'").split("\n");
-        ArrayList processes = new ArrayList();
+        List<Object> processes = new ArrayList<>();
         for (String line : output) {
             processes.add(line.split(" ")[0]);
             processes.removeAll(Arrays.asList("", null));
