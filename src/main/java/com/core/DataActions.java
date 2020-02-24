@@ -24,7 +24,7 @@ public class DataActions<T> extends ApiActions<T> {
             connObj = DriverManager.getConnection(JDBC_URL);
             if (connObj != null) {
                 statement = connObj.createStatement();
-                String queryString = "select TOP 10 * from TBS.dbo.Event e where e.EventTypeID='1';";
+                String queryString = "select TOP 10 * from ;";
                 rs = statement.executeQuery(queryString);
                 while (rs.next()) {
                     logger.info(rs.getString(2));
