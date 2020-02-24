@@ -9,7 +9,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-public class TC001_E2E_MTR_638 extends UserActions {
+public class TC_Test extends UserActions {
 
     @Link("")
     @Feature("test")
@@ -17,7 +17,7 @@ public class TC001_E2E_MTR_638 extends UserActions {
     @Test(description = "")
     public void E2E_MTR_638() {
 
-        String Tname = "TC001_E2E_MTR_638";
+        String Tname = "TC_Test";
 
         HomePage homePage = new HomePage();
 
