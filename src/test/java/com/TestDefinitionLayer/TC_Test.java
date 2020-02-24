@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class TC_Test extends UserActions {
 
-    @Link("")
+    @Link("Test")
     @Feature("test")
     @Severity(SeverityLevel.CRITICAL)
     @Test(description = "")
