@@ -37,26 +37,6 @@ buildscript {
     }
 }
 
-artifactory {
-    contextUrl = "${artifactory_contextUrl}"
-    publish {
-        repository {
-            repoKey = 'gradle-dev-local'
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
-            maven = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'gradle-dev'
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
-            maven = true
-        }
-    }
-}
-
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -72,11 +52,11 @@ compileTestKotlin {
 allure {
     autoconfigure = true
     aspectjweaver = true
-    version = '2.13.1'
+    version = '2.13.3'
     useTestNG {
-        version = '2.13.1'
+        version = '2.13.3'
     }
-    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.1/allure-commandline-2.13.1.zip'
+    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.3/allure-commandline-2.13.3.zip'
 }
 
 sourceSets {
@@ -104,36 +84,38 @@ dependencies {
     compile group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'net.sourceforge.javacsv', name: 'javacsv', version: '2.0'
-    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.1'
-    compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.1.1'
-    compile group: 'org.apache.poi', name: 'poi-excelant', version: '4.1.1'
-    compile group: 'org.apache.poi', name: 'poi-examples', version: '4.1.1'
-    compile group: 'org.apache.poi', name: 'poi-scratchpad', version: '4.1.1'
-    compile group: 'org.apache.poi', name: 'poi', version: '4.1.1'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+    compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.1.2'
+    compile group: 'org.apache.poi', name: 'poi-excelant', version: '4.1.2'
+    compile group: 'org.apache.poi', name: 'poi-examples', version: '4.1.2'
+    compile group: 'org.apache.poi', name: 'poi-scratchpad', version: '4.1.2'
+    compile group: 'org.apache.poi', name: 'poi', version: '4.1.2'
     compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.1.0'
-    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '7.4.1.jre8'
+    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.2.0.jre8'
     compile group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
-    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.1'
+    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.3'
+    compile group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.3'
+    compile group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.3'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
-    compile group: 'com.github.javafaker', name: 'javafaker', version: '1.0.1'
-    compile group: 'io.rest-assured', name: 'rest-assured', version: '4.2.0'
-    compile 'io.rest-assured:json-path:4.2.0'
-    compile 'io.rest-assured:json-schema-validator:4.2.0'
+    compile group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+    compile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
+    compile 'io.rest-assured:json-path:4.3.0'
+    compile 'io.rest-assured:json-schema-validator:4.3.0'
     compile group: 'org.json', name: 'json', version: '20190722'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.1'
-    compile group: 'com.konghq', name: 'unirest-java', version: '3.4.00'
-    compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.25.1'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.2'
+    compile group: 'com.konghq', name: 'unirest-java', version: '3.7.02'
+    compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.26.3'
     compile group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.28.0'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.30.1'
 }
 
 task E2E(type: Test) {
     useTestNG() {
         outputDirectory = file("$project.buildDir/testngOutput")
         useDefaultListeners = true
-        suiteXmlFiles << new File("src/test/suite/testweb.xml")
+        suiteXmlFiles << new File("src/test/suite/testng.xml")
         setSuiteXmlFiles(suiteXmlFiles)
     }
     testLogging {
@@ -154,26 +136,6 @@ task Report(type: Test) {
         useDefaultListeners = true
         suiteXmlFiles << new File("src/test/suite/reporting.xml")
         setSuiteXmlFiles(suiteXmlFiles)
-    }
-}
-
-task Zip(type: Zip){
-    from 'build'
-    include '*'
-    include '*/*/*/*/*/*/*'
-    archiveName 'Build.zip'
-    destinationDir(file('test-output/'))
-    baseName = project.name
-}
-
-publishing{
-    publications{
-        mavenZip(MavenPublication){
-            groupId 'test'
-            version="1.0"
-            artifactId='Test'
-            artifact("test-output/Build.zip")
-        }
     }
 }
 

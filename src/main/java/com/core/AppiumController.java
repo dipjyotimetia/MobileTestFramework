@@ -11,6 +11,7 @@ import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.proxy.CaptureType;
+import org.apache.commons.exec.OS;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Proxy;
@@ -22,6 +23,7 @@ import org.testng.annotations.Parameters;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -104,7 +106,6 @@ public class AppiumController implements Access {
             throw new RuntimeException("Appium driver could not be initialised for device: " + device);
         }
         logger.info("Driver initialized");
-
     }
 
     /**
@@ -157,7 +158,6 @@ public class AppiumController implements Access {
             _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
             _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1");
         }
-
     }
 
     /**
@@ -181,7 +181,7 @@ public class AppiumController implements Access {
      *
      * @return service
      */
-    private static DriverService _createService() {
+    private DriverService _createService() {
         service = new AppiumServiceBuilder()
                 .usingDriverExecutable(new File(nodeJS))
                 .withAppiumJS(new File(appiumJS))
@@ -191,6 +191,21 @@ public class AppiumController implements Access {
                 .withArgument(Arg.LOG_LEVEL, "warn")
                 .build();
         return service;
+    }
+
+    /**
+     * Stop appium server
+     */
+    public void _stopAppiumServer() {
+        if (OS.isFamilyWindows()) {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("taskkill /F /IM node.exe");
+                runtime.exec("taskkill /F /IM cmd.exe");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -218,7 +233,7 @@ public class AppiumController implements Access {
             logger.info("Performance test not included");
         }
         _createService().stop();
+        _stopAppiumServer();
         _driver.quit();
     }
-
 }
