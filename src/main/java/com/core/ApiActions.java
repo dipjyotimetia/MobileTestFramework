@@ -55,9 +55,9 @@ public class ApiActions<T> {
         requestParams.put("Password", userPass);
 
         Response response = httpRequest.body(requestParams.toJSONString()).
-                request(Method.POST, "/Account/Login");
+                request(Method.POST, "/Test");
 
-        return getHeaders(response, "ClientAuth");
+        return getHeaders(response, "auth");
     }
 
     /**
@@ -99,7 +99,7 @@ public class ApiActions<T> {
         return RestAssured
                 .given()
                 .with()
-                .header("ClientAuth", authLogin())
+                .header("auth", authLogin())
                 .contentType(ContentType.JSON)
                 .with()
                 .body(params.toJSONString());
@@ -116,7 +116,7 @@ public class ApiActions<T> {
         return RestAssured
                 .given()
                 .with()
-                .header("AuthToken", token)
+                .header("token", token)
                 .contentType(ContentType.JSON)
                 .with()
                 .body(params.toJSONString());
@@ -131,7 +131,7 @@ public class ApiActions<T> {
         return RestAssured
                 .given()
                 .with()
-                .header("ClientAuth", authLogin());
+                .header("auth", authLogin());
     }
 
     /**
@@ -144,7 +144,7 @@ public class ApiActions<T> {
         return RestAssured
                 .given()
                 .with()
-                .header("AuthToken", token);
+                .header("token", token);
     }
 
     /**

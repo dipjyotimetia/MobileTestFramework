@@ -14,7 +14,7 @@
         <parameter name="device" value="NEXUS"/>
         <parameter name="apk" value="N"/>
         <classes>
-            <class name="com.TestDefinitionLayer.TC001_E2E_MTR_638"/>
+            <class name="com.TestDefinitionLayer.TC_Test"/>
         </classes>
     </test>
 </suite>
