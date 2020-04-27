@@ -40,7 +40,7 @@ public class AppiumController implements Access {
     private static DriverService service;
 
     private static String serverIp = "127.0.0.1";    //Local
-    //    private String serverIp = "172.23.126.97";  //Jenkins
+    //    private String serverIp = "";  //Jenkins
 
     @Parameters({"device", "apk"})
     @BeforeClass
@@ -180,9 +180,8 @@ public class AppiumController implements Access {
      * Create appium driver service
      *
      * @return service
-     * @throws MalformedURLException url exception
      */
-    private static DriverService _createService() throws MalformedURLException {
+    private static DriverService _createService() {
         service = new AppiumServiceBuilder()
                 .usingDriverExecutable(new File(nodeJS))
                 .withAppiumJS(new File(appiumJS))
@@ -209,7 +208,7 @@ public class AppiumController implements Access {
     }
 
     @AfterClass
-    public void tearDown() throws Exception {
+    public void tearDown() {
         try {
             Har har = server.getHar();
             FileOutputStream fos = new FileOutputStream("C:\\temp\\perf.har");
