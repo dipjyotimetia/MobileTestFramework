@@ -104,7 +104,7 @@ dependencies {
     compile group: 'org.json', name: 'json', version: '20200518'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
-    compile group: 'com.konghq', name: 'unirest-java', version: '3.11.00'
+    compile group: 'com.konghq', name: 'unirest-java', version: '3.11.03'
     compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.26.3'
     compile group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
