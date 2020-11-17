@@ -74,7 +74,7 @@ sourceSets {
 }
 
 dependencies {
-    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.873'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.892'
     compile group: 'io.appium', name: 'java-client', version: '7.3.0'
     compile group: 'net.reini', name: 'slf4-cdi', version: '1.0'
     compile group: 'org.assertj', name: 'assertj-core', version: '3.17.2'
