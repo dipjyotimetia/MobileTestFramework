@@ -116,14 +116,14 @@ public class AppiumController implements Access {
                     logger.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
                     break;
-                case "cloud":
+                case "samsung":
                     logger.info("Selected device is NEXUS");
                     if (apk.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
-                    _browserstackCapabilities(_caps);
+                    _browserstackCapabilities(_caps, "samsung");
                     _androidCapabilities(_caps);
-                    logger.info("Argument to driver object : " + serverUrl);
+                    logger.info("Argument to driver object : " + cloudURL);
                     _driver = new AndroidDriver<>(new URL(cloudURL), _caps);
                     break;
                 case "IPHONE":
@@ -161,12 +161,23 @@ public class AppiumController implements Access {
      *
      * @param _caps capabilities
      */
-    private void _browserstackCapabilities(DesiredCapabilities _caps) {
+    private void _browserstackCapabilities(DesiredCapabilities _caps, String device) {
         _caps.setCapability("browserstack.user", username);
         _caps.setCapability("browserstack.key", accessKey);
         _caps.setCapability("app", "bs://a951e88623f292237c285a1e8b38bcdf5dc2ed83");
-        _caps.setCapability("os_version", "9.0");
-        _caps.setCapability("device", "Google Pixel 3");
+        switch (device) {
+            case "samsung":
+                _caps.setCapability("os_version", "10.0");
+                _caps.setCapability("device", "Samsung Galaxy S20");
+                break;
+            case "pixel":
+                _caps.setCapability("os_version", "9.0");
+                _caps.setCapability("device", "Google Pixel 3");
+                break;
+            default:
+                System.out.println("No device found");
+        }
+        _caps.setCapability("browserstack.appium_version", "1.19.1");
         _caps.setCapability("project", "MobileTestFramework");
         _caps.setCapability("build", "Android");
         _caps.setCapability("name", testName);
