@@ -23,7 +23,7 @@ SOFTWARE.
  */
 package com.reporting.Jira;
 
-import com.Common.Property;
+import com.common.Property;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 

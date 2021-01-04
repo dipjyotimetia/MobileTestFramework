@@ -23,7 +23,7 @@ SOFTWARE.
  */
 package com.ServiceLayer;
 
-import com.Common.Property;
+import com.common.Property;
 import com.core.ApiActions;
 import com.reporting.ExtentReports.ExtentTestManager;
 import io.qameta.allure.Feature;

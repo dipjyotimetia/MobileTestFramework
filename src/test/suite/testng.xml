@@ -3,18 +3,13 @@
 <suite name="End To End User Journey" allow-return-values="true" parallel="tests" thread-count="2">
     <listeners>
         <listener class-name="com.reporting.Listeners.TestListener"/>
-        <listener class-name="com.reporting.Listeners.AnnotationTransfomer"/>
+        <listener class-name="com.reporting.Listeners.AnnotationTransformer"/>
     </listeners>
-    <!--<test name="Feature Api Test Mobile">-->
-    <!--<classes>-->
-    <!--<class name=""/>-->
-    <!--</classes>-->
-    <!--</test>-->
     <test name="E2E Tests Android">
-        <parameter name="device" value="samsung"/>
+        <parameter name="device" value="NEXUS"/>
         <parameter name="apk" value="N"/>
         <classes>
-            <class name="com.TestDefinitionLayer.TC_Test"/>
+            <class name="com.TestDefinitionLayer.TC_Test_AndroidBooking"/>
         </classes>
     </test>
 </suite>

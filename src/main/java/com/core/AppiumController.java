@@ -23,7 +23,7 @@ SOFTWARE.
  */
 package com.core;
 
-import com.Constants.Arg;
+import com.constants.Arg;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -179,7 +179,7 @@ public class AppiumController implements Access {
         }
         _caps.setCapability("browserstack.appium_version", "1.19.1");
         _caps.setCapability("project", "MobileTestFramework");
-        _caps.setCapability("build", "Android");
+        _caps.setCapability("build", "AndroidTest");
         _caps.setCapability("name", testName);
     }
 

@@ -67,8 +67,8 @@ public class HomePage extends UserActions implements Constants {
     }
 
     public HomePage searchDestination() {
-        click(acceptCookie);
-        click(closeButton);
+        click(acceptCookie); // comment for local tests
+        click(closeButton); // comment for local tests
         waitForElement(destination);
         click(destination);
         enter(searchEdit, "Paris");

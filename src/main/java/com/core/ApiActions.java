@@ -23,7 +23,7 @@ SOFTWARE.
  */
 package com.core;
 
-import com.Common.Property;
+import com.common.Property;
 import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
