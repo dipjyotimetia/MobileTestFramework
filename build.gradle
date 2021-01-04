@@ -75,11 +75,11 @@ compileTestKotlin {
 allure {
     autoconfigure = true
     aspectjweaver = true
-    version = '2.13.6'
+    version = '2.13.8'
     useTestNG {
-        version = '2.13.6'
+        version = '2.13.8'
     }
-    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.6/allure-commandline-2.13.6.zip'
+    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.8/allure-commandline-2.13.8.zip'
 }
 
 sourceSets {
