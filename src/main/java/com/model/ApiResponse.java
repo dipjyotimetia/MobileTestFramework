@@ -21,41 +21,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.TestDefinitionLayer;
+package com.model;
 
-import com.core.UserActions;
-import com.pages.HomePage;
-import com.reporting.ExtentReports.ExtentTestManager;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Link;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import org.testng.annotations.Test;
+public class ApiResponse {
+    private int statusCode;
+    private String responseBody;
 
-public class TC_Test extends UserActions {
-
-    @Link("Test")
-    @Feature("test")
-    @Severity(SeverityLevel.CRITICAL)
-    @Test(description = "")
-    public void E2E_MTR_638() {
-
-        String Tname = "TC_Test";
-
-        HomePage homePage = new HomePage();
-
-        ExtentTestManager.getTest().setDescription("");
-
-        try {
-            homePage.searchDestination()
-                    .selectDate()
-                    .search();
-            CreateImageDoc(Tname);
-        } catch (Exception e) {
-            catchBlock(e);
-        } finally {
-            ExtentTestManager.endTest();
-        }
-
+    public ApiResponse(int statusCode, String responseBody) {
+        this.statusCode = statusCode;
+        this.responseBody = responseBody;
     }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public String getResponseBody() {
+        return responseBody;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Status Code : %1s Body : %2s", this.statusCode, this.responseBody);
+    }
+
 }
