@@ -75,6 +75,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author dipjyoti.metia
@@ -125,7 +126,7 @@ public class UserActions extends DriverManager {
                 .withTimeout(Duration.ofSeconds(timeout))
                 .pollingEvery(Duration.ofMillis(5))
                 .ignoring(NoSuchElementException.class);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+        wait.until((Function) ExpectedConditions.elementToBeClickable(element));
     }
 
     public enum MobileBy {
@@ -612,7 +613,7 @@ public class UserActions extends DriverManager {
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(getMobileElementBy(element, elementType)));
+            wait.until((Function) ExpectedConditions.invisibilityOfElementLocated(getMobileElementBy(element, elementType)));
         }
     }
 
@@ -629,7 +630,7 @@ public class UserActions extends DriverManager {
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(getMobileElementBy(element, elementType)));
+            wait.until((Function) ExpectedConditions.visibilityOfElementLocated(getMobileElementBy(element, elementType)));
         }
     }
 
@@ -815,7 +816,7 @@ public class UserActions extends DriverManager {
      */
     private void waitForPageToLoad(WebElement id) {
         WebDriverWait wait = new WebDriverWait(driver, 35);
-        wait.until(ExpectedConditions.elementToBeClickable(id));
+        wait.until((Function)ExpectedConditions.elementToBeClickable(id));
     }
 
     /**
@@ -825,7 +826,7 @@ public class UserActions extends DriverManager {
      */
     public void waitForElementToDisAppear(String id) {
         WebDriverWait wait = new WebDriverWait(driver, 25);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
+        wait.until((Function)ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
     }
 
     /**
