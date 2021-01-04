@@ -53,20 +53,20 @@ import java.util.Date;
 
 public class AppiumController implements Access {
 
-    private DesiredCapabilities _caps = new DesiredCapabilities();
-    private static AppiumDriver _driver;
     private final Logger logger = LogManager.getLogger(AppiumController.class);
+    DesiredCapabilities _caps = new DesiredCapabilities();
+    private static AppiumDriver _driver;
     private final String appiumPort = "4723";
     private static BrowserMobProxy server;
     private final String username = System.getenv("BROWSERSTACK_USERNAME");
     private final String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
-    private static String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
-    private static String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
+    private static final String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
+    private static final String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
     private static DriverService service;
     private String testName = null;
 
     private final String serverIp = "127.0.0.1";    //Local
-    private final String cloudURL = "http://hub-cloud.browserstack.com/wd/hub"; //browserstack
+    private final String cloudURL = "https://" + username + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub";
 
     @Parameters({"device", "apk"})
     @BeforeClass
@@ -162,8 +162,6 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _browserstackCapabilities(DesiredCapabilities _caps, String device) {
-        _caps.setCapability("browserstack.user", username);
-        _caps.setCapability("browserstack.key", accessKey);
         _caps.setCapability("app", "bs://a951e88623f292237c285a1e8b38bcdf5dc2ed83");
         switch (device) {
             case "samsung":
@@ -303,10 +301,10 @@ public class AppiumController implements Access {
 //            Har har = server.getHar();
 //            FileOutputStream fos = new FileOutputStream("C:\\temp\\perf.har");
 //            har.writeTo(fos);
-            server.stop();
+//            server.stop();
+            _driver.quit();
             _createService().stop();
             _stopAppiumServer();
-            _driver.quit();
         } catch (Exception e) {
             logger.info("Performance test not included");
         }
