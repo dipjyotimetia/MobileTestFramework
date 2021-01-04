@@ -58,16 +58,20 @@ public class AppiumController implements Access {
     private final Logger logger = LogManager.getLogger(AppiumController.class);
     private final String appiumPort = "4723";
     private static BrowserMobProxy server;
+    private final String username = System.getenv("BROWSERSTACK_USERNAME");
+    private final String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
     private static String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
     private static String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
     private static DriverService service;
+    private String testName = null;
 
-    private static String serverIp = "127.0.0.1";    //Local
-    //    private String serverIp = "";  //Jenkins
+    private final String serverIp = "127.0.0.1";    //Local
+    private final String cloudURL = "http://hub-cloud.browserstack.com/wd/hub"; //browserstack
 
     @Parameters({"device", "apk"})
     @BeforeClass
     public void setup(String device, String apk) throws Exception {
+        testName = this.getClass().getName().substring(24);
         initDriver(device, apk);
     }
 
@@ -112,6 +116,16 @@ public class AppiumController implements Access {
                     logger.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
                     break;
+                case "cloud":
+                    logger.info("Selected device is NEXUS");
+                    if (apk.equals("Y")) {
+                        _caps.setCapability(MobileCapabilityType.APP, app);
+                    }
+                    _browserstackCapabilities(_caps);
+                    _androidCapabilities(_caps);
+                    logger.info("Argument to driver object : " + serverUrl);
+                    _driver = new AndroidDriver<>(new URL(cloudURL), _caps);
+                    break;
                 case "IPHONE":
                     logger.info("Selected device is IPHONE");
                     if (apk.equals("Y")) {
@@ -140,6 +154,22 @@ public class AppiumController implements Access {
             throw new RuntimeException("Appium driver could not be initialised for device: " + device);
         }
         logger.info("Driver initialized");
+    }
+
+    /**
+     * BrowserStack capabilities
+     *
+     * @param _caps capabilities
+     */
+    private void _browserstackCapabilities(DesiredCapabilities _caps) {
+        _caps.setCapability("browserstack.user", username);
+        _caps.setCapability("browserstack.key", accessKey);
+        _caps.setCapability("app", "bs://a951e88623f292237c285a1e8b38bcdf5dc2ed83");
+        _caps.setCapability("os_version", "9.0");
+        _caps.setCapability("device", "Google Pixel 3");
+        _caps.setCapability("project", "MobileTestFramework");
+        _caps.setCapability("build", "Android");
+        _caps.setCapability("name", testName);
     }
 
     /**

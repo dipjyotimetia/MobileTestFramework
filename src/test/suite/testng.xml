@@ -11,7 +11,7 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="E2E Tests Android">
-        <parameter name="device" value="NEXUS"/>
+        <parameter name="device" value="cloud"/>
         <parameter name="apk" value="N"/>
         <classes>
             <class name="com.TestDefinitionLayer.TC_Test"/>

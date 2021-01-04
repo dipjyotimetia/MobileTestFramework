@@ -43,6 +43,9 @@ public class HomePage extends UserActions implements Constants {
     @AndroidFindBy(id = "com.booking:id/bt_accept")
     private MobileElement acceptCookie;
 
+    @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]")
+    private MobileElement closeButton;
+
     @AndroidFindBy(id = "com.booking:id/disambiguation_search_edittext")
     private MobileElement searchEdit;
 
@@ -64,7 +67,8 @@ public class HomePage extends UserActions implements Constants {
     }
 
     public HomePage searchDestination() {
-        click(gotIt);
+        click(acceptCookie);
+        click(closeButton);
         waitForElement(destination);
         click(destination);
         enter(searchEdit, "Paris");
