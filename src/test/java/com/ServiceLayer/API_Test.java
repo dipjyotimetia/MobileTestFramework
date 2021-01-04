@@ -35,8 +35,8 @@ import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TC007_ST_TransactionHistoryDepositByDate<T> extends ApiActions<T> {
-    private Logger logger = LogManager.getLogger(ApiActions.class);
+public class API_Test<T> extends ApiActions<T> {
+    private final Logger logger = LogManager.getLogger(ApiActions.class);
 
     @Feature("")
     @Test(description = "")

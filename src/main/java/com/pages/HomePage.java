@@ -40,6 +40,12 @@ public class HomePage extends UserActions implements Constants {
     @AndroidFindBy(id = "com.booking:id/disam_search")
     private MobileElement search;
 
+    @AndroidFindBy(id = "com.booking:id/bt_accept")
+    private MobileElement acceptCookie;
+
+    @AndroidFindBy(id = "com.booking:id/disambiguation_search_edittext")
+    private MobileElement searchEdit;
+
     @AndroidFindBy(id = "com.booking:id/button_positive")
     private MobileElement gotIt;
 
@@ -61,7 +67,7 @@ public class HomePage extends UserActions implements Constants {
         click(gotIt);
         waitForElement(destination);
         click(destination);
-        enter(search, "Paris");
+        enter(searchEdit, "Paris");
         click(select);
         return this;
     }

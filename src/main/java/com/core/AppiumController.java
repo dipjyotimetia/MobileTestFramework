@@ -32,7 +32,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
-import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.commons.exec.OS;
 import org.apache.log4j.LogManager;
@@ -45,7 +44,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -57,8 +55,8 @@ public class AppiumController implements Access {
 
     private DesiredCapabilities _caps = new DesiredCapabilities();
     private static AppiumDriver _driver;
-    private Logger logger = LogManager.getLogger(AppiumController.class);
-    private String appiumPort = "4723";
+    private final Logger logger = LogManager.getLogger(AppiumController.class);
+    private final String appiumPort = "4723";
     private static BrowserMobProxy server;
     private static String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
     private static String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
@@ -109,7 +107,20 @@ public class AppiumController implements Access {
                     }
                     _caps.setCapability(MobileCapabilityType.UDID, PIXEL);
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
+                    _androidCapabilities(_caps);
+                    _createService().start();
+                    logger.info("Argument to driver object : " + serverUrl);
+                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    break;
+                case "IPHONE":
+                    logger.info("Selected device is IPHONE");
+                    if (apk.equals("Y")) {
+                        _caps.setCapability(MobileCapabilityType.APP, app);
+                    }
+                    _caps.setCapability(MobileCapabilityType.UDID, "iphone");
+                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iphone");
                     _iosCapabilities(_caps);
+                    _createService().start();
                     logger.info("Argument to driver object : " + serverUrl);
                     _driver = new IOSDriver<>(new URL(serverUrl), _caps);
                     break;
@@ -248,15 +259,15 @@ public class AppiumController implements Access {
     @AfterClass
     public void tearDown() {
         try {
-            Har har = server.getHar();
-            FileOutputStream fos = new FileOutputStream("C:\\temp\\perf.har");
-            har.writeTo(fos);
+//            Har har = server.getHar();
+//            FileOutputStream fos = new FileOutputStream("C:\\temp\\perf.har");
+//            har.writeTo(fos);
             server.stop();
+            _createService().stop();
+            _stopAppiumServer();
+            _driver.quit();
         } catch (Exception e) {
             logger.info("Performance test not included");
         }
-        _createService().stop();
-        _stopAppiumServer();
-        _driver.quit();
     }
 }
