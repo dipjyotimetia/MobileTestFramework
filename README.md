@@ -1,7 +1,7 @@
 ## Mobile Test Automation
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6aaf27fdb62e4792ba5a3a9841ce13ee)](https://www.codacy.com/app/dipjyotimetia/MobileTestFramework?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TestautoDev/MobileTestFramework&amp;utm_campaign=Badge_Grade)
-
+![MobileTestFramework](https://github.com/dipjyotimetia/MobileTestFramework/workflows/MobileTestFramework/badge.svg)
 ### Introduction:
 The main purpose of this framework to add automation capability to mobile applications
 
