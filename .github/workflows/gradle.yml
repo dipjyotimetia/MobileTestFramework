@@ -1,4 +1,4 @@
-name: MobileTestFramework
+name: CI
 
 on:
   push:
