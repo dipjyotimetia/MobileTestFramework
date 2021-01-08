@@ -26,6 +26,9 @@ package com.core;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class ServerManager {
 
     private static String OS;

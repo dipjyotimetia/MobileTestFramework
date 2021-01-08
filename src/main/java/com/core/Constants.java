@@ -23,6 +23,9 @@ SOFTWARE.
  */
 package com.core;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public interface Constants {
     int KEYBOARD_ANIMATION_DELAY = 1000;
 }

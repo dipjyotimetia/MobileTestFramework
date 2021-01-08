@@ -31,6 +31,9 @@ import org.openqa.selenium.TakesScreenshot;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class Retry extends DriverManager implements IRetryAnalyzer {
     private int count = 0;
     private static int maxTry = 0; //Run the failed test 2 times

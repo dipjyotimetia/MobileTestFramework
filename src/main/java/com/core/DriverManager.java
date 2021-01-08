@@ -25,6 +25,9 @@ package com.core;
 
 import io.appium.java_client.AppiumDriver;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class DriverManager extends AppiumController {
 
     public AppiumDriver driver;

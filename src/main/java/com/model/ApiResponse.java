@@ -23,6 +23,9 @@ SOFTWARE.
  */
 package com.model;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class ApiResponse {
     private int statusCode;
     private String responseBody;

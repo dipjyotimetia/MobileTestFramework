@@ -23,6 +23,9 @@ SOFTWARE.
  */
 package com.exception;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class MobileAppException extends Exception {
     /**
      * App exception

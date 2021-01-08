@@ -88,7 +88,7 @@ public class AppiumController implements Access {
      */
     private void initDriver(String device, String apk) throws Exception {
         try {
-            File appDir = new File("AndroidApp");
+            File appDir = new File("input/app");
             File app = new File(appDir, "***.apk");
             String serverUrl = "http://" + serverIp + ":" + appiumPort + "/wd/hub";
             switch (device) {

@@ -40,6 +40,9 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class UploadReport {
     private Logger logger = LogManager.getLogger(UploadReport.class);
 

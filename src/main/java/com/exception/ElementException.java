@@ -25,6 +25,9 @@ package com.exception;
 
 import org.openqa.selenium.ElementNotVisibleException;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class ElementException extends ElementNotVisibleException {
     /**
      * Element exception

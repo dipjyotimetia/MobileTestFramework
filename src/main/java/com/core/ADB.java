@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author dipjyoti.metia
+ * @author Dipjyoti Metia
  */
 public class ADB {
 

@@ -35,7 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Utils for file system operations.
+ * @author Dipjyoti Metia
  */
 public class FileSystem {
 
@@ -141,6 +141,12 @@ public class FileSystem {
         return size;
     }
 
+    /**
+     * WriteCSVFile
+     * @param storageFilePath storage path
+     * @param log log
+     * @param header header
+     */
     public static void writeCsvFile(String storageFilePath, String log, String header) {
         FileSystem.ensureFolderExists(new File(storageFilePath).getParent());
 

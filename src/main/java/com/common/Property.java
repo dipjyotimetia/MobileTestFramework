@@ -30,19 +30,12 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public enum Property {
 
     BUILD("build"),
-    JIRA_URL("jiraURL"),
-    RESULT_VERSION("resultVersion"),
-    ZAPI_CYCLE_REGEX("zapiCycleRegEx"),
-    JQL_QUERY("jqlQuery"),
-    JIRA_USERNAME("jiraUsername"),
-    JIRA_PASSWORD("jiraPassword"),
-    SUT_NAME("sutName"),
-    SUT_VERSION("sutVersion"),
-    JIRA_RESULT_FIELD_NAME("jiraResultFieldName"),
-    JIRA_RESULT_TRANSITION("jiraResultTransition"),
     PROXY("proxy"),
     MAX_RETRY_COUNT("maxRetryCount"),
     Android(""),
@@ -53,9 +46,7 @@ public enum Property {
     tokenURI("tokenURI"),
     userName("username"),
     passWord("password"),
-    serverIp("serverIp"),
-    clientUser("clientUser"),
-    clientPassword("clientPassword");
+    serverIp("serverIp");
 
     private static Properties properties = null;
     private String value;

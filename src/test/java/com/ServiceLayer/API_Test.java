@@ -40,9 +40,8 @@ public class API_Test<T> extends ApiActions<T> {
 
     @Feature("")
     @Test(description = "")
-    public void TransactionHistoryDepositByDate() {
-        ExtentTestManager.getTest().setDescription("");
-
+    public void ServiceDemo() {
+        ExtentTestManager.getTest().setDescription("Demo Service");
 
         try {
             String DateTo = "2018-10-30T13:59:59Z";
@@ -51,20 +50,16 @@ public class API_Test<T> extends ApiActions<T> {
             RestAssured.baseURI = Property.baseURI.getValue();
 
             JSONObject params = new JSONObject();
-            params.put("CurrentPage", "0");
             params.put("DateTo", DateTo);
-            params.put("RowsPerPage", "200");
-            params.put("SearchOption", "2");
             params.put("DateFrom", DateFrom);
-            params.put("Detail", "true");
 
-            Response response = httpPost(params, "/Account/TransactionSearch");
+            Response response = httpPost(params, "/Demo/Service");
             Assert.assertEquals(getStatusCode(response) /*actual value*/, 200 /*expected value*/, "Correct status code returned");
             logger.info("Response Body is =>  " + getBody(response));
-            T AcTransactionId = jsonPathEvaluator(response, "Results.ACTransactionID");
-            T Amount = jsonPathEvaluator(response, "Results.Amount");
-            log("AcTransactionId: " + AcTransactionId);
-            log("Amount: " + Amount);
+            T AcId = jsonPathEvaluator(response, "Results.ID");
+            T Demo = jsonPathEvaluator(response, "Results.Demo");
+            log("AcId: " + AcId);
+            log("Demo: " + Demo);
         } catch (Exception e) {
             logger.error(e);
         } finally {

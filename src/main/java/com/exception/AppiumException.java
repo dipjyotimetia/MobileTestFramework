@@ -23,6 +23,9 @@ SOFTWARE.
  */
 package com.exception;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class AppiumException extends Exception {
 
     /**

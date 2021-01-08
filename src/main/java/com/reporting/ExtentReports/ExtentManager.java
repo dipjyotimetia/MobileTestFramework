@@ -25,6 +25,9 @@ package com.reporting.ExtentReports;
 
 import com.relevantcodes.extentreports.ExtentReports;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class ExtentManager {
     private static ExtentReports extent;
 

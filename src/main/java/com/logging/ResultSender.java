@@ -26,6 +26,9 @@ package com.logging;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kong.unirest.Unirest;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class ResultSender {
     private static final ObjectMapper OM = new ObjectMapper();
     private static final String CONTENT_TYPE = "Content-Type";

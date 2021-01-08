@@ -25,6 +25,9 @@ package com.logging;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class TestStatus {
 
     @JsonProperty("testClass")

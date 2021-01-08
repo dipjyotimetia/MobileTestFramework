@@ -37,10 +37,10 @@ public class TC_Test_AndroidBooking extends UserActions {
     @Link("Test")
     @Feature("test")
     @Severity(SeverityLevel.CRITICAL)
-    @Test(description = "")
+    @Test(description = "Demo Test")
     public void E2E_TestAndroid_Bookings() {
 
-        String Tname = "TC_Test_AndroidBooking";
+        String TCname = "TC_Test_AndroidBooking";
 
         HomePage homePage = new HomePage();
 
@@ -50,7 +50,7 @@ public class TC_Test_AndroidBooking extends UserActions {
             homePage.searchDestination()
                     .selectDate()
                     .search();
-            CreateImageDoc(Tname);
+            CreateImageDoc(TCname);
         } catch (Exception e) {
             catchBlock(e);
         } finally {

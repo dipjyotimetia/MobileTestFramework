@@ -31,6 +31,9 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITBy;
 import org.openqa.selenium.support.PageFactory;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class HomePage extends UserActions implements Constants {
 
     @AndroidFindBy(id = "com.booking:id/search_details_text")

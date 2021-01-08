@@ -29,6 +29,9 @@ import com.relevantcodes.extentreports.ExtentTest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Dipjyoti Metia
+ */
 public class ExtentTestManager {
     static Map extentTestMap = new HashMap();
     static ExtentReports extent = ExtentManager.getReporter();

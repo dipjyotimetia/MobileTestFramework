@@ -78,7 +78,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * @author dipjyoti.metia
+ * @author Dipjyoti Metia
  */
 public class UserActions extends DriverManager {
 

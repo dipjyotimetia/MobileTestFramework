@@ -5,7 +5,7 @@
 ### Introduction:
 The main purpose of this framework to add automation capability to mobile applications
 
-<img src="https://github.com/TestautoDev/Tricks-And-Tips/blob/master/NewArchitecture.png" width="600">
+<img src="https://github.com/dipjyotimetia/MobileTestFramewrok/blob/master/docs/FrameworkArchitecture.png" width="700">
 
 ### Supported Platforms  
 Appium Studio supports app automation across a variety of platforms, like iOS,Android, from Windows platform. Each platform is supported by one or more "drivers",
@@ -16,15 +16,10 @@ which know how to automate that particular platform. Choose a driver below for s
 * IOS
     * The [XCUITest](http://appium.io/docs/en/drivers/ios-xcuitest/)  
     
-### Why AppiumStudio?
-* Appium Studio is an IDE designed for mobile test automation development and
-  execution using the Appium/Selenium WebDriver API.
-
-* It allows you to start developing on Android\iOS devices using advanced features such as
-  Device\Application management & provisioning, Advanced Element detection (Object Spy) and an embedded recorder.
-
-* The tool eliminates a large majority of Appium's rigid dependencies model and prerequisites such as the requirement to
-  develop iOS tests on MAC OSX machines or the inability to run tests in parallel on real/simulated iOS Devices.
+### Why [Appium](http://appium.io/docs/en/about-appium/intro/)?
+* Appium is an Open source automation tool used for cross platform testing like native, hybrid and web applications on both the platforms IOS and Android.
+  Its capability for testing all kinds of tools under one platform, makes it a multipurpose and convenient testing tool.Appium is called as a cross platform
+  testing tool because it uses JSON wire protocol internally to interact with native apps of IOS and Android using Selenium Webdriver.
 
 ### Setup & Tools
 * Download and install [Nodejs](https://nodejs.org/en/download/)   
@@ -34,16 +29,17 @@ which know how to automate that particular platform. Choose a driver below for s
   ``
   npm install -g appium-doctor
   ``
-* Download Appium Studio Community Edition
-  http://experitest.com/mobile-test-automation/appium-studio/
+* Verify all appium dependencies  
+* Download Appium Desktop
+  https://github.com/appium/appium-desktop/releases
 * Install InteliJ Community Edition
   https://www.jetbrains.com/idea/download/
-* Java SDK  
-  http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html or any latest version.
+* Java SDK
+  https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html install jdk8 version.
 * Gradle
-  https://gradle.org/next-steps/?version=4.7&format=bin
+  https://gradle.org/next-steps/?version=6.7.1&format=bin
 * Allure
-  https://github.com/allure-framework/allure2/archive/2.4.1.zip    
+  https://github.com/allure-framework/allure2/archive/2.13.8.zip    
 * Set Environment variables      
     * JAVA_HOME: Pointing to the Java SDK folder\bin
     * GRADLE_HOME: Pointing to Gradle directory\bin.
@@ -73,9 +69,3 @@ Create new class and name as the TC00*_E2E_TEST-***
  - Provide test severity and description
  - Write test
  - Use CatchBlock in try/catch section
-
-Error Handle for dynamic classpath:
-Search and modify the below line in .idea workspace.xml
-<component name="PropertiesComponent">
-    <property name="dynamic.classpath" value="true" />
-</component>
