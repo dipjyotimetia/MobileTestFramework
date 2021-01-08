@@ -46,7 +46,9 @@ public enum Property {
     tokenURI("tokenURI"),
     userName("username"),
     passWord("password"),
-    serverIp("serverIp");
+    serverIp("serverIp"),
+    clientUser("user"),
+    clientPassword("password");
 
     private static Properties properties = null;
     private String value;
