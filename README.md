@@ -46,7 +46,7 @@ which know how to automate that particular platform. Choose a driver below for s
     * ALLURE_HOME: Pointing to allure directory\bin.
     * APPIUM_HOME: Pointing appium main.js from global location.
     * NODE_HOME: Pointing nodejs installation.
-
+* For more details navigate to the [Wiki Page](https://github.com/dipjyotimetia/MobileTestFramework/wiki) above
 ### Connect - Local Devices:
 Connect an Android and an iOS Device using a USB cable to your PC
  - Follow documentation for device connection
