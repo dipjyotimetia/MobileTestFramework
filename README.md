@@ -29,30 +29,28 @@ which know how to automate that particular platform. Choose a driver below for s
   ``
   npm install -g appium-doctor
   ``
-* Verify all appium dependencies  
-* Download Appium Desktop
-  https://github.com/appium/appium-desktop/releases
-* Install InteliJ Community Edition
-  https://www.jetbrains.com/idea/download/
-* Java SDK
-  https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html install jdk8 version.
-* Gradle
-  https://gradle.org/next-steps/?version=6.7.1&format=bin
-* Allure
-  https://github.com/allure-framework/allure2/archive/2.13.8.zip    
-* Set Environment variables      
-    * JAVA_HOME: Pointing to the Java SDK folder\bin
-    * GRADLE_HOME: Pointing to Gradle directory\bin.
-    * ALLURE_HOME: Pointing to allure directory\bin.
-    * APPIUM_HOME: Pointing appium main.js from global location.
-    * NODE_HOME: Pointing nodejs installation.
-* For more details navigate to the [Wiki Page](https://github.com/dipjyotimetia/MobileTestFramework/wiki) above
+  verify all appium dependencies  
+* [Download Appium Desktop](https://github.com/appium/appium-desktop/releases) download latest release
+* [Install InteliJ Community Edition](https://www.jetbrains.com/idea/download/)
+* [Java JDK_8](https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html) install jdk_8 version
+* [Gradle](https://gradle.org/next-steps/?version=6.7.1&format=bin)
+* [Allure](https://github.com/allure-framework/allure2/archive/2.13.8.zip)
+* Set Environment variables
+```shell
+  * JAVA_HOME: Pointing to the Java SDK folder\bin
+  * GRADLE_HOME: Pointing to Gradle directory\bin.
+  * ALLURE_HOME: Pointing to allure directory\bin.
+  * APPIUM_HOME: Pointing appium main.js from global location.
+  * NODE_HOME: Pointing nodejs installation.
+```
+* For more details navigate to the above [Wiki Page](https://github.com/dipjyotimetia/MobileTestFramework/wiki)
+
 ### Connect - Local Devices:
 Connect an Android and an iOS Device using a USB cable to your PC
  - Follow documentation for device connection
 
 ### Getting Started
-```sh
+```shell
 $ git clone 
 $ cd 
 $ import project from intelij as a gradle project
