@@ -59,8 +59,8 @@ $ gradle build
 $ gradle task E2E
 $ allureServe
 ```
-### Execution gif
-![grab-landing-page](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/videogif.gif)
+### Execution Gif
+![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/videogif.gif)
 
 ### Write your first user journey
 Create new class and name as the TC00*_E2E_TEST-***
