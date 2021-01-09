@@ -1,0 +1,27 @@
+version: '3'
+
+# more info https://hub.docker.com/r/appium/appium/
+services:
+  # Selenium hub
+  selenium_hub:
+    image: selenium/hub
+    ports:
+      - 4444:4444
+
+  # Appium docker android
+  appium_android_device:
+    image: appium/appium
+    depends_on:
+      - selenium_hub
+    privileged: true
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - ~/.android:/root/.android
+      - $PWD/input/app/apk:/root/tmp
+    environment:
+      - CONNECT_TO_GRID=true
+      - SELENIUM_HOST=selenium_hub #172.17.0.0
+      - SELENIUM_PORT=4444
+      - APPIUM_HOST="127.0.0.1"
+      - APPIUM_PORT=4723
+      - RELAXED_SECURITY=true
