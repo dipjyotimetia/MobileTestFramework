@@ -8,19 +8,19 @@ jobs:
 
     if: github.actor == 'dependabot[bot]'
     steps:
-        - name: automerge
-          uses: actions/github-script@0.2.0
-          with:
-            script: |
-              github.pullRequests.createReview({
-                owner: context.payload.repository.owner.login,
-                repo: context.payload.repository.name,
-                pull_number: context.payload.pull_request.number,
-                event: 'APPROVE'
-              })
-              github.pullRequests.merge({
-                owner: context.payload.repository.owner.login,
-                repo: context.payload.repository.name,
-                pull_number: context.payload.pull_request.number
-              })
-            github-token: ${{secrets.GITHUB_TOKEN}}
+      - name: automerge
+        uses: actions/github-script@v3
+        with:
+          script: |
+            octokit.pulls.createReview({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE'
+            })
+            octokit.pulls.merge({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number
+            })
+          github-token: ${{secrets.GITHUB_TOKEN}}
