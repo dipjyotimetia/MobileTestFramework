@@ -50,7 +50,7 @@ public class TC_Test_AndroidBooking extends UserActions {
             homePage.searchDestination()
                     .selectDate()
                     .search();
-            CreateImageDoc(TCname);
+            // CreateImageDoc(TCname);
         } catch (Exception e) {
             catchBlock(e);
         } finally {
