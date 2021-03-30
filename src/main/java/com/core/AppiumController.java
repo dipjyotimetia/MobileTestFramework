@@ -162,7 +162,7 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _browserstackCapabilities(DesiredCapabilities _caps, String device) {
-        _caps.setCapability("app", "bs://a951e88623f292237c285a1e8b38bcdf5dc2ed83");
+        _caps.setCapability("app", "bs://0a5d906e4c4b395fd304ef1d7401165e5d585123");
         switch (device) {
             case "samsung":
                 _caps.setCapability("os_version", "10.0");
