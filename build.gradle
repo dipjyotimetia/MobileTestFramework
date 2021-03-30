@@ -117,7 +117,7 @@ dependencies {
     compile group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
     compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.8'
     compile group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.8'
-    compile group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.8'
+    compile group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.9'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
     compile group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
     compile 'io.rest-assured:rest-assured:4.3.3'
