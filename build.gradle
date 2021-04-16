@@ -83,19 +83,20 @@ dependencies {
     implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.9'
     implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.9'
     implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.9'
-    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
     implementation 'io.rest-assured:rest-assured:4.3.3'
     implementation 'io.rest-assured:json-schema-validator:4.3.3'
     implementation 'io.rest-assured:json-path:4.3.3'
     implementation group: 'org.json', name: 'json', version: '20210307'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
     implementation group: 'com.konghq', name: 'unirest-java', version: '3.11.11'
     implementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.26.3'
     implementation group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
     implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+    implementation "org.testcontainers:testcontainers:1.15.2"
+    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
 task E2E(type: Test) {

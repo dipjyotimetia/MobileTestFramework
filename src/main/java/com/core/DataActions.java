@@ -23,8 +23,7 @@ SOFTWARE.
  */
 package com.core;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.DriverManager;
 import java.sql.*;
@@ -32,9 +31,8 @@ import java.sql.*;
 /**
  * @author Dipjyoti Metia
  */
+@Slf4j
 public class DataActions<T> extends ApiActions<T> {
-
-    private Logger logger = LogManager.getLogger(DataActions.class);
 
     private static String JDBC_URL = "jdbc:sqlserver://databaseserver;databaseName=Database;integratedSecurity=true";
 
@@ -53,11 +51,11 @@ public class DataActions<T> extends ApiActions<T> {
                 String queryString = "select TOP 10 * from ;";
                 rs = statement.executeQuery(queryString);
                 while (rs.next()) {
-                    logger.info(rs.getString(2));
+                    log.info(rs.getString(2));
                 }
             }
         } catch (Exception sqlException) {
-            logger.error(sqlException);
+            log.error(sqlException.getMessage());
         } finally {
             finallyBlock(rs, connObj, statement);
         }
@@ -75,7 +73,7 @@ public class DataActions<T> extends ApiActions<T> {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         try (Connection connection = java.sql.DriverManager.getConnection(JDBC_URL)) {
             try (Statement stmt = connection.createStatement()) {
@@ -89,21 +87,21 @@ public class DataActions<T> extends ApiActions<T> {
                                 }
                             } catch (NullPointerException e) {
                                 resultValue = "NULL";
-                                logger.info("column name:" + columnName + "|" + "Column value:" + resultValue);
+                                log.info("column name:" + columnName + "|" + "Column value:" + resultValue);
                                 continue;
                             }
                             columnName = rsmd.getColumnName(i);
                             resultValue = rs.getString(i).toString();
-                            logger.info("column name:" + columnName + "|" + "Column value:" + resultValue);
+                            log.info("column name:" + columnName + "|" + "Column value:" + resultValue);
                         }
                     }
                 }
                 connection.close();
             } catch (SQLException sq) {
-                logger.error(sq);
+                log.error(sq.getMessage());
             }
         } catch (SQLException sq) {
-            logger.error(sq);
+            log.error(sq.getMessage());
         }
         return resultValue;
     }
@@ -111,10 +109,10 @@ public class DataActions<T> extends ApiActions<T> {
     private void displayRow(String title, ResultSet rs) {
         try {
             while (rs.next()) {
-                logger.info(rs.getString(title));
+                log.info(rs.getString(title));
             }
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -122,17 +120,17 @@ public class DataActions<T> extends ApiActions<T> {
         if (rs != null) try {
             rs.close();
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         if (connObj != null) try {
             connObj.close();
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         if (stmt != null) try {
             stmt.close();
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -153,7 +151,7 @@ public class DataActions<T> extends ApiActions<T> {
                 return rs;
             }
         } catch (Exception sqlException) {
-            logger.error(sqlException);
+            log.error(sqlException.getMessage());
         }
         return null;
     }

@@ -34,6 +34,7 @@ import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
@@ -42,8 +43,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
 import java.io.BufferedReader;
@@ -55,10 +54,10 @@ import java.util.Date;
 /**
  * @author Dipjyoti Metia
  */
+@Slf4j
 public class ApiActions<T> {
 
     protected static final Faker faker = new Faker();
-    private Logger logger = LogManager.getLogger(ApiActions.class);
 
     private final static String workstation = System.getenv("COMPUTERNAME");
     private final static String domain = System.getenv("USERDOMAIN");
@@ -110,7 +109,7 @@ public class ApiActions<T> {
             String[] res = builder.toString().trim().split(",");
             token = res[1].substring(9, res[1].length() - 1);
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         return token;
     }
@@ -340,14 +339,14 @@ public class ApiActions<T> {
             String abc1 = date.format(date1);
             return abc1;
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         return null;
     }
 
     @Step("{0}")
     protected void log(String message) {
-        logger.info(message);
+        log.info(message);
     }
 
 }

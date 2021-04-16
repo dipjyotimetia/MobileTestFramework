@@ -29,14 +29,11 @@ import com.reporting.ExtentReports.ExtentTestManager;
 import io.qameta.allure.Feature;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class API_Test<T> extends ApiActions<T> {
-    private final Logger logger = LogManager.getLogger(ApiActions.class);
 
     @Feature("")
     @Test(description = "")
@@ -55,13 +52,13 @@ public class API_Test<T> extends ApiActions<T> {
 
             Response response = httpPost(params, "/Demo/Service");
             Assert.assertEquals(getStatusCode(response) /*actual value*/, 200 /*expected value*/, "Correct status code returned");
-            logger.info("Response Body is =>  " + getBody(response));
+//            log.info("Response Body is =>  " + getBody(response));
             T AcId = jsonPathEvaluator(response, "Results.ID");
             T Demo = jsonPathEvaluator(response, "Results.Demo");
             log("AcId: " + AcId);
             log("Demo: " + Demo);
         } catch (Exception e) {
-            logger.error(e);
+            e.printStackTrace();
         } finally {
             ExtentTestManager.endTest();
         }
