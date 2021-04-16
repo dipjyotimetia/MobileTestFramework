@@ -34,8 +34,7 @@ import com.amazonaws.services.s3.transfer.MultipleFileUpload;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import io.qameta.allure.Link;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -43,8 +42,8 @@ import java.io.File;
 /**
  * @author Dipjyoti Metia
  */
+@Slf4j
 public class UploadReport {
-    private Logger logger = LogManager.getLogger(UploadReport.class);
 
     @Link("")
     @Test
@@ -66,14 +65,14 @@ public class UploadReport {
                     .build();
 
             MultipleFileUpload upload = tm.uploadDirectory(bucketName, keyName, new File(filePath), true);
-            logger.info("Object upload started");
+            log.info("Object upload started");
 
             upload.waitForCompletion();
-            logger.info("Object upload complete");
+            log.info("Object upload complete");
         } catch (AmazonServiceException e) {
-            logger.error("Amazon Service Exception", e);
+            log.error("Amazon Service Exception", e);
         } catch (SdkClientException e) {
-            logger.error("SDK client Exception", e);
+            log.error("SDK client Exception", e);
         }
     }
 }

@@ -24,6 +24,7 @@ SOFTWARE.
 package com.core;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -77,7 +78,7 @@ public class ServerManager {
             String line;
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            while ((line = bufferedReader.readLine()) != null) output.append(line + "\n");
+            while ((line = bufferedReader.readLine()) != null) output.append(line).append("\n");
             bufferedReader.close();
         } catch (IOException error) {
             error.printStackTrace();
@@ -86,7 +87,7 @@ public class ServerManager {
     }
 
     public static void write(File file, String content) {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
             writer.write(content);
             writer.close();
         } catch (IOException error) {

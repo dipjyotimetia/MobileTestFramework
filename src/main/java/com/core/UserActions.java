@@ -44,10 +44,9 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 import io.qameta.allure.Step;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -80,13 +79,13 @@ import java.util.function.Function;
 /**
  * @author Dipjyoti Metia
  */
+@Slf4j
 public class UserActions extends DriverManager {
 
     private static final Faker faker = new Faker();
     private static String datetimeabc = null;
     private static int counter = 0;
     private Map<Object, Object> dicttoread = new HashMap<>();
-    private Logger logger = LogManager.getLogger(UserActions.class);
 
     /**
      * Capture screenshot
@@ -192,7 +191,7 @@ public class UserActions extends DriverManager {
                 break;
         }
         if (element == null) {
-            logger.error("Mobile element not found");
+            log.error("Mobile element not found");
             throw new Exception(mobileElement + "not found");
         }
         return element;
@@ -207,9 +206,9 @@ public class UserActions extends DriverManager {
         try {
             fluentWait(element, 10);
             element.click();
-            logger.info("Clicked on element: " + element);
+            log.info("Clicked on element: " + element);
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
     }
 
@@ -245,9 +244,9 @@ public class UserActions extends DriverManager {
         try {
             fluentWait(element, timeOut);
             element.click();
-            logger.info("Clicked on element: " + element);
+            log.info("Clicked on element: " + element);
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
     }
 
@@ -262,9 +261,9 @@ public class UserActions extends DriverManager {
             fluentWait(element, 10);
             element.click();
             element.setValue(value);
-            logger.info("Entered value: " + value + "on element: " + element);
+            log.info("Entered value: " + value + "on element: " + element);
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
     }
 
@@ -647,7 +646,7 @@ public class UserActions extends DriverManager {
             value = element.getText();
             return value;
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
         return null;
     }
@@ -664,7 +663,7 @@ public class UserActions extends DriverManager {
             value = driver.findElementByXPath(element).getText();
             return value;
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
         return null;
     }
@@ -682,7 +681,7 @@ public class UserActions extends DriverManager {
             value = element.getAttribute("text");
             return value;
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
         return null;
     }
@@ -698,7 +697,7 @@ public class UserActions extends DriverManager {
             TouchAction myaction = new TouchAction(driver);
             myaction.longPress(ElementOption.element(element)).perform();
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
     }
 
@@ -726,7 +725,7 @@ public class UserActions extends DriverManager {
             scrollElement.put("duration", 3.0);
             js.executeScript("mobile: swipe", scrollElement);
         } catch (ElementNotVisibleException e) {
-            logger.error("Element not visible", e);
+            log.error("Element not visible", e);
         }
     }
 
@@ -746,7 +745,7 @@ public class UserActions extends DriverManager {
         try {
             Thread.sleep(time);
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -771,7 +770,7 @@ public class UserActions extends DriverManager {
      */
     @Step("{0}")
     private void log(String message) {
-        logger.info(message);
+        log.info(message);
     }
 
     /**
@@ -848,10 +847,10 @@ public class UserActions extends DriverManager {
         } else {
             result = "(FAIL)";
         }
-        logger.info("Verifying Expected Value Matches Actual Value:");
-        logger.info("\t* Expected Value: " + expectedValue);
-        logger.info("\t* Actual Value: " + actualValue);
-        logger.info("===> " + result);
+        log.info("Verifying Expected Value Matches Actual Value:");
+        log.info("\t* Expected Value: " + expectedValue);
+        log.info("\t* Actual Value: " + actualValue);
+        log.info("===> " + result);
     }
 
     /**
@@ -871,7 +870,7 @@ public class UserActions extends DriverManager {
                     return false;
                 }
             } catch (Exception e) {
-                logger.error(e);
+                log.error(e.getMessage());
             }
         } else {
             logInfo("There are no elements in the list");
@@ -890,22 +889,22 @@ public class UserActions extends DriverManager {
         switch (randomType) {
             case "FirstName":
                 value = "testauto" + faker.name().firstName();
-                logger.info("FirstName: " + value);
+                log.info("FirstName: " + value);
                 break;
             case "LastName":
                 value = faker.name().lastName();
-                logger.info("LastName: " + value);
+                log.info("LastName: " + value);
                 break;
             case "UserName":
                 value = RandomStringUtils.randomAlphabetic(6);
-                logger.info("Username: " + value);
+                log.info("Username: " + value);
                 break;
             case "Email":
                 value = "testauto" + faker.internet().emailAddress();
-                logger.info("EmailAddress: " + value);
+                log.info("EmailAddress: " + value);
             case "Mobile":
                 value = "0" + RandomStringUtils.randomNumeric(9);
-                logger.info("MobileNo: " + value);
+                log.info("MobileNo: " + value);
             default:
                 logInfo("Random type not found");
                 break;
@@ -921,7 +920,7 @@ public class UserActions extends DriverManager {
      */
     public String generateRandomString(int count) {
         String name = RandomStringUtils.randomAlphabetic(count);
-        logger.info(name);
+        log.info(name);
         return name;
     }
 
@@ -933,7 +932,7 @@ public class UserActions extends DriverManager {
      */
     public String generateRandomAscii(int count) {
         String name = RandomStringUtils.randomAscii(count);
-        logger.info(name);
+        log.info(name);
         return name;
     }
 
@@ -1128,7 +1127,7 @@ public class UserActions extends DriverManager {
                         int endx = (int) (size.width * 0.20);
                         int starty = size.height / 2;
                         touchActions(startx, starty, endx, starty, time);
-                        logger.info("Swipe Left");
+                        log.info("Swipe Left");
                     }
                     break;
                 case "right":
@@ -1138,7 +1137,7 @@ public class UserActions extends DriverManager {
                         int startx = (int) (size.width * 0.20);
                         int starty = size.height / 2;
                         touchActions(startx, starty, endx, starty, time);
-                        logger.info("Swipe Right");
+                        log.info("Swipe Right");
                     }
                     break;
                 case "up":
@@ -1148,7 +1147,7 @@ public class UserActions extends DriverManager {
                         int endy = (int) (size.height * 0.20);
                         int startx = size.width / 2;
                         touchActions(startx, starty, startx, endy, time);
-                        logger.info("Swipe Up");
+                        log.info("Swipe Up");
                     }
                     break;
                 case "down":
@@ -1158,7 +1157,7 @@ public class UserActions extends DriverManager {
                         int endy = (int) (size.height * 0.20);
                         int startx = size.width / 2;
                         touchActions(startx, endy, startx, starty, time);
-                        logger.info("Swipe Down");
+                        log.info("Swipe Down");
                     }
                     break;
                 default:
@@ -1166,7 +1165,7 @@ public class UserActions extends DriverManager {
                     break;
             }
         } catch (Exception e) {
-            logger.error("Not able to perform swipe operation", e);
+            log.error("Not able to perform swipe operation", e);
         }
     }
 
@@ -1199,11 +1198,11 @@ public class UserActions extends DriverManager {
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray msg = (JSONArray) jsonObject.get("credentials");
             JSONObject a = (JSONObject) msg.get(threadID);
-            logger.info(msg.get(threadID));
+            log.info(msg.get(threadID).toString());
             return a;
 
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         return null;
     }
@@ -1237,12 +1236,10 @@ public class UserActions extends DriverManager {
                 }
             }
             if (flag == 1) {
-                logger.info("Not data present for testname" + t_testcaseName);
+                log.info("Not data present for testname" + t_testcaseName);
             }
-        } catch (FileNotFoundException ef) {
-            logger.error(ef);
-        } catch (IOException e) {
-            logger.error(e);
+        } catch (IOException ef) {
+            log.error(ef.getMessage());
         }
         return (String) dicttoread.get(t_fieldName);
     }
@@ -1268,7 +1265,7 @@ public class UserActions extends DriverManager {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT " + filed + " FROM testdata WHERE TestcaseName = '" + testCase + "'");
                 while (rs.next()) {
-                    logger.info(rs.getString(filed));
+                    log.info(rs.getString(filed));
                     value = rs.getString(filed);
                 }
             }
@@ -1276,7 +1273,7 @@ public class UserActions extends DriverManager {
             rs.close();
             stmt.close();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return value;
     }
@@ -1311,9 +1308,9 @@ public class UserActions extends DriverManager {
                         if (p_filed.equalsIgnoreCase(t_field)) {
                             String p_field1 = csvobj.get("Value" + i).trim();
                             dicttoread.put(t_field, t_value);
-                            logger.info("value for the field: " + t_field + " is updated to: " + t_value + " Successfully");
+                            log.info("value for the field: " + t_field + " is updated to: " + t_value + " Successfully");
                             String stp = csvOutput.replace(FileContentPerRow, t_field + "," + p_field1, t_field + "," + t_value);
-                            logger.info(stp);
+                            log.info(stp);
                             FileContentPerRow = stp;
                             P_valuenotduplicated = 1;
                         }
@@ -1322,9 +1319,9 @@ public class UserActions extends DriverManager {
                         String p_field1 = csvobj.get("Value" + (i - 1)).trim();
                         dicttoread.put(t_field, t_value);
                         String stp1 = csvOutput.replace(FileContentPerRow, p_field1, p_field1 + "," + t_field + "," + t_value);
-                        logger.info(stp1);
+                        log.info(stp1);
                         FileContentPerRow = stp1;
-                        logger.info("New Field: " + t_field + " is added successfully with value: " + t_value);
+                        log.info("New Field: " + t_field + " is added successfully with value: " + t_value);
                     }
                     flag = 1;
                 }
@@ -1335,10 +1332,10 @@ public class UserActions extends DriverManager {
             csvobj.close();
             RenameCsvFile("input\\Datasheet1.csv", "input\\Datasheet.csv");
             if (flag == 0) {
-                logger.info("No data present for the testname");
+                log.info("No data present for the testname");
             }
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -1367,14 +1364,14 @@ public class UserActions extends DriverManager {
                 rs = stmt.executeQuery(selectQuery);
                 while (rs.next()) {
                     System.out.println(rs.getString(filed));
-                    logger.info("New Field: " + filed + " is added successfully with value: " + rs.getString(filed));
+                    log.info("New Field: " + filed + " is added successfully with value: " + rs.getString(filed));
                 }
             }
             rs.close();
             stmt.close();
             conn.close();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -1396,13 +1393,13 @@ public class UserActions extends DriverManager {
                 b1 = file1.delete();
             }
             Thread.sleep(500);
-            logger.info(b1);
+            log.info(String.valueOf(b1));
             File file = new File(source);
             final String st = dest;
             b = file.renameTo(new File(st));
-            logger.info(b);
+            log.info(String.valueOf(b));
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         return b;
     }
@@ -1418,7 +1415,7 @@ public class UserActions extends DriverManager {
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(src, new File(("ScreensDoc\\" + p_testcaseName + "\\" + datetimeabc + "\\" + counter + ".png")));
         } catch (Exception e) {
-            logger.error("Capture screenShot failed", e);
+            log.error("Capture screenShot failed", e);
         }
     }
 
@@ -1443,7 +1440,7 @@ public class UserActions extends DriverManager {
                     pic.close();
                     out.close();
                 } catch (IOException io) {
-                    logger.error(io);
+                    log.error(io.getMessage());
                 }
             }
             for (int i = 1; i <= counter; i++) {
@@ -1452,7 +1449,7 @@ public class UserActions extends DriverManager {
             }
             counter = 0;
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -1482,7 +1479,7 @@ public class UserActions extends DriverManager {
             abc1 = date.format(date1);
             datetimeabc = "Run_" + abc1;
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -1498,7 +1495,7 @@ public class UserActions extends DriverManager {
             sysPathFiled.setAccessible(true);
             sysPathFiled.set(null, null);
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -1528,7 +1525,7 @@ public class UserActions extends DriverManager {
 
     protected void catchBlock(Exception e) {
         counter = 0;
-        logger.error("Error Description", e);
+        log.error("Error Description", e);
         Assert.fail("TestCase Failed", e);
     }
 }

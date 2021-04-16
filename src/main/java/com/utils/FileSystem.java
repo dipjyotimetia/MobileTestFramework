@@ -23,9 +23,8 @@ SOFTWARE.
  */
 package com.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.testng.Assert;
 
 import java.io.File;
@@ -37,9 +36,8 @@ import java.nio.file.Paths;
 /**
  * @author Dipjyoti Metia
  */
+@Slf4j
 public class FileSystem {
-
-    private static Logger logger = LogManager.getLogger(FileSystem.class);
 
     /**
      * Delete file path.
@@ -55,10 +53,10 @@ public class FileSystem {
             } else {
                 file.delete();
             }
-            logger.info("Delete " + path);
+            log.info("Delete " + path);
         } catch (Exception e) {
             String errorMessage = "Failed to delete " + path;
-            logger.fatal(errorMessage);
+            log.error(errorMessage);
             throw new IOException(errorMessage);
         }
     }
@@ -118,7 +116,7 @@ public class FileSystem {
         if (!file.exists()) {
             boolean result = file.mkdirs();
             if (!result) {
-                logger.error("Failed to create folder: " + directory);
+                log.error("Failed to create folder: " + directory);
             }
         }
     }

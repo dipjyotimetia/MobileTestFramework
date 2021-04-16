@@ -29,13 +29,12 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.*;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.commons.exec.OS;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
@@ -51,9 +50,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
 public class AppiumController implements Access {
 
-    private final Logger logger = LogManager.getLogger(AppiumController.class);
     DesiredCapabilities _caps = new DesiredCapabilities();
     private static AppiumDriver _driver;
     private final String appiumPort = "4723";
@@ -93,7 +92,7 @@ public class AppiumController implements Access {
             String serverUrl = "http://" + serverIp + ":" + appiumPort + "/wd/hub";
             switch (device) {
                 case "NEXUS":
-                    logger.info("Selected device is NEXUS");
+                    log.info("Selected device is NEXUS");
                     if (apk.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
@@ -101,11 +100,11 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
                     _androidCapabilities(_caps);
                     _createService().start();
-                    logger.info("Argument to driver object : " + serverUrl);
+                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
                     break;
                 case "PIXEL":
-                    logger.info("Selected device is PIXEL");
+                    log.info("Selected device is PIXEL");
                     if (apk.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
@@ -113,21 +112,21 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
                     _androidCapabilities(_caps);
                     _createService().start();
-                    logger.info("Argument to driver object : " + serverUrl);
+                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
                     break;
                 case "samsung":
-                    logger.info("Selected device is NEXUS");
+                    log.info("Selected device is NEXUS");
                     if (apk.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
                     _browserstackCapabilities(_caps, "samsung");
                     _androidCapabilities(_caps);
-                    logger.info("Argument to driver object : " + cloudURL);
+                    log.info("Argument to driver object : " + cloudURL);
                     _driver = new AndroidDriver<>(new URL(cloudURL), _caps);
                     break;
                 case "IPHONE":
-                    logger.info("Selected device is IPHONE");
+                    log.info("Selected device is IPHONE");
                     if (apk.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
@@ -135,25 +134,25 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iphone");
                     _iosCapabilities(_caps);
                     _createService().start();
-                    logger.info("Argument to driver object : " + serverUrl);
+                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new IOSDriver<>(new URL(serverUrl), _caps);
                     break;
                 case "WEB":
-                    logger.info("Selected device is WEB");
+                    log.info("Selected device is WEB");
                     _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
                     _createService().start();
                     _browserCapabilities(_caps, "chrome");
-                    logger.info("Argument to driver object : " + serverUrl);
+                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
                     break;
             }
         } catch (NullPointerException |
                 MalformedURLException ex) {
-            logger.error("Appium driver could not be initialised for device", ex);
+            log.error("Appium driver could not be initialised for device", ex);
             throw new RuntimeException("Appium driver could not be initialised for device: " + device);
         }
-        logger.info("Driver initialized");
+        log.info("Driver initialized");
     }
 
     /**
@@ -290,7 +289,7 @@ public class AppiumController implements Access {
             Date date = new Date();
             return dates.format(date);
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
         return null;
     }
@@ -306,7 +305,7 @@ public class AppiumController implements Access {
             _createService().stop();
             _stopAppiumServer();
         } catch (Exception e) {
-            logger.info("Performance test not included");
+            log.info("Performance test not included");
         }
     }
 }

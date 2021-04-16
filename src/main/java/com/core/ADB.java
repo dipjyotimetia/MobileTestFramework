@@ -23,8 +23,7 @@ SOFTWARE.
  */
 package com.core;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,9 +34,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Dipjyoti Metia
  */
+@Slf4j
 public class ADB {
-
-    private Logger logger = LogManager.getLogger(ADB.class);
 
     private String SDK_PATH = System.getenv("ANDROID_HOME");
     private String ADB_PATH = SDK_PATH + "platform-tools" + File.separator + "adb";
@@ -55,14 +53,14 @@ public class ADB {
      * @param avdName emulator name
      */
     public void launchEmulator(String avdName) {
-        logger.info("Starting emulator for" + avdName + "....");
+        log.info("Starting emulator for" + avdName + "....");
         String[] aCommand = new String[]{EMULATOR_PATH, "-avd", avdName};
         try {
             Process process = new ProcessBuilder(aCommand).start();
             process.waitFor(180, TimeUnit.SECONDS);
-            logger.info("Emulator launched successfully");
+            log.info("Emulator launched successfully");
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -70,14 +68,14 @@ public class ADB {
      * Close android emulator
      */
     public void closeEmulator() {
-        logger.info("Closing emulator");
+        log.info("Closing emulator");
         String[] aCommand = new String[]{EMULATOR_PATH, "emu", "kill"};
         try {
             Process process = new ProcessBuilder(aCommand).start();
             process.waitFor(1, TimeUnit.SECONDS);
-            logger.info("Emulator closed successfully");
+            log.info("Emulator closed successfully");
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -88,13 +86,13 @@ public class ADB {
      * @return output
      */
     public String command(String command) {
-        logger.debug("Formatting ADB Command: " + command);
+        log.debug("Formatting ADB Command: " + command);
         if (command.startsWith("adb"))
             command = command.replace("adb ", ServerManager.getAndroidHome() + "/platform-tools/adb ");
         else throw new RuntimeException("This method is designed to run ADB commands only!");
-        logger.debug("Formatted ADB Command: " + command);
+        log.debug("Formatted ADB Command: " + command);
         String output = ServerManager.runCommand(command);
-        logger.debug("Output of the ADB Command: " + output);
+        log.debug("Output of the ADB Command: " + output);
         if (output == null) return "";
         else return output.trim();
     }
