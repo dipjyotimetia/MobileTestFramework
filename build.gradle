@@ -25,18 +25,12 @@ group 'github.com.MobileTestFramework'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'groovy'
 apply plugin: 'io.qameta.allure'
-apply plugin: "org.sonarqube"
 apply plugin: 'maven-publish'
 apply plugin: 'distribution'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'kotlin'
-
-sourceCompatibility = 1.8
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -55,25 +49,10 @@ buildscript {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:+"
         classpath 'com.amazonaws:aws-devicefarm-gradle-plugin:+'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:+"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
-    }
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
 allure {
-    autoconfigure = true
-    aspectjweaver = true
     version = '2.13.9'
     useTestNG {
         version = '2.13.9'
@@ -81,57 +60,42 @@ allure {
     downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.8/allure-commandline-2.13.8.zip'
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-        }
-    }
-    test {
-        java.srcDir file('src/test/java')
-        resources.srcDir file('scr/test/resource')
-        compileClasspath = sourceSets.main.output + configurations.testRuntime
-        runtimeClasspath = output + compileClasspath
-    }
-}
-
 dependencies {
-    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.987'
-    compile group: 'io.appium', name: 'java-client', version: '7.5.1'
-    compile group: 'net.reini', name: 'slf4-cdi', version: '1.0'
-    compile group: 'org.assertj', name: 'assertj-core', version: '3.19.0'
-    compile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
-    compile group: 'org.testng', name: 'testng', version: '7.4.0'
-    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-    compile group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
-    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
-    compile group: 'net.sourceforge.javacsv', name: 'javacsv', version: '2.0'
-    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
-    compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.1.2'
-    compile group: 'org.apache.poi', name: 'poi-excelant', version: '5.0.0'
-    compile group: 'org.apache.poi', name: 'poi-examples', version: '5.0.0'
-    compile group: 'org.apache.poi', name: 'poi-scratchpad', version: '5.0.0'
-    compile group: 'org.apache.poi', name: 'poi', version: '5.0.0'
-    compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '5.0.0'
-    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.2.1.jre8'
-    compile group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
-    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.9'
-    compile group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.8'
-    compile group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.9'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
-    compile group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
-    compile 'io.rest-assured:rest-assured:4.3.3'
-    compile 'io.rest-assured:json-schema-validator:4.3.3'
-    compile 'io.rest-assured:json-path:4.3.3'
-    compile group: 'org.json', name: 'json', version: '20210307'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
-    compile group: 'com.konghq', name: 'unirest-java', version: '3.11.11'
-    compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.26.3'
-    compile group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
-    compile group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.1000'
+    implementation group: 'io.appium', name: 'java-client', version: '7.5.1'
+    implementation group: 'net.reini', name: 'slf4-cdi', version: '1.0'
+    implementation group: 'org.assertj', name: 'assertj-core', version: '3.19.0'
+    implementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+    implementation group: 'org.testng', name: 'testng', version: '7.4.0'
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
+    implementation group: 'net.sourceforge.javacsv', name: 'javacsv', version: '2.0'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.1.2'
+    implementation group: 'org.apache.poi', name: 'poi-excelant', version: '5.0.0'
+    implementation group: 'org.apache.poi', name: 'poi-examples', version: '5.0.0'
+    implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: '5.0.0'
+    implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
+    implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '5.0.0'
+    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.2.1.jre8'
+    implementation group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.9'
+    implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.9'
+    implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.9'
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
+    implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+    implementation 'io.rest-assured:rest-assured:4.3.3'
+    implementation 'io.rest-assured:json-schema-validator:4.3.3'
+    implementation 'io.rest-assured:json-path:4.3.3'
+    implementation group: 'org.json', name: 'json', version: '20210307'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
+    implementation group: 'com.konghq', name: 'unirest-java', version: '3.11.11'
+    implementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.26.3'
+    implementation group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
 }
 
 task E2E(type: Test) {
