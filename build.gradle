@@ -53,11 +53,11 @@ buildscript {
 }
 
 allure {
-    version = '2.13.10'
+    version = '2.13.9'
     useTestNG {
-        version = '2.13.10'
+        version = '2.13.9'
     }
-    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.10/allure-commandline-2.13.10.zip'
+    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.9/allure-commandline-2.13.9.zip'
 }
 
 dependencies {
@@ -80,9 +80,9 @@ dependencies {
     implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '5.0.0'
     implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.2.1.jre11'
     implementation group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
-    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.10'
-    implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.10'
-    implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.10'
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.9'
+    implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.9'
+    implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.9'
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
     implementation 'io.rest-assured:rest-assured:4.3.3'
     implementation 'io.rest-assured:json-schema-validator:4.3.3'
