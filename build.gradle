@@ -78,7 +78,7 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: '5.0.0'
     implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
     implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '5.0.0'
-    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.2.1.jre11'
+    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.3.1.jre11-preview'
     implementation group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
     implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.10'
     implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.10'
