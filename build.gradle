@@ -84,7 +84,7 @@ dependencies {
     implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.9'
     implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.9'
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
-    implementation 'io.rest-assured:rest-assured:4.3.3'
+    implementation 'io.rest-assured:rest-assured:4.4.0'
     implementation 'io.rest-assured:json-schema-validator:4.3.3'
     implementation 'io.rest-assured:json-path:4.3.3'
     implementation group: 'org.json', name: 'json', version: '20210307'
