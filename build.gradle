@@ -86,7 +86,7 @@ dependencies {
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
     implementation 'io.rest-assured:rest-assured:4.3.3'
     implementation 'io.rest-assured:json-schema-validator:4.3.3'
-    implementation 'io.rest-assured:json-path:4.3.3'
+    implementation 'io.rest-assured:json-path:4.4.0'
     implementation group: 'org.json', name: 'json', version: '20210307'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
     implementation group: 'com.konghq', name: 'unirest-java', version: '3.11.11'
