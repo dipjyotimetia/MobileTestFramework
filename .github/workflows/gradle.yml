@@ -17,12 +17,12 @@ jobs:
         run: chmod +x gradlew
       - name: Upload app
         run: |
-          app = $(curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" \
+          app_url = $(curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" \
                             -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
-                            -F "file=@input/app/com.booking_2020-12-16.apk")
-          echo $app.app_url
+                            -F "file=@input/app/com.booking_2020-12-16.apk" | jq -r '.app_url')
       - name: Build with Gradle
         run: ./gradlew task e2e
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          APP_URL: ${{app_url}}
