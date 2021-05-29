@@ -16,11 +16,8 @@ jobs:
       # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#example-6
       - name: Upload app and set app location
         run: |
-          echo 'APP_URL<<URL' >> $GITHUB_ENV
-          curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" \
-                         -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
-                         -F "url=https://github.com/dipjyotimetia/GIT_LFS/raw/master/com.booking_2020-12-16.apk" | jq -r '.app_url' >> $GITHUB_ENV
-          echo 'URL' >> $GITHUB_ENV
+          APP_UPLOAD_RESPONSE=$(curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/dipjyotimetia/GIT_LFS/raw/master/com.booking_2020-12-16.apk")
+          echo "APP_URL=$(echo $APP_UPLOAD_RESPONSE | jq -r '.app_url')" >> $GITHUB_ENV
       - name: Build with Gradle
         run: ./gradlew task e2e
         env:
