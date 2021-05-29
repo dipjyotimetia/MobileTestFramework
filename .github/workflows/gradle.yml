@@ -20,6 +20,10 @@ jobs:
           echo "app_url=curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" \
           -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
           -F "file=@input/app/com.booking_2020-12-16.apk" | jq -r '.app_url'" >> $GITHUB_ENV
+      - name: Use the value
+        id: step_two
+        run: |
+          echo "${{ env.app_url }}" # This will output 'yellow'
       - name: Build with Gradle
         run: ./gradlew task e2e
         env:
