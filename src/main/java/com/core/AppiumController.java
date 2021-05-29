@@ -59,6 +59,7 @@ public class AppiumController implements Access {
     private static BrowserMobProxy server;
     private final String username = System.getenv("BROWSERSTACK_USERNAME");
     private final String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+    private final String app_url = System.getenv("APP_URL");
     private static final String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
     private static final String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
     private static DriverService service;
@@ -161,7 +162,7 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _browserstackCapabilities(DesiredCapabilities _caps, String device) {
-        _caps.setCapability("app", "bs://0a5d906e4c4b395fd304ef1d7401165e5d585123");
+        _caps.setCapability("app", app_url);
         switch (device) {
             case "samsung":
                 _caps.setCapability("os_version", "10.0");
