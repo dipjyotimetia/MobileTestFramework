@@ -15,16 +15,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-#      - name: Upload app
-#        run: |
-#          app_url=$(curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" \
-#                            -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
-#                            -F "file=@input/app/com.booking_2020-12-16.apk" | jq -r '.app_url')
+      - name: Upload app
+        run: |
+          app_url=$(curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" \
+                            -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
+                            -F "file=@input/app/com.booking_2020-12-16.apk" | jq -r '.app_url') >> $GITHUB_ENV
       - name: Build with Gradle
         run: ./gradlew task e2e
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-          APP_URL: $(curl -u "dipjyotimetia1:pGsRw7HF3veZyU5rtyg2" \
-            -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
-            -F "file=@input/app/com.booking_2020-12-16.apk" | jq -r '.app_url')
