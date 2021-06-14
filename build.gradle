@@ -69,7 +69,7 @@ dependencies {
     implementation group: 'org.testng', name: 'testng', version: '7.4.0'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     implementation group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.9.0'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.10.0'
     implementation group: 'net.sourceforge.javacsv', name: 'javacsv', version: '2.0'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
     implementation group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.1.2'
