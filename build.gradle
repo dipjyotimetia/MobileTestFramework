@@ -61,7 +61,7 @@ allure {
 }
 
 dependencies {
-    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.5'
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.15'
     implementation group: 'io.appium', name: 'java-client', version: '7.5.1'
     implementation group: 'net.reini', name: 'slf4-cdi', version: '1.0'
     implementation group: 'org.assertj', name: 'assertj-core', version: '3.19.0'
