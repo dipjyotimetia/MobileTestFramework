@@ -54,7 +54,7 @@ allure {
     useTestNG {
         version = '2.14.0'
     }
-    downloadLink = 'https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/$allureVersion/allure-commandline-2.14.0.zip'
+    downloadLink = 'https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.14.0/allure-commandline-2.14.0.zip'
 }
 
 dependencies {
