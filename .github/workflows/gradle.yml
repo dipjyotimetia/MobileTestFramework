@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Grant execute permission for gradlew
@@ -19,10 +16,16 @@ jobs:
       # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#example-6
       - name: Upload app and set app location
         run: |
-          APP_UPLOAD_RESPONSE=$(curl -u "BROWSERSTACK_USERNAME:BROWSERSTACK_ACCESS_KEY" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/dipjyotimetia/GIT_LFS/raw/master/com.booking_2020-12-16.apk")
+          APP_UPLOAD_RESPONSE=$(curl -u "$USERNAME:$ACCESS" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/dipjyotimetia/GIT_LFS/raw/master/com.booking_2020-12-16.apk")
           echo "APP_URL=$(echo $APP_UPLOAD_RESPONSE | jq -r '.app_url')" >> $GITHUB_ENV
+        env:
+          USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          ACCESS: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       - name: Gradle Run Test
         run: ./gradlew task e2e
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       - name: Generate Report
         run: ./gradlew task allureReport
       - uses: actions/upload-artifact@v2
