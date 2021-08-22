@@ -1,8 +1,8 @@
 ## Mobile Test Framework
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6aaf27fdb62e4792ba5a3a9841ce13ee)](https://www.codacy.com/app/dipjyotimetia/MobileTestFramework?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TestautoDev/MobileTestFramework&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8958948e2b0048a785417344e0dffe43)](https://www.codacy.com/gh/dipjyotimetia/MobileTestFramework/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dipjyotimetia/MobileTestFramework&amp;utm_campaign=Badge_Grade)
 ![CI](https://github.com/dipjyotimetia/MobileTestFramework/workflows/CI/badge.svg)   
-### Full fledged Mobile, API and Database framework using appium and rest-assured
+### Full-fledged Mobile, API and Database framework using appium and rest-assured
 
 <img src="https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/FrameworkArchitecture.png" width="700">
 
