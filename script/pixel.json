@@ -1,0 +1,23 @@
+{
+  "capabilities": [
+    {
+      "platformName": "Android",
+      "applicationName": "UiAutomator2",
+      "appPackage": "com.booking",
+      "appActivity": ".startup.HomeActivity"
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle": 2000,
+    "timeout": 30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://127.0.0.1:4000/wd/hub",
+    "host": "127.0.0.1",
+    "port": 4000,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": "4444",
+    "hubHost": "127.0.0.1"
+  }
+}

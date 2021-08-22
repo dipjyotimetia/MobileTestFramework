@@ -120,10 +120,20 @@ public class ADB {
         return devices;
     }
 
+    /**
+     * Get Foreground activity
+     *
+     * @return activity
+     */
     public String getForegroundActivity() {
         return command("adb -s " + ID + " shell dumpsys window windows | grep mCurrentFocus");
     }
 
+    /**
+     * Get android version
+     *
+     * @return version
+     */
     public String getAndroidVersionAsString() {
         String output = command("adb -s " + ID + " shell getprop ro.build.version.release");
         if (output.length() == 3) output += ".0";
@@ -134,6 +144,11 @@ public class ADB {
         return Integer.parseInt(getAndroidVersionAsString().replaceAll("\\.", ""));
     }
 
+    /**
+     * Get installed package
+     *
+     * @return packages
+     */
     public List<Object> getInstalledPackages() {
         List<Object> packages = new ArrayList<>();
         String[] output = command("adb -s " + ID + " shell pm list packages").split("\n");
@@ -141,63 +156,228 @@ public class ADB {
         return packages;
     }
 
+    public enum BatteryLevelEnum {
+        Unknown, Charging, Discharging, NotCharging,
+        Full
+    }
+
+    public enum SwitchEnum {
+        ON, OFF
+    }
+
+    /**
+     * Open apps activity
+     *
+     * @param packageID  package
+     * @param activityID activity
+     */
     public void openAppsActivity(String packageID, String activityID) {
         command("adb -s " + ID + " shell am start -c api.android.intent.category.LAUNCHER -a api.android.intent.action.MAIN -n " + packageID + "/" + activityID);
+        log.info("Open apps activity");
     }
 
+    /**
+     * Clear apps data
+     *
+     * @param packageID package
+     */
     public void clearAppsData(String packageID) {
         command("adb -s " + ID + " shell pm clear " + packageID);
+        log.info("Clear apps data " + packageID);
     }
 
+    /**
+     * Force stop app
+     *
+     * @param packageID package
+     */
     public void forceStopApp(String packageID) {
         command("adb -s " + ID + " shell am force-stop " + packageID);
+        log.info("Force stop app " + packageID);
     }
 
+    /**
+     * It let you change the level from 0 to 100
+     *
+     * @param level batteryLevel
+     */
+    public void setBatteryLevel(BatteryLevelEnum level) {
+        String status = "";
+
+        switch (level) {
+            case Unknown:
+                status = "1";
+                break;
+            case Charging:
+                status = "2";
+                break;
+            case Discharging:
+                status = "3";
+                break;
+            case NotCharging:
+                status = "4";
+                break;
+            case Full:
+                status = "5";
+                break;
+            default:
+                break;
+        }
+        command("adb -s" + ID + "dumpsys battery set level" + status);
+        log.info("Battery status is changed to " + status);
+    }
+
+    /**
+     * It let you change the level to Unknown, Charging, Discharging, Not Charging or Full.
+     *
+     * @param status batteryStatus
+     */
+    public void setBatteryStatus(String status) {
+        command("adb -s" + ID + "dumpsys battery set status" + status);
+        log.info("Set battery status " + status);
+    }
+
+    /**
+     * It let you reset the battery change made through adb.
+     */
+    public void setBatteryReset() {
+        command("adb -s" + ID + "dumpsys battery reset");
+        log.info("Set battery reset");
+    }
+
+    /**
+     * It let you change the status of USB connection. It can be ON or OFF
+     *
+     * @param val switch
+     */
+    public void setBatteryUSB(SwitchEnum val) {
+        String status = "";
+
+        switch (val) {
+            case ON:
+                status = "1";
+                break;
+            case OFF:
+                status = "0";
+                break;
+            default:
+                break;
+        }
+        command("adb -s" + ID + "dumpsys battery set usb" + status);
+        log.info("Device USB state is " + status);
+    }
+
+    /**
+     * Install app
+     *
+     * @param apkPath apk path
+     */
     public void installApp(String apkPath) {
         command("adb -s " + ID + " install " + apkPath);
+        log.info("App installed from path " + apkPath);
     }
 
+    /**
+     * Uninstall app
+     *
+     * @param packageID packageID
+     */
     public void uninstallApp(String packageID) {
         command("adb -s " + ID + " uninstall " + packageID);
+        log.info("App uninstalled " + packageID);
     }
 
+    /**
+     * Clear log buffer
+     */
     public void clearLogBuffer() {
         command("adb -s " + ID + " shell -c");
+        log.info("App log buffer cleared");
     }
 
+    /**
+     * Push file
+     *
+     * @param source source
+     * @param target target
+     */
     public void pushFile(String source, String target) {
         command("adb -s " + ID + " push " + source + " " + target);
     }
 
+    /**
+     * Pull file
+     *
+     * @param source source
+     * @param target target
+     */
     public void pullFile(String source, String target) {
         command("adb -s " + ID + " pull " + source + " " + target);
     }
 
+    /**
+     * Delete file
+     *
+     * @param target target
+     */
     public void deleteFile(String target) {
         command("adb -s " + ID + " shell rm " + target);
     }
 
+    /**
+     * Move file
+     *
+     * @param source source
+     * @param target target
+     */
     public void moveFile(String source, String target) {
         command("adb -s " + ID + " shell mv " + source + " " + target);
     }
 
+    /**
+     * Take screenshot
+     *
+     * @param target target
+     */
     public void takeScreenshot(String target) {
-        command("adb -s " + ID + " shell screencap " + target);
+        command("adb -s " + ID + " shell screenshot " + target);
+        log.info("Take screenshot " + target);
     }
 
+    /**
+     * Reboot Device
+     */
     public void rebootDevice() {
         command("adb -s " + ID + " reboot");
     }
 
+    /**
+     * Get Device model
+     *
+     * @return device details
+     */
     public String getDeviceModel() {
+        log.info("Get device model");
         return command("adb -s " + ID + " shell getprop ro.product.model");
     }
 
+    /**
+     * Get Device serial number
+     *
+     * @return serial number
+     */
     public String getDeviceSerialNumber() {
+        log.info("Get device serial number");
         return command("adb -s " + ID + " shell getprop ro.serialno");
     }
 
+    /**
+     * Get Device carrier
+     *
+     * @return carrier
+     */
     public String getDeviceCarrier() {
+        log.info("Get device carrier");
         return command("adb -s " + ID + " shell getprop gsm.operator.alpha");
     }
 

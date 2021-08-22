@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 group 'github.com.MobileTestFramework'
-version '1.0-SNAPSHOT'
+version = '2.0'
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -36,32 +36,31 @@ repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://plugins.gradle.org/m2/" }
     mavenCentral()
-    jcenter()
 }
 
 buildscript {
     repositories {
+        maven { url "https://repo.maven.apache.org/maven2" }
+        maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath "io.qameta.allure:allure-gradle:+"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:+"
-        classpath 'com.amazonaws:aws-devicefarm-gradle-plugin:+'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:+"
     }
 }
 
+def allureVersion = "2.14.0"
+
 allure {
-    version = '2.13.9'
+    version = allureVersion
     useTestNG {
-        version = '2.13.9'
+        version = allureVersion
     }
-    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/2.13.9/allure-commandline-2.13.9.zip'
+    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/$allureVersion/allure-commandline-$allureVersion.zip'
 }
 
 dependencies {
-    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.37'
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.48'
     implementation group: 'io.appium', name: 'java-client', version: '7.5.1'
     implementation group: 'net.reini', name: 'slf4-cdi', version: '1.0'
     implementation group: 'org.assertj', name: 'assertj-core', version: '3.20.2'
@@ -69,7 +68,7 @@ dependencies {
     implementation group: 'org.testng', name: 'testng', version: '7.4.0'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     implementation group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    implementation group: 'commons-io', name: 'commons-io', version: '20030203.000550'
     implementation group: 'net.sourceforge.javacsv', name: 'javacsv', version: '2.0'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
     implementation group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.1.2'
@@ -80,9 +79,9 @@ dependencies {
     implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '5.0.1'
     implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.2.1.jre11'
     implementation group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
-    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.9'
-    implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.13.9'
-    implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.13.9'
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.14.0'
+    implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.14.0'
+    implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.14.0'
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
     implementation 'io.rest-assured:rest-assured:4.4.0'
     implementation 'io.rest-assured:json-schema-validator:4.4.0'
@@ -101,30 +100,14 @@ dependencies {
 
 task E2E(type: Test) {
     useTestNG() {
-        outputDirectory = file("$project.buildDir/testngOutput")
         useDefaultListeners = true
-        suiteXmlFiles << new File("src/test/suite/testng.xml")
-        setSuiteXmlFiles(suiteXmlFiles)
+        suites 'src/test/suite/testng.xml'
+        // includeGroups 'smoke'
     }
-    testLogging {
-        exceptionFormat "full"
-        events "started", "passed", "skipped", "failed", "standardOut", "standardError"
-        minGranularity 0
-    }
-    reports {
-        junitXml.enabled = false
-        html.enabled = true
-    }
-//    systemProperties=["TestEnv":"${TestEnv}","TestServer":"${TestServer}"]
-}
-
-task Report(type: Test) {
-    useTestNG() {
-        outputDirectory = file("$project.buildDir/testngOutput")
-        useDefaultListeners = true
-        suiteXmlFiles << new File("src/test/suite/reporting.xml")
-        setSuiteXmlFiles(suiteXmlFiles)
-    }
+    testLogging.events "passed", "skipped", "failed"
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = "full"
+    // systemProperties=["TestEnv":"${TestEnv}","TestServer":"${TestServer}"]
 }
 
 javadoc {

@@ -175,7 +175,7 @@ public class AppiumController implements Access {
             default:
                 System.out.println("No device found");
         }
-        _caps.setCapability("browserstack.appium_version", "1.19.1");
+        _caps.setCapability("browserstack.appium_version", "1.21.0");
         _caps.setCapability("project", "MobileTestFramework");
         _caps.setCapability("build", "AndroidTest");
         _caps.setCapability("name", testName);

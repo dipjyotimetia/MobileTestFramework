@@ -23,6 +23,8 @@ SOFTWARE.
  */
 package com.core;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -30,6 +32,7 @@ import java.util.Scanner;
 /**
  * @author Dipjyoti Metia
  */
+@Slf4j
 public class ServerManager {
 
     private static String OS;

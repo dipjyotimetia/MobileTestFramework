@@ -1,0 +1,51 @@
+# Complete infra creation on the fly jenkins & allure report
+version: '3.8'
+services:
+  allure:
+    image: "frankescobar/allure-docker-service"
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 1
+      KEEP_HISTORY: 1
+    ports:
+      - "5050:5050"
+    volumes:
+      - "./build/allure-results:/app/allure-results"
+      - "./build/allure-reports:/app/default-reports"
+
+  allure-ui:
+    image: "frankescobar/allure-docker-service-ui"
+    environment:
+      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:5050"
+      ALLURE_DOCKER_PUBLIC_API_URL_PREFIX: ""
+    ports:
+      - "5252:5252"
+
+  #docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+  jenkins_master:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    hostname: jenkins
+    privileged: true
+    user: root
+    restart: always
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ~/jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/local/bin/docker
+      - "./script/plugins.txt:/usr/share/jenkins/ref/plugins.txt"
+      # - /var/jenkins_home:/usr/share/jenkins/ref/plugins
+      # - /var/jenkins_home/plugins.txt:/usr/share/jenkins/ref/plugins.txt
+
+  jenkins_slave:
+    image: jenkins/jnlp-slave
+    container_name: jnlp_slave
+    user: root
+    command: -url http://192.168.8.113:8080 <secret> <jenkins_slave>
+    restart: always
+    volumes:
+      - ~/jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/local/bin/docker

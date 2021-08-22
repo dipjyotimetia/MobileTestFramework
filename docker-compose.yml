@@ -6,7 +6,7 @@ services:
   selenium_hub:
     image: selenium/hub
     ports:
-      - 4444:4444
+      - "4444:4444"
 
   # Appium docker android
   appium_android_device:
@@ -17,7 +17,7 @@ services:
     volumes:
       - /dev/bus/usb:/dev/bus/usb
       - ~/.android:/root/.android
-      - $PWD/input/app/apk:/root/tmp
+      - "./input/app:/root/tmp"
     environment:
       - CONNECT_TO_GRID=true
       - SELENIUM_HOST=selenium_hub #172.17.0.0
