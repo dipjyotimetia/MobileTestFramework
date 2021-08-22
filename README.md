@@ -56,7 +56,8 @@ $ import project from intelij as a gradle project
 $ gradle clean
 $ gradle build
 $ gradle task E2E
-$ allureServe
+$ gradle allureReport
+$ gradle allureServe
 ```
 ### Execution Gif
 ![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/videogif.gif)
