@@ -1,7 +1,7 @@
-FROM java:8-jdk
+FROM java:11-jdk
 
-ENV GRADLE_VERSION 6.7.1
-ENV ALLURE_VERSION 2.13.8
+ENV GRADLE_VERSION 6.9.0
+ENV ALLURE_VERSION 2.14.0
 
 RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list
 RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list

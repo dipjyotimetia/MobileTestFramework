@@ -74,28 +74,6 @@ public class FileSystem {
     }
 
     /**
-     * Append content of String to file.
-     *
-     * @param filePath File path as String.
-     * @param text     Content to be written in file.
-     * @throws IOException When fail to write in file.
-     */
-    public static void appendFile(String filePath, String text) throws IOException {
-        FileUtils.writeStringToFile(new File(filePath), text, "UTF-8", true);
-    }
-
-    /**
-     * Write content of String to file.
-     *
-     * @param filePath File path as String.
-     * @param text     Content to be written in file.
-     * @throws IOException When fail to write in file.
-     */
-    public static void writeFile(String filePath, String text) throws IOException {
-        FileUtils.writeStringToFile(new File(filePath), text, "UTF-8");
-    }
-
-    /**
      * Check if path exists.
      *
      * @param path Path as String.
@@ -137,26 +115,5 @@ public class FileSystem {
             Assert.fail("File '" + file + "' does not exist!");
         }
         return size;
-    }
-
-    /**
-     * WriteCSVFile
-     * @param storageFilePath storage path
-     * @param log log
-     * @param header header
-     */
-    public static void writeCsvFile(String storageFilePath, String log, String header) {
-        FileSystem.ensureFolderExists(new File(storageFilePath).getParent());
-
-        try {
-            if (FileSystem.exist(storageFilePath)) {
-                FileSystem.appendFile(storageFilePath, System.lineSeparator() + log);
-            } else {
-                String content = header + System.lineSeparator() + log;
-                FileSystem.writeFile(storageFilePath, content);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
