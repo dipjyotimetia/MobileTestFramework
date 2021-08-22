@@ -29,6 +29,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITBy;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 
 /**
@@ -70,8 +71,10 @@ public class HomePage extends UserActions implements Constants {
     }
 
     public HomePage searchDestination() {
-        click(acceptCookie); // comment for local tests
-        click(closeButton); // comment for local tests
+        if (driver.findElementsById(("com.booking:id/bt_accept")).size() != 0) {
+            click(acceptCookie);
+            click(closeButton);
+        }
         waitForElement(destination);
         click(destination);
         enter(searchEdit, "Paris");
