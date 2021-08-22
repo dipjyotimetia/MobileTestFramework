@@ -49,14 +49,12 @@ buildscript {
     }
 }
 
-def allureVersion = "2.14.0"
-
 allure {
-    version = allureVersion
+    version = '2.14.0'
     useTestNG {
-        version = allureVersion
+        version = '2.14.0'
     }
-    downloadLink = 'https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/$allureVersion/allure-commandline-$allureVersion.zip'
+    downloadLink = 'https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.14.0/allure-commandline-2.14.0.zip'
 }
 
 dependencies {
