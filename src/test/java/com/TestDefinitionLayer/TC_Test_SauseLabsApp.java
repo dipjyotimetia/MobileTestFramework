@@ -1,7 +1,6 @@
 package com.TestDefinitionLayer;
 
 import com.core.UserActions;
-import com.pages.HomePage;
 import com.pages.LoginPage;
 import com.reporting.ExtentReports.ExtentTestManager;
 import io.qameta.allure.Feature;
@@ -15,7 +14,7 @@ public class TC_Test_SauseLabsApp extends UserActions {
     @Feature("test")
     @Severity(SeverityLevel.CRITICAL)
     @Test(description = "Demo Test")
-    public void E2E_TestAndroid_Bookings() {
+    public void E2E_TestSauseLabs() {
 
         String TCname = "TC_Test_IOSSause";
 
