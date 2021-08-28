@@ -59,8 +59,8 @@ public class AppiumController implements Access {
     private static BrowserMobProxy server;
     private final String username = System.getenv("BROWSERSTACK_USERNAME");
     private final String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
-    private final String apk_url = System.getenv("APK_URL");
-    private final String ipa_url = System.getenv("IPA_URL");
+    private final String apk_url = "bs://3bfb9c9216290cc210b46fb6f64c6482a4a2a6b7"; //System.getenv("APK_URL");
+    private final String ipa_url = "bs://20010029d536ecf4a282ffd94620d054e43265b5"; //System.getenv("IPA_URL");
     private static final String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
     private static final String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
     private static DriverService service;

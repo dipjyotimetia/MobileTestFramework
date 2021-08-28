@@ -14,16 +14,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#example-6
-      - name: Upload ios app and set app location
+      - name: Upload apps and set app location
         run: |
           IPA_UPLOAD_RESPONSE=$(curl -u "$USERNAME:$ACCESS" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/dipjyotimetia/GIT_LFS/blob/master/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa")
-          echo "IPA_URL=$(echo IPA_UPLOAD_RESPONSE | jq -r '.app_url')" >> $GITHUB_ENV
-        env:
-          USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-          ACCESS: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-      - name: Upload android app and set app location
-        run: |
           APK_UPLOAD_RESPONSE=$(curl -u "$USERNAME:$ACCESS" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/dipjyotimetia/GIT_LFS/blob/master/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk")
+          echo "IPA_URL=$(echo IPA_UPLOAD_RESPONSE | jq -r '.app_url')" >> $GITHUB_ENV
           echo "APK_URL=$(echo APK_UPLOAD_RESPONSE | jq -r '.app_url')" >> $GITHUB_ENV
         env:
           USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
