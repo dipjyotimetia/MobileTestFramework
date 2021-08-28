@@ -51,10 +51,9 @@ public class LoginPage extends UserActions implements Constants {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    public LoginPage login() {
+    public void login() {
         enter(userName, "standard_user");
         enter(password, "secret_sauce");
         click(loginButton);
-        return this;
     }
 }

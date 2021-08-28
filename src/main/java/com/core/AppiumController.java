@@ -39,6 +39,7 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
@@ -312,7 +313,7 @@ public class AppiumController implements Access {
         return null;
     }
 
-    @AfterClass
+    @AfterSuite
     public void tearDown() {
         try {
             // Har har = server.getHar();
