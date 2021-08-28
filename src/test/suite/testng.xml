@@ -5,11 +5,18 @@
         <listener class-name="com.reporting.Listeners.TestListener"/>
         <listener class-name="com.reporting.Listeners.AnnotationTransformer"/>
     </listeners>
+    <test name="E2E Tests iOS">
+        <parameter name="device" value="iPhone12"/>
+        <parameter name="apps" value="N"/>
+        <classes>
+            <class name="com.TestDefinitionLayer.TC_Test_SauseLabsApp"/>
+        </classes>
+    </test>
     <test name="E2E Tests Android">
         <parameter name="device" value="samsung"/>
-        <parameter name="apk" value="N"/>
+        <parameter name="apps" value="Y"/>
         <classes>
-            <class name="com.TestDefinitionLayer.TC_Test_AndroidBooking"/>
+            <class name="com.TestDefinitionLayer.TC_Test_SauseLabsApp"/>
         </classes>
     </test>
 </suite>

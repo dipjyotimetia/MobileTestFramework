@@ -37,6 +37,7 @@ public class API_Test<T> extends ApiActions<T> {
 
     @Feature("")
     @Test(description = "")
+    @SuppressWarnings ("unchecked")
     public void ServiceDemo() {
         ExtentTestManager.getTest().setDescription("Demo Service");
 
