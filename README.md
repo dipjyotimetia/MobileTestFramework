@@ -60,7 +60,8 @@ $ gradle allureReport
 $ gradle allureServe
 ```
 ### Execution Gif
-![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/videogif.gif)
+![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_android.mp4)
+![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_ios.mp4)
 
 ### Write your first user journey
 Create new class and name as the TC00*_E2E_TEST-***
