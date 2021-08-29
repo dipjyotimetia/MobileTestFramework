@@ -38,11 +38,11 @@ public class ServerManager {
     private static String OS;
     private static String ANDROID_HOME;
 
-    public static String getAndroidHome() {
+    public static String getAndroidHome() throws Exception {
         if (ANDROID_HOME == null) {
             ANDROID_HOME = System.getenv("ANDROID_HOME");
             if (ANDROID_HOME == null)
-                throw new RuntimeException("Failed to find ANDROID_HOME, make sure the environment variable is set");
+                throw new Exception("Failed to find ANDROID_HOME, make sure the environment variable is set");
         }
         return ANDROID_HOME;
     }
@@ -60,13 +60,13 @@ public class ServerManager {
         return getOS().startsWith("Mac");
     }
 
-    public static String runCommand(String command) {
+    public static String runCommand(String command) throws Exception {
         String output = null;
         try {
             Scanner scanner = new Scanner(Runtime.getRuntime().exec(command).getInputStream()).useDelimiter("\\A");
             if (scanner.hasNext()) output = scanner.next();
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new Exception(e.getMessage());
         }
         return output;
     }

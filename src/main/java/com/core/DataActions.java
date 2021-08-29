@@ -83,8 +83,7 @@ public class DataActions<T> extends ApiActions<T> {
                         int columnCount = rsmd.getColumnCount();
                         for (int i = 1; i <= columnCount; i++) {
                             try {
-                                if (rs.getString(i) == null && i != columnCount) {
-                                }
+                                rs.getString(i);
                             } catch (NullPointerException e) {
                                 resultValue = "NULL";
                                 log.info("column name:" + columnName + "|" + "Column value:" + resultValue);

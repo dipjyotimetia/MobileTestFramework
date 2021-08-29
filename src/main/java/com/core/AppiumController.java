@@ -193,6 +193,7 @@ public class AppiumController implements Access {
                 break;
             default:
                 System.out.println("No device found");
+                break;
         }
         _caps.setCapability("browserstack.appium_version", appConfig.getAppiumVersion());
         _caps.setCapability("project", appConfig.getApplicationName());
