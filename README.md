@@ -9,7 +9,7 @@
 
 ### Supported Platforms
 
-Appium Studio supports app automation across a variety of platforms, like iOS,Android, from Windows platform. Each
+Appium supports app automation across a variety of platforms, like iOS,Android, from any platform. Each
 platform is supported by one or more "drivers", which know how to automate that particular platform. Choose a driver
 below for specific information about how that driver works and how to set it up:
 
@@ -71,11 +71,6 @@ $ gradle allureReport
 $ gradle allureServe
 ```
 
-### Execution Gif
-
-![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_android.gif)
-![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_ios.gif)
-
 ### Write your first user journey
 
 Create new class and name as the TC00*_E2E_TEST-***
@@ -85,3 +80,10 @@ Create new class and name as the TC00*_E2E_TEST-***
 - Provide test severity and description
 - Write test
 - Use CatchBlock in try/catch section
+
+#### Android Execution
+![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_android.gif)
+
+#### iOS Execution
+![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_ios.gif)
+
