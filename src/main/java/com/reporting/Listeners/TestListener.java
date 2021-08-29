@@ -36,8 +36,6 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.time.LocalDateTime;
-
 /**
  * @author Dipjyoti Metia
  */
@@ -45,7 +43,6 @@ import java.time.LocalDateTime;
 public class TestListener extends DriverManager implements ITestListener {
 
     private TestStatus testStatus;
-    private ResultSender rs = new ResultSender();
 
     private static String getTestMethodName(ITestResult iTestResult) {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
@@ -107,6 +104,6 @@ public class TestListener extends DriverManager implements ITestListener {
         this.testStatus.setDescription(iTestResult.getMethod().getDescription());
         this.testStatus.setStatus(status);
 //        this.testStatus.setExecutionDate(LocalDateTime.now().toString());
-        rs.send(this.testStatus);
+        ResultSender.send(this.testStatus);
     }
 }

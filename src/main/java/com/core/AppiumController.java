@@ -40,7 +40,6 @@ import org.apache.commons.exec.OS;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -56,22 +55,21 @@ import java.util.Date;
 @Slf4j
 public class AppiumController implements Access {
 
-    DesiredCapabilities _caps = new DesiredCapabilities();
+    protected static final AppConfig appConfig = new AppConfig(ConfigFactory.load());
+    private static final String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
+    private static final String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
     private static AppiumDriver _driver;
-    private final String appiumPort = "4723";
     private static BrowserMobProxy server;
+    private static DriverService service;
+    private final String appiumPort = "4723";
     private final String username = System.getenv("BROWSERSTACK_USERNAME");
     private final String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
     private final String apk_url = System.getenv("APK_URL");
     private final String ipa_url = System.getenv("IPA_URL");
-    private static final String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
-    private static final String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
-    protected static final AppConfig appConfig = new AppConfig(ConfigFactory.load());
-    private static DriverService service;
-    private String testName = null;
-
     private final String serverIp = "127.0.0.1";    //Local
     private final String cloudURL = "https://" + username + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub";
+    DesiredCapabilities _caps = new DesiredCapabilities();
+    private String testName = null;
 
     @Parameters({"device", "apps"})
     @BeforeClass

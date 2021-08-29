@@ -23,9 +23,7 @@ SOFTWARE.
  */
 package com.core;
 
-import com.config.AppConfig;
 import com.github.javafaker.Faker;
-import com.typesafe.config.ConfigFactory;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

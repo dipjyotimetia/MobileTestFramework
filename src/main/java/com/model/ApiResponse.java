@@ -32,8 +32,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ApiResponse {
-    private int statusCode;
-    private String responseBody;
+    private final int statusCode;
+    private final String responseBody;
 
     public ApiResponse(int statusCode, String responseBody) {
         this.statusCode = statusCode;

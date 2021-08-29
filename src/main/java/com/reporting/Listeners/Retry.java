@@ -35,14 +35,14 @@ import org.testng.ITestResult;
  * @author Dipjyoti Metia
  */
 public class Retry extends DriverManager implements IRetryAnalyzer {
+    private static final int maxTry = 0; //Run the failed test 2 times
     private int count = 0;
-    private static int maxTry = 0; //Run the failed test 2 times
 
     /**
      * Retry Times
      *
-     * @param iTestResult
-     * @return
+     * @param iTestResult result
+     * @return count
      */
     @Override
     public boolean retry(ITestResult iTestResult) {
@@ -62,7 +62,7 @@ public class Retry extends DriverManager implements IRetryAnalyzer {
     /**
      * Report Fail Operation
      *
-     * @param iTestResult
+     * @param iTestResult testResult
      */
     public void extendReportsFailOperations(ITestResult iTestResult) {
         Object testClass = iTestResult.getInstance();

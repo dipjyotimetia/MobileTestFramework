@@ -32,9 +32,9 @@ import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
 
 public class TC001_MockService {
-    private WireMock wme = new WireMock();
+    private final WireMock wme = new WireMock();
 
-    private WireMockServer server = new WireMockServer(WireMockConfiguration.wireMockConfig().port(9876));
+    private final WireMockServer server = new WireMockServer(WireMockConfiguration.wireMockConfig().port(9876));
 
     @Test
     public void testPingPongPositive() {

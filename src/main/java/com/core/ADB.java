@@ -37,11 +37,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ADB {
 
-    private String SDK_PATH = System.getenv("ANDROID_HOME");
-    private String ADB_PATH = SDK_PATH + "platform-tools" + File.separator + "adb";
-    private String EMULATOR_PATH = SDK_PATH + File.separator + "emulator";
+    private final String SDK_PATH = System.getenv("ANDROID_HOME");
+    private final String ADB_PATH = SDK_PATH + "platform-tools" + File.separator + "adb";
+    private final String EMULATOR_PATH = SDK_PATH + File.separator + "emulator";
 
-    private String ID;
+    private final String ID;
 
     public ADB(String deviceID) {
         ID = deviceID;
@@ -154,15 +154,6 @@ public class ADB {
         String[] output = command("adb -s " + ID + " shell pm list packages").split("\n");
         for (String packageID : output) packages.add(packageID.replace("package:", "").trim());
         return packages;
-    }
-
-    public enum BatteryLevelEnum {
-        Unknown, Charging, Discharging, NotCharging,
-        Full
-    }
-
-    public enum SwitchEnum {
-        ON, OFF
     }
 
     /**
@@ -394,5 +385,14 @@ public class ADB {
             processes.removeAll(Arrays.asList("", null));
         }
         return processes;
+    }
+
+    public enum BatteryLevelEnum {
+        Unknown, Charging, Discharging, NotCharging,
+        Full
+    }
+
+    public enum SwitchEnum {
+        ON, OFF
     }
 }
