@@ -134,8 +134,9 @@ public class UserActions extends DriverManager {
 
     /**
      * Get Mobile ElementBY
+     *
      * @param byElement byElement
-     * @param mobileBy mobileBy
+     * @param mobileBy  mobileBy
      * @return by
      */
     private By getMobileElementBy(String byElement, MobileBy mobileBy) {
@@ -815,7 +816,7 @@ public class UserActions extends DriverManager {
      */
     private void waitForPageToLoad(WebElement id) {
         WebDriverWait wait = new WebDriverWait(driver, 35);
-        wait.until((Function)ExpectedConditions.elementToBeClickable(id));
+        wait.until((Function) ExpectedConditions.elementToBeClickable(id));
     }
 
     /**
@@ -825,7 +826,7 @@ public class UserActions extends DriverManager {
      */
     public void waitForElementToDisAppear(String id) {
         WebDriverWait wait = new WebDriverWait(driver, 25);
-        wait.until((Function)ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
+        wait.until((Function) ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
     }
 
     /**

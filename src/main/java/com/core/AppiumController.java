@@ -23,7 +23,9 @@ SOFTWARE.
  */
 package com.core;
 
+import com.config.AppConfig;
 import com.constants.Arg;
+import com.typesafe.config.ConfigFactory;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -64,6 +66,7 @@ public class AppiumController implements Access {
     private final String ipa_url = System.getenv("IPA_URL");
     private static final String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
     private static final String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
+    protected static final AppConfig appConfig = new AppConfig(ConfigFactory.load());
     private static DriverService service;
     private String testName = null;
 
@@ -193,9 +196,9 @@ public class AppiumController implements Access {
             default:
                 System.out.println("No device found");
         }
-        _caps.setCapability("browserstack.appium_version", "1.21.0");
-        _caps.setCapability("project", "MobileTestFramework");
-        // _caps.setCapability("build", "IOSTest");
+        _caps.setCapability("browserstack.appium_version", appConfig.getAppiumVersion());
+        _caps.setCapability("project", appConfig.getApplicationName());
+        _caps.setCapability("build", testName + sysTime());
         _caps.setCapability("name", testName);
     }
 
@@ -213,7 +216,7 @@ public class AppiumController implements Access {
         _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
         _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
-        // _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".startup.HomeActivity");
+        // _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
     }
 
     /**

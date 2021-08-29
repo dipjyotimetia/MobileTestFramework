@@ -23,13 +23,18 @@ SOFTWARE.
  */
 package com.core;
 
+import com.config.AppConfig;
+import com.typesafe.config.ConfigFactory;
+
 /**
  * @author Dipjyoti Metia
  */
 public interface Access {
 
-    int APPIUM_Port = 4723;
-    int PROXY_Port = 9001;
+    AppConfig appConfig = new AppConfig(ConfigFactory.load());
+
+    int APPIUM_Port = appConfig.getAppiumPort();
+    int PROXY_Port = appConfig.getProxyPort();
     String PIXEL = "emulator-5556";
     String NEXUS = "emulator-5554";
     String ANDROID_APP = "";

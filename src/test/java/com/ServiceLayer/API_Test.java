@@ -23,7 +23,6 @@ SOFTWARE.
  */
 package com.ServiceLayer;
 
-import com.common.Property;
 import com.core.ApiActions;
 import com.reporting.ExtentReports.ExtentTestManager;
 import io.qameta.allure.Feature;
@@ -45,7 +44,7 @@ public class API_Test<T> extends ApiActions<T> {
             String DateTo = "2018-10-30T13:59:59Z";
             String DateFrom = "2018-03-31T13:00:00Z";
 
-            RestAssured.baseURI = Property.baseURI.getValue();
+            RestAssured.baseURI = "Property.baseURI.getValue()";
 
             JSONObject params = new JSONObject();
             params.put("DateTo", DateTo);
