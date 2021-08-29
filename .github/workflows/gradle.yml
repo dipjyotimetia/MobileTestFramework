@@ -13,11 +13,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#example-6
       - name: Upload app and set app location
+        id: app-upload
         run: |
-          APP_UPLOAD_RESPONSE=$(curl -u "$USERNAME:$ACCESS" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/dipjyotimetia/GIT_LFS/raw/master/com.booking_2020-12-16.apk")
-          echo "APP_URL=$(echo $APP_UPLOAD_RESPONSE | jq -r '.app_url')" >> $GITHUB_ENV
+          IPA_UPLOAD_RESPONSE=$(curl -u "$USERNAME:$ACCESS" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa")
+          APK_UPLOAD_RESPONSE=$(curl -u "$USERNAME:$ACCESS" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk")
+          echo "::set-output name=IPA_URL::$(echo $IPA_UPLOAD_RESPONSE | jq -r '.app_url')"
+          echo "::set-output name=APK_URL::$(echo $APK_UPLOAD_RESPONSE | jq -r '.app_url')"
         env:
           USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           ACCESS: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
@@ -26,13 +28,11 @@ jobs:
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          IPA_URL: ${{steps.app-upload.outputs.IPA_URL}}
+          APK_URL: ${{steps.app-upload.outputs.APK_URL}}
       - name: Generate Report
         run: ./gradlew task allureReport
       - uses: actions/upload-artifact@v2
         with:
           name: allure-report
           path: build/reports/allure-report
-      - uses: actions/upload-artifact@v2
-        with:
-          name: extent-report
-          path: Reports

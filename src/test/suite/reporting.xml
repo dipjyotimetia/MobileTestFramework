@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="E2E Test Report">
-    <test name="Report">
-        <classes>
-            <class name="com.reporting.AWS.UploadReport"/>
-        </classes>
-    </test>
-</suite>

@@ -21,27 +21,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.core;
+package com.pages;
 
-import com.config.AppConfig;
-import com.typesafe.config.ConfigFactory;
+import com.core.Constants;
+import com.core.UserActions;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.PageFactory;
 
 /**
  * @author Dipjyoti Metia
  */
-public interface Access {
+public class LoginPage extends UserActions implements Constants {
 
-    AppConfig appConfig = new AppConfig(ConfigFactory.load());
+    @iOSXCUITFindBys(value = {@iOSXCUITBy(accessibility = "test-Username"), @iOSXCUITBy(xpath = "//XCUIElementTypeTextField[@name=\"test-Username\"]")})
+    @AndroidFindBy(accessibility = "test-Username")
+    private MobileElement userName;
 
-    int APPIUM_Port = appConfig.getAppiumPort();
-    int PROXY_Port = appConfig.getProxyPort();
-    String PIXEL = "emulator-5556";
-    String NEXUS = "emulator-5554";
-    String ANDROID_APP = "";
-    String AWS_KEY = "";
-    String AWS_SECRET = "";
-    String AWS_BUCKET = "";
-    String AWS_BUCKET_KEY = "";
-    String APK_PATH = "";
+    @iOSXCUITFindBy(accessibility = "test-Password")
+    @AndroidFindBy(accessibility = "test-Password")
+    private MobileElement password;
 
+    @iOSXCUITFindBy(accessibility = "test-LOGIN")
+    @AndroidFindBy(accessibility = "test-LOGIN")
+    private MobileElement loginButton;
+
+    public LoginPage() {
+        super();
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
+
+    public void login() {
+        enter(userName, "standard_user");
+        enter(password, "secret_sauce");
+        click(loginButton);
+    }
 }

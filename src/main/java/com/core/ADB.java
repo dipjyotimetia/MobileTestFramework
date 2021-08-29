@@ -37,11 +37,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ADB {
 
-    private String SDK_PATH = System.getenv("ANDROID_HOME");
-    private String ADB_PATH = SDK_PATH + "platform-tools" + File.separator + "adb";
-    private String EMULATOR_PATH = SDK_PATH + File.separator + "emulator";
+    private final String SDK_PATH = System.getenv("ANDROID_HOME");
+    private final String ADB_PATH = SDK_PATH + "platform-tools" + File.separator + "adb";
+    private final String EMULATOR_PATH = SDK_PATH + File.separator + "emulator";
 
-    private String ID;
+    private final String ID;
 
     public ADB(String deviceID) {
         ID = deviceID;
@@ -85,11 +85,11 @@ public class ADB {
      * @param command command
      * @return output
      */
-    public String command(String command) {
+    public String command(String command) throws Exception {
         log.debug("Formatting ADB Command: " + command);
         if (command.startsWith("adb"))
             command = command.replace("adb ", ServerManager.getAndroidHome() + "/platform-tools/adb ");
-        else throw new RuntimeException("This method is designed to run ADB commands only!");
+        else throw new Exception("This method is designed to run ADB commands only!");
         log.debug("Formatted ADB Command: " + command);
         String output = ServerManager.runCommand(command);
         log.debug("Output of the ADB Command: " + output);
@@ -97,11 +97,11 @@ public class ADB {
         else return output.trim();
     }
 
-    public void killServer() {
+    public void killServer() throws Exception {
         command("adb kill-server");
     }
 
-    public void startServer() {
+    public void startServer() throws Exception {
         command("adb start-server");
     }
 
@@ -110,7 +110,7 @@ public class ADB {
      *
      * @return devices
      */
-    public List<Object> getConnectedDevices() {
+    public List<Object> getConnectedDevices() throws Exception {
         List<Object> devices = new ArrayList<>();
         String output = command("adb devices");
         for (String line : output.split("\n")) {
@@ -125,7 +125,7 @@ public class ADB {
      *
      * @return activity
      */
-    public String getForegroundActivity() {
+    public String getForegroundActivity() throws Exception {
         return command("adb -s " + ID + " shell dumpsys window windows | grep mCurrentFocus");
     }
 
@@ -134,13 +134,13 @@ public class ADB {
      *
      * @return version
      */
-    public String getAndroidVersionAsString() {
+    public String getAndroidVersionAsString() throws Exception {
         String output = command("adb -s " + ID + " shell getprop ro.build.version.release");
         if (output.length() == 3) output += ".0";
         return output;
     }
 
-    public int getAndroidVersion() {
+    public int getAndroidVersion() throws Exception {
         return Integer.parseInt(getAndroidVersionAsString().replaceAll("\\.", ""));
     }
 
@@ -149,20 +149,11 @@ public class ADB {
      *
      * @return packages
      */
-    public List<Object> getInstalledPackages() {
+    public List<Object> getInstalledPackages() throws Exception {
         List<Object> packages = new ArrayList<>();
         String[] output = command("adb -s " + ID + " shell pm list packages").split("\n");
         for (String packageID : output) packages.add(packageID.replace("package:", "").trim());
         return packages;
-    }
-
-    public enum BatteryLevelEnum {
-        Unknown, Charging, Discharging, NotCharging,
-        Full
-    }
-
-    public enum SwitchEnum {
-        ON, OFF
     }
 
     /**
@@ -171,7 +162,7 @@ public class ADB {
      * @param packageID  package
      * @param activityID activity
      */
-    public void openAppsActivity(String packageID, String activityID) {
+    public void openAppsActivity(String packageID, String activityID) throws Exception {
         command("adb -s " + ID + " shell am start -c api.android.intent.category.LAUNCHER -a api.android.intent.action.MAIN -n " + packageID + "/" + activityID);
         log.info("Open apps activity");
     }
@@ -181,7 +172,7 @@ public class ADB {
      *
      * @param packageID package
      */
-    public void clearAppsData(String packageID) {
+    public void clearAppsData(String packageID) throws Exception {
         command("adb -s " + ID + " shell pm clear " + packageID);
         log.info("Clear apps data " + packageID);
     }
@@ -191,7 +182,7 @@ public class ADB {
      *
      * @param packageID package
      */
-    public void forceStopApp(String packageID) {
+    public void forceStopApp(String packageID) throws Exception {
         command("adb -s " + ID + " shell am force-stop " + packageID);
         log.info("Force stop app " + packageID);
     }
@@ -201,7 +192,7 @@ public class ADB {
      *
      * @param level batteryLevel
      */
-    public void setBatteryLevel(BatteryLevelEnum level) {
+    public void setBatteryLevel(BatteryLevelEnum level) throws Exception {
         String status = "";
 
         switch (level) {
@@ -232,7 +223,7 @@ public class ADB {
      *
      * @param status batteryStatus
      */
-    public void setBatteryStatus(String status) {
+    public void setBatteryStatus(String status) throws Exception {
         command("adb -s" + ID + "dumpsys battery set status" + status);
         log.info("Set battery status " + status);
     }
@@ -240,7 +231,7 @@ public class ADB {
     /**
      * It let you reset the battery change made through adb.
      */
-    public void setBatteryReset() {
+    public void setBatteryReset() throws Exception {
         command("adb -s" + ID + "dumpsys battery reset");
         log.info("Set battery reset");
     }
@@ -250,7 +241,7 @@ public class ADB {
      *
      * @param val switch
      */
-    public void setBatteryUSB(SwitchEnum val) {
+    public void setBatteryUSB(SwitchEnum val) throws Exception {
         String status = "";
 
         switch (val) {
@@ -272,7 +263,7 @@ public class ADB {
      *
      * @param apkPath apk path
      */
-    public void installApp(String apkPath) {
+    public void installApp(String apkPath) throws Exception {
         command("adb -s " + ID + " install " + apkPath);
         log.info("App installed from path " + apkPath);
     }
@@ -282,7 +273,7 @@ public class ADB {
      *
      * @param packageID packageID
      */
-    public void uninstallApp(String packageID) {
+    public void uninstallApp(String packageID) throws Exception {
         command("adb -s " + ID + " uninstall " + packageID);
         log.info("App uninstalled " + packageID);
     }
@@ -290,7 +281,7 @@ public class ADB {
     /**
      * Clear log buffer
      */
-    public void clearLogBuffer() {
+    public void clearLogBuffer() throws Exception {
         command("adb -s " + ID + " shell -c");
         log.info("App log buffer cleared");
     }
@@ -301,7 +292,7 @@ public class ADB {
      * @param source source
      * @param target target
      */
-    public void pushFile(String source, String target) {
+    public void pushFile(String source, String target) throws Exception {
         command("adb -s " + ID + " push " + source + " " + target);
     }
 
@@ -311,7 +302,7 @@ public class ADB {
      * @param source source
      * @param target target
      */
-    public void pullFile(String source, String target) {
+    public void pullFile(String source, String target) throws Exception {
         command("adb -s " + ID + " pull " + source + " " + target);
     }
 
@@ -320,7 +311,7 @@ public class ADB {
      *
      * @param target target
      */
-    public void deleteFile(String target) {
+    public void deleteFile(String target) throws Exception {
         command("adb -s " + ID + " shell rm " + target);
     }
 
@@ -330,7 +321,7 @@ public class ADB {
      * @param source source
      * @param target target
      */
-    public void moveFile(String source, String target) {
+    public void moveFile(String source, String target) throws Exception {
         command("adb -s " + ID + " shell mv " + source + " " + target);
     }
 
@@ -339,7 +330,7 @@ public class ADB {
      *
      * @param target target
      */
-    public void takeScreenshot(String target) {
+    public void takeScreenshot(String target) throws Exception {
         command("adb -s " + ID + " shell screenshot " + target);
         log.info("Take screenshot " + target);
     }
@@ -347,7 +338,7 @@ public class ADB {
     /**
      * Reboot Device
      */
-    public void rebootDevice() {
+    public void rebootDevice() throws Exception {
         command("adb -s " + ID + " reboot");
     }
 
@@ -356,7 +347,7 @@ public class ADB {
      *
      * @return device details
      */
-    public String getDeviceModel() {
+    public String getDeviceModel() throws Exception {
         log.info("Get device model");
         return command("adb -s " + ID + " shell getprop ro.product.model");
     }
@@ -366,7 +357,7 @@ public class ADB {
      *
      * @return serial number
      */
-    public String getDeviceSerialNumber() {
+    public String getDeviceSerialNumber() throws Exception {
         log.info("Get device serial number");
         return command("adb -s " + ID + " shell getprop ro.serialno");
     }
@@ -376,7 +367,7 @@ public class ADB {
      *
      * @return carrier
      */
-    public String getDeviceCarrier() {
+    public String getDeviceCarrier() throws Exception {
         log.info("Get device carrier");
         return command("adb -s " + ID + " shell getprop gsm.operator.alpha");
     }
@@ -386,7 +377,7 @@ public class ADB {
      *
      * @return process
      */
-    public List<Object> getLogcatProcesses() {
+    public List<Object> getLogcatProcesses() throws Exception {
         String[] output = command("adb -s " + ID + " shell top -n 1 | grep -i 'logcat'").split("\n");
         List<Object> processes = new ArrayList<>();
         for (String line : output) {
@@ -394,5 +385,14 @@ public class ADB {
             processes.removeAll(Arrays.asList("", null));
         }
         return processes;
+    }
+
+    public enum BatteryLevelEnum {
+        Unknown, Charging, Discharging, NotCharging,
+        Full
+    }
+
+    public enum SwitchEnum {
+        ON, OFF
     }
 }

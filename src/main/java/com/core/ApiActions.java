@@ -23,7 +23,6 @@ SOFTWARE.
  */
 package com.core;
 
-import com.common.Property;
 import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
@@ -61,12 +60,12 @@ public class ApiActions<T> {
 
     private final static String workstation = System.getenv("COMPUTERNAME");
     private final static String domain = System.getenv("USERDOMAIN");
-    private final static String baseURI = Property.baseURI.getValue();
-    private final static String userName = Property.userName.getValue();
-    private final static String userPass = Property.passWord.getValue();
-    private final static String tokenURI = Property.tokenURI.getValue();
-    private final static String clientUser = Property.clientUser.getValue();
-    private final static String clientPass = Property.clientPassword.getValue();
+    private final static String baseURI = "";
+    private final static String userName = "";
+    private final static String userPass = "";
+    private final static String tokenURI = "";
+    private final static String clientUser = "";
+    private final static String clientPass = "";
 
     @SuppressWarnings("unchecked")
     private String authLogin() {

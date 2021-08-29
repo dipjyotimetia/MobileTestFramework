@@ -85,7 +85,7 @@ public class UserActions extends DriverManager {
     private static final Faker faker = new Faker();
     private static String datetimeabc = null;
     private static int counter = 0;
-    private Map<Object, Object> dicttoread = new HashMap<>();
+    private final Map<Object, Object> dicttoread = new HashMap<>();
 
     /**
      * Capture screenshot
@@ -106,7 +106,7 @@ public class UserActions extends DriverManager {
      * @throws IOException exception
      */
     private String capture(String screenShotName) throws IOException {
-        TakesScreenshot ts = (TakesScreenshot) driver;
+        TakesScreenshot ts = driver;
         File source = ts.getScreenshotAs(OutputType.FILE);
         String dest = System.getProperty("user.dir") + "\\Reports\\Screens\\" + screenShotName + ".png";
         File destination = new File(dest);
@@ -125,17 +125,14 @@ public class UserActions extends DriverManager {
                 .withTimeout(Duration.ofSeconds(timeout))
                 .pollingEvery(Duration.ofMillis(5))
                 .ignoring(NoSuchElementException.class);
-        wait.until((Function) ExpectedConditions.elementToBeClickable(element));
-    }
-
-    public enum MobileBy {
-        XPATH, ID, NAME, CLASS, ACCESS_ID
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     /**
      * Get Mobile ElementBY
+     *
      * @param byElement byElement
-     * @param mobileBy mobileBy
+     * @param mobileBy  mobileBy
      * @return by
      */
     private By getMobileElementBy(String byElement, MobileBy mobileBy) {
@@ -571,7 +568,7 @@ public class UserActions extends DriverManager {
      * Swipe Down
      */
     public void swipeDown() {
-        driver.executeScript("mobile:scroll", ImmutableMap.of("direction", "down"));
+        driver.executeScript("scroll", ImmutableMap.of("direction", "down"));
         logInfo("Swipe Down");
     }
 
@@ -579,7 +576,7 @@ public class UserActions extends DriverManager {
      * Swipe Up
      */
     public void swipeUP() {
-        driver.executeScript("mobile:scroll", ImmutableMap.of("direction", "up"));
+        driver.executeScript("scroll", ImmutableMap.of("direction", "up"));
         logInfo("Swipe Up");
     }
 
@@ -587,7 +584,7 @@ public class UserActions extends DriverManager {
      * Accept Alert
      */
     public void acceptAlert() {
-        driver.executeScript("mobile:acceptAlert");
+        driver.executeScript("acceptAlert");
         logInfo("Accept Alert");
     }
 
@@ -595,7 +592,7 @@ public class UserActions extends DriverManager {
      * Dismiss Alert
      */
     public void dismissAlert() {
-        driver.executeScript("mobile:dismissAlert");
+        driver.executeScript("dismissAlert");
         logInfo("Dismiss Alert");
     }
 
@@ -612,7 +609,7 @@ public class UserActions extends DriverManager {
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until((Function) ExpectedConditions.invisibilityOfElementLocated(getMobileElementBy(element, elementType)));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(getMobileElementBy(element, elementType)));
         }
     }
 
@@ -629,7 +626,7 @@ public class UserActions extends DriverManager {
                     .withTimeout(Duration.ofSeconds(timeout))
                     .pollingEvery(Duration.ofMillis(5))
                     .ignoring(NoSuchElementException.class);
-            wait.until((Function) ExpectedConditions.visibilityOfElementLocated(getMobileElementBy(element, elementType)));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(getMobileElementBy(element, elementType)));
         }
     }
 
@@ -716,14 +713,14 @@ public class UserActions extends DriverManager {
      */
     public void scrollToLocation(MobileElement element, int value) {
         try {
-            JavascriptExecutor js = (JavascriptExecutor) driver;
+            JavascriptExecutor js = driver;
             HashMap<String, Double> scrollElement = new HashMap<String, Double>();
             scrollElement.put("startX", 0.50);
             scrollElement.put("startY", 0.95);
             scrollElement.put("endX", 0.50);
             scrollElement.put("endY", 0.01);
             scrollElement.put("duration", 3.0);
-            js.executeScript("mobile: swipe", scrollElement);
+            js.executeScript("swipe", scrollElement);
         } catch (ElementNotVisibleException e) {
             log.error("Element not visible", e);
         }
@@ -815,7 +812,7 @@ public class UserActions extends DriverManager {
      */
     private void waitForPageToLoad(WebElement id) {
         WebDriverWait wait = new WebDriverWait(driver, 35);
-        wait.until((Function)ExpectedConditions.elementToBeClickable(id));
+        wait.until((Function) ExpectedConditions.elementToBeClickable(id));
     }
 
     /**
@@ -825,7 +822,7 @@ public class UserActions extends DriverManager {
      */
     public void waitForElementToDisAppear(String id) {
         WebDriverWait wait = new WebDriverWait(driver, 25);
-        wait.until((Function)ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
+        wait.until((Function) ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
     }
 
     /**
@@ -1175,7 +1172,7 @@ public class UserActions extends DriverManager {
      * @param rotation rotation
      */
     protected void rotateScreen(String rotation) {
-        if (rotation.toLowerCase().equals("landscape")) {
+        if (rotation.equalsIgnoreCase("landscape")) {
             driver.rotate(ScreenOrientation.LANDSCAPE);
             logInfo("Screen rotated in landscape");
         } else {
@@ -1309,7 +1306,7 @@ public class UserActions extends DriverManager {
                             String p_field1 = csvobj.get("Value" + i).trim();
                             dicttoread.put(t_field, t_value);
                             log.info("value for the field: " + t_field + " is updated to: " + t_value + " Successfully");
-                            String stp = csvOutput.replace(FileContentPerRow, t_field + "," + p_field1, t_field + "," + t_value);
+                            String stp = CsvWriter.replace(FileContentPerRow, t_field + "," + p_field1, t_field + "," + t_value);
                             log.info(stp);
                             FileContentPerRow = stp;
                             P_valuenotduplicated = 1;
@@ -1318,7 +1315,7 @@ public class UserActions extends DriverManager {
                     if (P_valuenotduplicated == 0) {
                         String p_field1 = csvobj.get("Value" + (i - 1)).trim();
                         dicttoread.put(t_field, t_value);
-                        String stp1 = csvOutput.replace(FileContentPerRow, p_field1, p_field1 + "," + t_field + "," + t_value);
+                        String stp1 = CsvWriter.replace(FileContentPerRow, p_field1, p_field1 + "," + t_field + "," + t_value);
                         log.info(stp1);
                         FileContentPerRow = stp1;
                         log.info("New Field: " + t_field + " is added successfully with value: " + t_value);
@@ -1527,5 +1524,9 @@ public class UserActions extends DriverManager {
         counter = 0;
         log.error("Error Description", e);
         Assert.fail("TestCase Failed", e);
+    }
+
+    public enum MobileBy {
+        XPATH, ID, NAME, CLASS, ACCESS_ID
     }
 }
