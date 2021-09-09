@@ -1,8 +1,7 @@
-## Mobile Test Framework
-
+## Mobile Test Framework 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8958948e2b0048a785417344e0dffe43)](https://www.codacy.com/gh/dipjyotimetia/MobileTestFramework/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dipjyotimetia/MobileTestFramework&amp;utm_campaign=Badge_Grade)
-![CI](https://github.com/dipjyotimetia/MobileTestFramework/workflows/CI/badge.svg)
-
+![CI](https://github.com/dipjyotimetia/MobileTestFramework/workflows/CI/badge.svg)   
+[![Testing Powered By SauceLabs](https://opensource.saucelabs.com/images/opensauce/powered-by-saucelabs-badge-white.png?sanitize=true "Testing Powered By SauceLabs")](https://saucelabs.com)
 ### Full-fledged Mobile, API and Database framework using appium and rest-assured
 
 <img src="https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/FrameworkArchitecture.png" width="700">
