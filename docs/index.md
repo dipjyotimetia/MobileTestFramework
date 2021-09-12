@@ -1,9 +1,6 @@
 ## Mobile Test Framework
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8958948e2b0048a785417344e0dffe43)](https://www.codacy.com/gh/dipjyotimetia/MobileTestFramework/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dipjyotimetia/MobileTestFramework&amp;utm_campaign=Badge_Grade)
-![CI](https://github.com/dipjyotimetia/MobileTestFramework/workflows/CI/badge.svg)   
-[![Testing Powered By SauceLabs](https://opensource.saucelabs.com/images/opensauce/powered-by-saucelabs-badge-white.png?sanitize=true "Testing Powered By SauceLabs")](https://saucelabs.com)
-### Full-fledged Mobile, API and Database framework using appium and rest-assured
 
+### Architecture
 <img src="https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/FrameworkArchitecture.png" width="700">
 
 ### Supported Platforms
@@ -13,11 +10,11 @@ platform is supported by one or more "drivers", which know how to automate that 
 below for specific information about how that driver works and how to set it up:
 
 * Android
-    * The [UiAutomator2 Driver](/docs/en/drivers/android-uiautomator2.md)
+    * The [UiAutomator2 Driver](https://appium.io/docs/en/drivers/android-uiautomator2/)
 * IOS
-    * The [XCUITest](http://appium.io/docs/en/drivers/ios-xcuitest/)
+    * The [XCUITest](https://appium.io/docs/en/drivers/ios-xcuitest/)
 
-### Why [Appium](http://appium.io/docs/en/about-appium/intro/)?
+### Why [Appium](https://appium.io/docs/en/about-appium/intro/)?
 
 * Appium is an Open source automation tool used for cross platform testing like native, hybrid and web applications on
   both the platforms IOS and Android. Its capability for testing all kinds of tools under one platform, makes it a

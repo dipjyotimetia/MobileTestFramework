@@ -13,11 +13,11 @@ platform is supported by one or more "drivers", which know how to automate that 
 below for specific information about how that driver works and how to set it up:
 
 * Android
-    * The [UiAutomator2 Driver](/docs/en/drivers/android-uiautomator2.md)
+    * The [UiAutomator2 Driver](https://appium.io/docs/en/drivers/android-uiautomator2/)
 * IOS
-    * The [XCUITest](http://appium.io/docs/en/drivers/ios-xcuitest/)
+    * The [XCUITest](https://appium.io/docs/en/drivers/ios-xcuitest/)
 
-### Why [Appium](http://appium.io/docs/en/about-appium/intro/)?
+### Why [Appium](https://appium.io/docs/en/about-appium/intro/)?
 
 * Appium is an Open source automation tool used for cross platform testing like native, hybrid and web applications on
   both the platforms IOS and Android. Its capability for testing all kinds of tools under one platform, makes it a
