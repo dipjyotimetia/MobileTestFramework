@@ -1,4 +1,4 @@
-site_name: HybridTestFramework
+site_name: MobileTestFramework
 theme:
   name: material
   palette:
