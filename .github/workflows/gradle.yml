@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  browserstack:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,6 +30,19 @@ jobs:
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           IPA_URL: ${{steps.app-upload.outputs.IPA_URL}}
           APK_URL: ${{steps.app-upload.outputs.APK_URL}}
+      - name: Generate Report
+        run: ./gradlew task allureReport
+      - uses: actions/upload-artifact@v2
+        with:
+          name: allure-report
+          path: build/reports/allure-report
+
+  saucelabs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
       - name: Gradle Run Test Saucelabs
         run: ./gradlew task E2E_Saucelabs
         env:
