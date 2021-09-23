@@ -8,6 +8,7 @@
     <test name="E2E Tests iOS">
         <parameter name="device" value="iPhone12"/>
         <parameter name="apps" value="N"/>
+        <parameter name="cloud" value="sauce"/>
         <classes>
             <class name="com.TestDefinitionLayer.TC_Test_SauseLabsApp"/>
         </classes>
@@ -15,6 +16,7 @@
     <test name="E2E Tests Android">
         <parameter name="device" value="samsung"/>
         <parameter name="apps" value="Y"/>
+        <parameter name="cloud" value="sauce"/>
         <classes>
             <class name="com.TestDefinitionLayer.TC_Test_SauseLabsApp"/>
         </classes>

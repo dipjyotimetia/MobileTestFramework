@@ -58,7 +58,7 @@ allure {
 }
 
 dependencies {
-    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.59'
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.70'
     implementation group: 'io.appium', name: 'java-client', version: '7.5.1'
     implementation group: 'net.reini', name: 'slf4-cdi', version: '1.0'
     implementation group: 'org.assertj', name: 'assertj-core', version: '3.20.2'
@@ -77,16 +77,16 @@ dependencies {
     implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '5.0.1'
     implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.4.0.jre11'
     implementation group: 'io.qameta.allure', name: 'allure-gradle', version: '2.8.1'
-    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.14.0'
-    implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.14.0'
-    implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.14.0'
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.15.0'
+    implementation group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.15.0'
+    implementation group: 'io.qameta.allure', name: 'allure-attachments', version: '2.15.0'
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
     implementation 'io.rest-assured:rest-assured:4.4.0'
     implementation 'io.rest-assured:json-schema-validator:4.4.0'
     implementation 'io.rest-assured:json-path:4.4.0'
     implementation group: 'org.json', name: 'json', version: '20210307'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.32'
-    implementation group: 'com.konghq', name: 'unirest-java', version: '3.11.13'
+    implementation group: 'com.konghq', name: 'unirest-java', version: '3.13.0'
     implementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
     implementation group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.3'
@@ -97,10 +97,22 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
-task E2E(type: Test) {
+task E2E_Browserstack(type: Test) {
     useTestNG() {
         useDefaultListeners = true
-        suites 'src/test/suite/testng.xml'
+        suites 'src/test/suite/testng_browserstack.xml'
+        // includeGroups 'smoke'
+    }
+    testLogging.events "passed", "skipped", "failed"
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = "full"
+    // systemProperties=["TestEnv":"${TestEnv}","TestServer":"${TestServer}"]
+}
+
+task E2E_Saucelabs(type: Test) {
+    useTestNG() {
+        useDefaultListeners = true
+        suites 'src/test/suite/testng_saucelabs.xml'
         // includeGroups 'smoke'
     }
     testLogging.events "passed", "skipped", "failed"

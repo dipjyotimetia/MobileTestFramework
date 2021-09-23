@@ -64,18 +64,22 @@ public class AppiumController implements Access {
     private final String appiumPort = "4723";
     private final String username = System.getenv("BROWSERSTACK_USERNAME");
     private final String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+    private final String sauce_username = System.getenv("SAUCE_USERNAME");
+    private final String sauce_accessKey = System.getenv("SAUCE_ACCESS_KEY");
     private final String apk_url = System.getenv("APK_URL");
     private final String ipa_url = System.getenv("IPA_URL");
     private final String serverIp = "127.0.0.1";    //Local
+    private final String serverUrl = "http://" + serverIp + ":" + appiumPort + "/wd/hub";
     private final String cloudURL = "https://" + username + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub";
+    private final String sauceURL = "https://" + sauce_username + ":" + sauce_accessKey + "@ondemand.us-west-1.saucelabs.com/wd/hub";
     DesiredCapabilities _caps = new DesiredCapabilities();
     private String testName = null;
 
-    @Parameters({"device", "apps"})
+    @Parameters({"device", "apps", "cloud"})
     @BeforeClass
-    public void setup(String device, String apk) throws Exception {
+    public void setup(String device, String apk, String cloud) throws Exception {
         testName = this.getClass().getName().substring(24);
-        initDriver(device, apk);
+        initDriver(device, apk, cloud);
     }
 
     public AppiumDriver getDriver() {
@@ -89,11 +93,10 @@ public class AppiumController implements Access {
      * @param apps   apk
      * @throws Exception exception
      */
-    private void initDriver(String device, String apps) throws Exception {
+    private void initDriver(String device, String apps, String cloud) throws Exception {
         try {
             File appDir = new File("input/app");
             File app = new File(appDir, "***.apk");
-            String serverUrl = "http://" + serverIp + ":" + appiumPort + "/wd/hub";
             switch (device) {
                 case "NEXUS":
                     log.info("Selected device is NEXUS");
@@ -103,9 +106,9 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
                     _androidCapabilities(_caps);
-                    _createService().start();
+                    _cloudCapabilities(cloud, _caps, "NEXUS");
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
                 case "PIXEL":
                     log.info("Selected device is PIXEL");
@@ -115,29 +118,29 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.UDID, PIXEL);
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
                     _androidCapabilities(_caps);
-                    _createService().start();
+                    _cloudCapabilities(cloud, _caps, "PIXEL");
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
                 case "samsung":
                     log.info("Selected device is SAMSUNG");
                     if (apps.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
-                    _browserstackCapabilities(_caps, "samsung");
+                    _cloudCapabilities(cloud, _caps, "samsung");
                     _androidCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new AndroidDriver<>(new URL(cloudURL), _caps);
+                    _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
                 case "iPhone12":
                     log.info("Selected device is IPHONE");
                     if (apps.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
-                    _browserstackCapabilities(_caps, "iPhone12");
+                    _cloudCapabilities(cloud, _caps, "iPhone12");
                     _iosCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new IOSDriver<>(new URL(cloudURL), _caps);
+                    _driver = new IOSDriver<>(createURL(cloud), _caps);
                     break;
                 case "IPHONE":
                     log.info("Selected device is IPHONE");
@@ -147,18 +150,18 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.UDID, "iphone");
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iphone");
                     _iosCapabilities(_caps);
-                    _createService().start();
+                    _cloudCapabilities(cloud, _caps, "IPHONE");
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new IOSDriver<>(new URL(serverUrl), _caps);
+                    _driver = new IOSDriver<>(createURL(cloud), _caps);
                     break;
                 case "WEB":
                     log.info("Selected device is WEB");
                     _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
                     _createService().start();
-                    _browserCapabilities(_caps, "chrome");
+                    _cloudCapabilities(cloud, _caps, "WEB");
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
             }
         } catch (NullPointerException |
@@ -170,9 +173,50 @@ public class AppiumController implements Access {
     }
 
     /**
-     * BrowserStack capabilities
+     * CreateURL
      *
-     * @param _caps capabilities
+     * @param cloudProvider cloud provider
+     * @return cloud server url
+     * @throws MalformedURLException exception
+     */
+    private URL createURL(String cloudProvider) throws MalformedURLException {
+        switch (cloudProvider) {
+            case "sauce":
+                return new URL(sauceURL);
+            case "browserstack":
+                return new URL(cloudURL);
+            default:
+                return new URL(serverUrl);
+        }
+    }
+
+    /**
+     * Cloud Capabilities
+     *
+     * @param cloudProvider cloudProvider
+     * @param _caps         capabilities
+     * @param device        device
+     * @throws IOException exception
+     */
+    private void _cloudCapabilities(String cloudProvider, DesiredCapabilities _caps, String device) throws IOException {
+        switch (cloudProvider) {
+            case "sauce":
+                _saucelabsCapabilities(_caps, device);
+                break;
+            case "browserstack":
+                _browserstackCapabilities(_caps, device);
+                break;
+            default:
+                _createService().start();
+                break;
+        }
+    }
+
+    /**
+     * Browserstack capabilities
+     *
+     * @param _caps  capabilities
+     * @param device device
      */
     private void _browserstackCapabilities(DesiredCapabilities _caps, String device) {
         switch (device) {
@@ -199,6 +243,45 @@ public class AppiumController implements Access {
         _caps.setCapability("project", appConfig.getApplicationName());
         _caps.setCapability("build", testName + sysTime());
         _caps.setCapability("name", testName);
+    }
+
+    /**
+     * Saucelabs capabilities
+     * https://saucelabs.com/platform/platform-configurator
+     *
+     * @param _caps  capabilities
+     * @param device device
+     */
+    private void _saucelabsCapabilities(DesiredCapabilities _caps, String device) {
+        switch (device) {
+            case "samsung":
+                _caps.setCapability("platformName", "Android");
+                _caps.setCapability("browserName", "Chrome");
+                _caps.setCapability("appium:deviceName", "Android GoogleAPI Emulator");
+                _caps.setCapability("appium:platformVersion", "11.0");
+                _caps.setCapability("app", "storage:filename=Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
+                break;
+            case "pixel":
+                _caps.setCapability("platformName", "Android");
+                _caps.setCapability("browserName", "Chrome");
+                _caps.setCapability("appium:deviceName", "Google Pixel 3a GoogleAPI Emulator");
+                _caps.setCapability("appium:platformVersion", "11.0");
+                _caps.setCapability("app", "storage:filename=Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
+                break;
+            case "iPhone12":
+                _caps.setCapability("platformName", "iOS");
+                _caps.setCapability("browserName", "Safari");
+                _caps.setCapability("appium:deviceName", "iPhone 12 Pro Simulator");
+                _caps.setCapability("appium:platformVersion", "14.5");
+                _caps.setCapability("app", "storage:filename=iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa");
+                break;
+            default:
+                System.out.println("No device found");
+                break;
+        }
+        _caps.setCapability("username", sauce_username);
+        _caps.setCapability("accessKey", sauce_accessKey);
+        _caps.setCapability("orientation", "portrait");
     }
 
     /**

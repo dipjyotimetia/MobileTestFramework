@@ -20,16 +20,23 @@ jobs:
           APK_UPLOAD_RESPONSE=$(curl -u "$USERNAME:$ACCESS" -X POST https://api-cloud.browserstack.com/app-automate/upload -F "url=https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk")
           echo "::set-output name=IPA_URL::$(echo $IPA_UPLOAD_RESPONSE | jq -r '.app_url')"
           echo "::set-output name=APK_URL::$(echo $APK_UPLOAD_RESPONSE | jq -r '.app_url')"
+          IPA_UPLOAD_SAUCE=$(curl -u "$SAUCE_USERNAME:$SAUCE_ACCESS_KEY" --location --request POST 'https://api.us-west-1.saucelabs.com/v1/storage/upload' --form 'payload=@"https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa"' --form 'name="iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa"')
+          APK_UPLOAD_SAUCE=$(curl -u "$SAUCE_USERNAME:$SAUCE_ACCESS_KEY" --location --request POST 'https://api.us-west-1.saucelabs.com/v1/storage/upload' --form 'payload=@"https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk"' --form 'name="Android.SauceLabs.Mobile.Sample.app.2.7.1.apk"')
         env:
           USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           ACCESS: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-      - name: Gradle Run Test
-        run: ./gradlew task e2e
+      - name: Gradle Run Test Browserstack
+        run: ./gradlew task E2E_Browserstack
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           IPA_URL: ${{steps.app-upload.outputs.IPA_URL}}
           APK_URL: ${{steps.app-upload.outputs.APK_URL}}
+      - name: Gradle Run Test Saucelabs
+        run: ./gradlew task E2E_Saucelabs
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
       - name: Generate Report
         run: ./gradlew task allureReport
       - uses: actions/upload-artifact@v2
