@@ -51,6 +51,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 @Slf4j
 public class AppiumController implements Access {
@@ -107,7 +108,6 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
                     _androidCapabilities(_caps);
                     _cloudCapabilities(cloud, _caps, "NEXUS");
-                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
                 case "PIXEL":
@@ -119,7 +119,6 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
                     _androidCapabilities(_caps);
                     _cloudCapabilities(cloud, _caps, "PIXEL");
-                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
                 case "samsung":
@@ -129,7 +128,6 @@ public class AppiumController implements Access {
                     }
                     _cloudCapabilities(cloud, _caps, "samsung");
                     _androidCapabilities(_caps);
-                    log.info("Argument to driver object : " + cloudURL);
                     _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
                 case "iPhone12":
@@ -139,7 +137,6 @@ public class AppiumController implements Access {
                     }
                     _cloudCapabilities(cloud, _caps, "iPhone12");
                     _iosCapabilities(_caps);
-                    log.info("Argument to driver object : " + cloudURL);
                     _driver = new IOSDriver<>(createURL(cloud), _caps);
                     break;
                 case "IPHONE":
@@ -151,7 +148,6 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iphone");
                     _iosCapabilities(_caps);
                     _cloudCapabilities(cloud, _caps, "IPHONE");
-                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new IOSDriver<>(createURL(cloud), _caps);
                     break;
                 case "WEB":
@@ -160,7 +156,6 @@ public class AppiumController implements Access {
                     _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
                     _createService().start();
                     _cloudCapabilities(cloud, _caps, "WEB");
-                    log.info("Argument to driver object : " + serverUrl);
                     _driver = new AndroidDriver<>(createURL(cloud), _caps);
                     break;
             }
@@ -180,13 +175,15 @@ public class AppiumController implements Access {
      * @throws MalformedURLException exception
      */
     private URL createURL(String cloudProvider) throws MalformedURLException {
-        switch (cloudProvider) {
-            case "sauce":
-                return new URL(sauceURL);
-            case "browserstack":
-                return new URL(cloudURL);
-            default:
-                return new URL(serverUrl);
+        if (Objects.equals(cloudProvider, "sauce")) {
+            log.info("Argument to driver object : " + sauceURL);
+            return new URL(sauceURL);
+        } else if (Objects.equals(cloudProvider, "browserstack")) {
+            log.info("Argument to driver object : " + cloudURL);
+            return new URL(cloudURL);
+        } else {
+            log.info("Argument to driver object : " + serverUrl);
+            return new URL(serverUrl);
         }
     }
 

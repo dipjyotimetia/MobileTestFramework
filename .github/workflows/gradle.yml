@@ -43,6 +43,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - uses: saucelabs/sauce-connect-action@v2
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: github-action-tunnel
+          scVersion: 4.7.0
       - name: Gradle Run Test Saucelabs
         run: ./gradlew task E2E_Saucelabs
         env:
