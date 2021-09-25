@@ -292,7 +292,7 @@ public class AppiumController implements Access {
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
-        _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
+        _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 120);
         _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
         // _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
     }
