@@ -255,20 +255,21 @@ public class AppiumController implements Access {
                 _caps.setCapability("platformName", "Android");
                 _caps.setCapability("deviceName", "Android GoogleAPI Emulator");
                 _caps.setCapability("platformVersion", "11.0");
-                _caps.setCapability("orientation", "portrait");
+                _caps.setCapability("deviceOrientation", "portrait");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "pixel":
                 _caps.setCapability("platformName", "Android");
                 _caps.setCapability("deviceName", "Google Pixel 3a GoogleAPI Emulator");
                 _caps.setCapability("platformVersion", "11.0");
+                _caps.setCapability("deviceOrientation", "portrait");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "iPhone12":
                 _caps.setCapability("platformName", "iOS");
                 _caps.setCapability("deviceName", "iPhone 12 Simulator");
                 _caps.setCapability("platformVersion", "14.5");
-                _caps.setCapability("orientation", "portrait");
+                _caps.setCapability("deviceOrientation", "portrait");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa");
                 break;
             default:
