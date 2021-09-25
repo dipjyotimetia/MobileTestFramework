@@ -72,7 +72,7 @@ public class AppiumController implements Access {
     private final String serverIp = "127.0.0.1";    //Local
     private final String serverUrl = "http://" + serverIp + ":" + appiumPort + "/wd/hub";
     private final String cloudURL = "https://" + username + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub";
-    private final String sauceURL = "https://" + sauce_username + ":" + sauce_accessKey + "@ondemand.us-west-1.saucelabs.com/wd/hub";
+    private final String sauceURL = "https://" + sauce_username + ":" + sauce_accessKey + "@ondemand.us-west-1.saucelabs.com:443/wd/hub";
     DesiredCapabilities _caps = new DesiredCapabilities();
     private String testName = null;
 
@@ -254,7 +254,7 @@ public class AppiumController implements Access {
             case "samsung":
                 _caps.setCapability("platformName", "Android");
                 _caps.setCapability("browserName", "Chrome");
-                _caps.setCapability("deviceName", "Samsung.*Galaxy.*");
+                _caps.setCapability("deviceName", "Android GoogleAPI Emulator");
                 _caps.setCapability("platformVersion", "11.0");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
@@ -268,7 +268,7 @@ public class AppiumController implements Access {
             case "iPhone12":
                 _caps.setCapability("platformName", "iOS");
                 _caps.setCapability("browserName", "Safari");
-                _caps.setCapability("deviceName", "iPhone .*");
+                _caps.setCapability("deviceName", "iPhone 12 Simulator");
                 _caps.setCapability("platformVersion", "14.5");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa");
                 break;
