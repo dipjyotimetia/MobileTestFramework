@@ -253,21 +253,18 @@ public class AppiumController implements Access {
         switch (device) {
             case "samsung":
                 _caps.setCapability("platformName", "Android");
-                _caps.setCapability("browserName", "Chrome");
                 _caps.setCapability("deviceName", "Android GoogleAPI Emulator");
                 _caps.setCapability("platformVersion", "11.0");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "pixel":
                 _caps.setCapability("platformName", "Android");
-                _caps.setCapability("browserName", "Chrome");
                 _caps.setCapability("appium:deviceName", "Google Pixel 3a GoogleAPI Emulator");
                 _caps.setCapability("appium:platformVersion", "11.0");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "iPhone12":
                 _caps.setCapability("platformName", "iOS");
-                _caps.setCapability("browserName", "Safari");
                 _caps.setCapability("deviceName", "iPhone 12 Simulator");
                 _caps.setCapability("platformVersion", "14.5");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa");
