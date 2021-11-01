@@ -86,7 +86,7 @@ dependencies {
     implementation 'io.rest-assured:json-path:4.4.0'
     implementation group: 'org.json', name: 'json', version: '20210307'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.32'
-    implementation group: 'com.konghq', name: 'unirest-java', version: '3.13.0'
+    implementation group: 'com.konghq', name: 'unirest-java', version: '3.13.2'
     implementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
     implementation group: 'net.lightbody.bmp', name: 'browsermob-core', version: '2.1.5'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.3'
