@@ -92,7 +92,7 @@ dependencies {
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.3'
     implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
     implementation group: 'com.typesafe', name: 'config', version: '1.4.1'
-    implementation "org.testcontainers:testcontainers:1.16.0"
+    implementation "org.testcontainers:testcontainers:1.16.2"
     implementation 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
