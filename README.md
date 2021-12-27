@@ -4,7 +4,7 @@
 [![Testing Powered By SauceLabs](https://opensource.saucelabs.com/images/opensauce/powered-by-saucelabs-badge-white.png?sanitize=true "Testing Powered By SauceLabs")](https://saucelabs.com)
 ### Full-fledged Mobile, API and Database framework using appium and rest-assured
 
-<img src="https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/FrameworkArchitecture.png" width="700">
+<img src="https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/img/FrameworkArchitecture.png" width="700">
 
 ### Supported Platforms
 
@@ -38,7 +38,7 @@ below for specific information about how that driver works and how to set it up:
 * [Install InteliJ Community Edition](https://www.jetbrains.com/idea/download/)
 * [Java JDK_11](https://adoptopenjdk.net/) install jdk_11 version
 * [Gradle](https://gradle.org/next-steps/?version=6.7.1&format=bin)
-* [Allure](https://github.com/allure-framework/allure2/archive/2.14.0.zip)
+* [Allure](https://github.com/allure-framework/allure2/archive/2.17.2.zip)
 * Set the below environment variables
 
 ```shell

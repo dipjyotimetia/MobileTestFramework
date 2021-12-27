@@ -1,8 +1,7 @@
 ## Mobile Test Framework
 
 ### Architecture
-<img src="https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/FrameworkArchitecture.png" width="700">
-
+![Appium](img/FrameworkArchitecture.png)
 ### Supported Platforms
 
 Appium supports app automation across a variety of platforms, like iOS,Android, from any platform. Each
@@ -78,8 +77,8 @@ Create new class and name as the TC00*_E2E_TEST-***
 - Use CatchBlock in try/catch section
 
 #### Android Execution
-![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_android.gif)
+![browserstack](gif/gif_android.gif)
 
 #### iOS Execution
-![browserstack](https://github.com/dipjyotimetia/MobileTestFramework/blob/master/docs/gif/gif_ios.gif)
+![browserstack](gif/gif_ios.gif)
 
