@@ -67,7 +67,7 @@ dependencies {
     implementation group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
     implementation 'commons-io:commons-io:20030203.000550'
     implementation group: 'net.sourceforge.javacsv', name: 'javacsv', version: '2.0'
-    implementation 'org.apache.poi:poi-ooxml:5.1.0'
+    implementation 'org.apache.poi:poi-ooxml:5.2.0'
     implementation 'org.apache.poi:poi-ooxml-schemas:4.1.2'
     implementation 'org.apache.poi:poi-excelant:5.1.0'
     implementation 'org.apache.poi:poi-scratchpad:5.2.0'
