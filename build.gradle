@@ -84,7 +84,7 @@ dependencies {
     implementation 'io.rest-assured:json-path:4.5.0'
     implementation 'org.json:json:20210307'
     implementation 'org.slf4j:slf4j-simple:1.7.35'
-    implementation 'com.konghq:unirest-java:3.13.4'
+    implementation 'com.konghq:unirest-java:3.13.6'
     implementation 'com.github.tomakehurst:wiremock:2.27.2'
     implementation 'net.lightbody.bmp:browsermob-core:2.1.5'
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
