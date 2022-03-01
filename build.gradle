@@ -75,7 +75,7 @@ dependencies {
     implementation 'org.apache.xmlbeans:xmlbeans:5.0.3'
     implementation 'com.microsoft.sqlserver:mssql-jdbc:10.2.0.jre11'
     implementation 'io.qameta.allure:allure-gradle:2.8.1'
-    implementation 'io.qameta.allure:allure-testng:2.17.2'
+    implementation 'io.qameta.allure:allure-testng:2.17.3'
     implementation 'io.qameta.allure:allure-rest-assured:2.17.3'
     implementation 'io.qameta.allure:allure-attachments:2.17.2'
     implementation 'com.github.javafaker:javafaker:1.0.2'
