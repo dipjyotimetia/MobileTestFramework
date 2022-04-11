@@ -256,18 +256,25 @@ public class AppiumController implements Access {
                 _caps.setCapability("platformName", "Android");
                 _caps.setCapability("deviceName", "Android GoogleAPI Emulator");
                 _caps.setCapability("platformVersion", "11.0");
+                _caps.setCapability("sauceLabsImageInjectionEnabled", true);
+                _caps.setCapability("autoGrantPermissions", true);
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "pixel":
                 _caps.setCapability("platformName", "Android");
                 _caps.setCapability("deviceName", "Google Pixel 3a GoogleAPI Emulator");
                 _caps.setCapability("platformVersion", "11.0");
+                _caps.setCapability("sauceLabsImageInjectionEnabled", true);
+                _caps.setCapability("autoGrantPermissions", true);
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "iPhone12":
                 _caps.setCapability("platformName", "iOS");
+                _caps.setCapability("automationName", "XCUITEST");
                 _caps.setCapability("deviceName", "iPhone 12 Simulator");
                 _caps.setCapability("platformVersion", "14.5");
+                _caps.setCapability("sauceLabsImageInjectionEnabled", true);
+                _caps.setCapability("autoAcceptAlerts", true);
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa");
                 break;
             default:
@@ -293,7 +300,8 @@ public class AppiumController implements Access {
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 120);
-        _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
+        _caps.setCapability(AndroidMobileCapabilityType.APP_WAIT_ACTIVITY,"com.swaglabsmobileapp.MainActivity");
+//        _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
         // _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
     }
 
