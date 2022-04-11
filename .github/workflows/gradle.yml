@@ -47,11 +47,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Saucectl RUN Docker and Cloud
-        uses: saucelabs/saucectl-run-action@v1
-        with:
-          testing-environment: ""
-          concurrency: 5
       - name: Gradle Run Test Saucelabs
         run: ./gradlew task E2E_Saucelabs
         env:
