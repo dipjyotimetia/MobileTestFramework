@@ -107,6 +107,13 @@ task E2E(type: Test) {
     // systemProperties=["TestEnv":"${TestEnv}","TestServer":"${TestServer}"]
 }
 
+task E2E_Saucelabs(type: Test) {
+    useTestNG() {
+        useDefaultListeners = true
+        suites 'src/test/suite/testng_saucelabs.xml'
+        // includeGroups 'smoke'
+    }
+}
 javadoc {
     source = project.sourceSets.main.java.srcDirs
     options.linkSource true
