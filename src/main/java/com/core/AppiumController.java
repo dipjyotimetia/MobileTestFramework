@@ -40,7 +40,6 @@ import org.apache.commons.exec.OS;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -161,7 +160,7 @@ public class AppiumController implements Access {
                     break;
             }
         } catch (NullPointerException |
-                MalformedURLException ex) {
+                 MalformedURLException ex) {
             log.error("Appium driver could not be initialised for device", ex);
             throw new RuntimeException("Appium driver could not be initialised for device: " + device);
         }
@@ -299,10 +298,11 @@ public class AppiumController implements Access {
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
-        _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 120);
-        _caps.setCapability(AndroidMobileCapabilityType.APP_WAIT_ACTIVITY,"com.swaglabsmobileapp.MainActivity");
-//        _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
-        // _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
+        _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 300);
+        _caps.setCapability(AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT, 200);
+        _caps.setCapability(AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
+        _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
+        _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
     }
 
     /**
@@ -313,9 +313,9 @@ public class AppiumController implements Access {
     private void _iosCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
-        _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-        _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "XCUITest");
+        _caps.setCapability(MobileCapabilityType.APPLICATION_NAME, "XCUITest");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
+        _caps.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 200);
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID, "");
