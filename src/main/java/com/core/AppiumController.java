@@ -257,6 +257,8 @@ public class AppiumController implements Access {
                 _caps.setCapability("platformVersion", "11.0");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoGrantPermissions", true);
+                _caps.setCapability("idleTimeout", "90");
+                _caps.setCapability("newCommandTimeout", "90");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "pixel":
@@ -265,6 +267,8 @@ public class AppiumController implements Access {
                 _caps.setCapability("platformVersion", "11.0");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoGrantPermissions", true);
+                _caps.setCapability("idleTimeout", "90");
+                _caps.setCapability("newCommandTimeout", "90");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "iPhone12":
@@ -274,6 +278,8 @@ public class AppiumController implements Access {
                 _caps.setCapability("platformVersion", "14.5");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoAcceptAlerts", true);
+                _caps.setCapability("idleTimeout", "90");
+                _caps.setCapability("newCommandTimeout", "90");
                 _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/iOS.RealDevice.SauceLabs.Mobile.Sample.app.2.7.1.ipa");
                 break;
             default:
