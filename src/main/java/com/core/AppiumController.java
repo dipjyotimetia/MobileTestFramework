@@ -253,26 +253,21 @@ public class AppiumController implements Access {
         switch (device) {
             case "samsung":
                 _caps.setCapability("platformName", "Android");
-                _caps.setCapability("deviceName", "Android GoogleAPI Emulator");
+                _caps.setCapability("appium:platformVersion", "11");
+                _caps.setCapability("appium:deviceName", "Samsung.*Galaxy.*");
+                _caps.setCapability("appium:orientation", "portrait");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoGrantPermissions", true);
                 _caps.setCapability("idleTimeout", "90");
                 _caps.setCapability("newCommandTimeout", "90");
-                _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
-                break;
-            case "pixel":
-                _caps.setCapability("platformName", "Android");
-                _caps.setCapability("deviceName", "Google Pixel 3a GoogleAPI Emulator");
-                _caps.setCapability("sauceLabsImageInjectionEnabled", true);
-                _caps.setCapability("autoGrantPermissions", true);
-                _caps.setCapability("idleTimeout", "90");
-                _caps.setCapability("newCommandTimeout", "90");
-                _caps.setCapability("app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
+                _caps.setCapability("appium:app", "https://github.com/saucelabs/sample-app-mobile/releases/download/2.7.1/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
                 break;
             case "iPhone12":
                 _caps.setCapability("platformName", "iOS");
+                _caps.setCapability("appium:platformVersion", "15.0");
+                _caps.setCapability("appium:deviceName", "iPhone .*");
+                _caps.setCapability("appium:orientation", "portrait");
                 _caps.setCapability("automationName", "XCUITEST");
-                _caps.setCapability("deviceName", "iPhone 12 Simulator");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoAcceptAlerts", true);
                 _caps.setCapability("idleTimeout", "90");
