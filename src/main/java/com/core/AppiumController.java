@@ -254,7 +254,6 @@ public class AppiumController implements Access {
             case "samsung":
                 _caps.setCapability("platformName", "Android");
                 _caps.setCapability("deviceName", "Android GoogleAPI Emulator");
-                _caps.setCapability("platformVersion", "10.0");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoGrantPermissions", true);
                 _caps.setCapability("idleTimeout", "90");
@@ -264,7 +263,6 @@ public class AppiumController implements Access {
             case "pixel":
                 _caps.setCapability("platformName", "Android");
                 _caps.setCapability("deviceName", "Google Pixel 3a GoogleAPI Emulator");
-                _caps.setCapability("platformVersion", "10.0");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoGrantPermissions", true);
                 _caps.setCapability("idleTimeout", "90");
@@ -275,7 +273,6 @@ public class AppiumController implements Access {
                 _caps.setCapability("platformName", "iOS");
                 _caps.setCapability("automationName", "XCUITEST");
                 _caps.setCapability("deviceName", "iPhone 12 Simulator");
-                _caps.setCapability("platformVersion", "14");
                 _caps.setCapability("sauceLabsImageInjectionEnabled", true);
                 _caps.setCapability("autoAcceptAlerts", true);
                 _caps.setCapability("idleTimeout", "90");
