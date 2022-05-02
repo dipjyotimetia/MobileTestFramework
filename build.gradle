@@ -90,7 +90,7 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.typesafe:config:1.4.2'
-    implementation 'org.testcontainers:testcontainers:1.16.3'
+    implementation 'org.testcontainers:testcontainers:1.17.1'
     implementation 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
