@@ -81,7 +81,7 @@ dependencies {
     implementation 'com.github.javafaker:javafaker:1.0.2'
     implementation 'io.rest-assured:rest-assured:5.0.1'
     implementation 'io.rest-assured:json-schema-validator:5.0.1'
-    implementation 'io.rest-assured:json-path:5.0.1'
+    implementation 'io.rest-assured:json-path:5.1.0'
     implementation 'org.json:json:20211205'
     implementation 'org.slf4j:slf4j-simple:1.7.36'
     implementation 'com.konghq:unirest-java:3.13.8'
