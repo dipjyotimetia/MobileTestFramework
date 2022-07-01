@@ -62,7 +62,7 @@ dependencies {
     implementation 'io.appium:java-client:7.6.0'
     implementation 'org.assertj:assertj-core:3.22.0'
     implementation 'org.hamcrest:hamcrest-all:1.3'
-    implementation 'org.testng:testng:7.5'
+    implementation 'org.testng:testng:7.6.1'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
     implementation 'commons-io:commons-io:20030203.000550'
