@@ -177,6 +177,7 @@ public class AppiumController implements Access {
     private void _browserstackCapabilities(DesiredCapabilities _caps, String device) {
         switch (device) {
             case "samsung" -> {
+                _caps.setCapability("platformName", "android");
                 _caps.setCapability("os_version", "13.0");
                 _caps.setCapability("device", "Samsung Galaxy S23");
                 _caps.setCapability("app", apk_url);
@@ -187,6 +188,7 @@ public class AppiumController implements Access {
                 _caps.setCapability("app", apk_url);
             }
             case "iPhone14" -> {
+                _caps.setCapability("platformName", "ios");
                 _caps.setCapability("os_version", "16");
                 _caps.setCapability("device", "iPhone 14");
                 _caps.setCapability("app", ipa_url);
