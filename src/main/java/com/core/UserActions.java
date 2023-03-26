@@ -1083,7 +1083,7 @@ public class UserActions extends DriverManager {
      * @param id locatorId
      */
     private void waitForPageToLoad(WebElement id) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(35));
+        WebDriverWait wait = new WebDriverWait(driver, 35);
         wait.until((Function<? super WebDriver, ?>) ExpectedConditions.elementToBeClickable(id));
     }
 
@@ -1093,7 +1093,7 @@ public class UserActions extends DriverManager {
      * @param id locatorId
      */
     public void waitForElementToDisAppear(String id) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
+        WebDriverWait wait = new WebDriverWait(driver, 25);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
     }
 
