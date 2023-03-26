@@ -23,12 +23,12 @@ SOFTWARE.
  */
 package com.exception;
 
-import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.ElementNotInteractableException;
 
 /**
  * @author Dipjyoti Metia
  */
-public class ElementException extends ElementNotVisibleException {
+public class ElementException extends ElementNotInteractableException {
     /**
      * Element exception
      *
