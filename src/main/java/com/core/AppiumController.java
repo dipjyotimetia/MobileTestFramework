@@ -127,7 +127,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "samsung");
                     _androidCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new AppiumDriver(new URL(cloudURL), _caps);
+                    _driver = new AndroidDriver(new URL(cloudURL), _caps);
                 }
                 case "iPhone14" -> {
                     log.info("Selected device is IPHONE");
@@ -137,7 +137,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "iPhone14");
                     _iosCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new AppiumDriver(new URL(cloudURL), _caps);
+                    _driver = new IOSDriver(new URL(cloudURL), _caps);
                 }
                 case "IPHONE" -> {
                     log.info("Selected device is IPHONE");
