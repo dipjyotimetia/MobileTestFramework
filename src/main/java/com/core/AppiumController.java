@@ -163,7 +163,7 @@ public class AppiumController implements Access {
         } catch (Error |
                  Exception ex) {
             log.error("Appium driver could not be initialised for device", ex);
-            throw new RuntimeException("Appium driver could not be initialised for device: " + device);
+            throw new Exception("Appium driver could not be initialised for device: " + ex);
         }
         log.info("Driver initialized");
     }
