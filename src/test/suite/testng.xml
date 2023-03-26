@@ -6,7 +6,7 @@
         <listener class-name="com.reporting.Listeners.AnnotationTransformer"/>
     </listeners>
     <test name="E2E Tests iOS">
-        <parameter name="device" value="iPhone12"/>
+        <parameter name="device" value="iPhone14"/>
         <parameter name="apps" value="N"/>
         <classes>
             <class name="com.TestDefinitionLayer.TC_Test_SauseLabsApp"/>

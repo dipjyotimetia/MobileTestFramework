@@ -128,12 +128,12 @@ public class AppiumController implements Access {
                     log.info("Argument to driver object : " + cloudURL);
                     _driver = new AndroidDriver(new URL(cloudURL), _caps);
                 }
-                case "iPhone12" -> {
+                case "iPhone14" -> {
                     log.info("Selected device is IPHONE");
                     if (apps.equals("Y")) {
                         _caps.setCapability(MobileCapabilityType.APP, app);
                     }
-                    _browserstackCapabilities(_caps, "iPhone12");
+                    _browserstackCapabilities(_caps, "iPhone14");
                     _iosCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
                     _driver = new IOSDriver(new URL(cloudURL), _caps);
@@ -185,9 +185,9 @@ public class AppiumController implements Access {
                 _caps.setCapability("device", "Google Pixel 3");
                 _caps.setCapability("app", apk_url);
             }
-            case "iPhone12" -> {
-                _caps.setCapability("os_version", "14");
-                _caps.setCapability("device", "iPhone 12");
+            case "iPhone14" -> {
+                _caps.setCapability("os_version", "16");
+                _caps.setCapability("device", "iPhone 14");
                 _caps.setCapability("app", ipa_url);
             }
             default -> System.out.println("No device found");
@@ -204,10 +204,10 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _androidCapabilities(DesiredCapabilities _caps) {
-        _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
+        _caps.setCapability(AndroidMobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
         _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
@@ -220,13 +220,13 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _iosCapabilities(DesiredCapabilities _caps) {
-        _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
-        _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID, "");
+        _caps.setCapability(IOSMobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
+        _caps.setCapability(IOSMobileCapabilityType.AUTO_DISMISS_ALERTS, true);
         _caps.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "com.saucelabs.SwagLabsMobileApp");
         _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "com.saucelabs.SwagLabsMobileApp");
     }
