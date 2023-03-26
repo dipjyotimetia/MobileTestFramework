@@ -59,7 +59,7 @@ public class AppiumController implements Access {
     protected static final AppConfig appConfig = new AppConfig(ConfigFactory.load());
     private static final String nodeJS = System.getenv("NODE_HOME") + "/node.exe";
     private static final String appiumJS = System.getenv("APPIUM_HOME") + "/main.js";
-    private static AppiumDriver _driver;
+    private static RemoteWebDriver _driver;
     private static BrowserMobProxy server;
     private static DriverService service;
     private final String appiumPort = "4723";
@@ -80,7 +80,7 @@ public class AppiumController implements Access {
     }
 
     public AppiumDriver getDriver() {
-        return _driver;
+        return (AppiumDriver) _driver;
     }
 
     /**
@@ -128,7 +128,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "samsung");
                     _androidCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = (AppiumDriver) new RemoteWebDriver(new URL(cloudURL), _caps);
+                    _driver = new RemoteWebDriver(new URL(cloudURL), _caps);
                 }
                 case "iPhone14" -> {
                     log.info("Selected device is IPHONE");
@@ -138,7 +138,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "iPhone14");
                     _iosCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = (AppiumDriver) new  RemoteWebDriver(new URL(cloudURL), _caps);
+                    _driver = new RemoteWebDriver(new URL(cloudURL), _caps);
                 }
                 case "IPHONE" -> {
                     log.info("Selected device is IPHONE");
