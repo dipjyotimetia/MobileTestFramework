@@ -89,7 +89,7 @@ dependencies {
     implementation "io.rest-assured:rest-assured:${restAssured}"
     implementation "io.rest-assured:json-schema-validator:${restAssured}"
     implementation "io.rest-assured:json-path:${restAssured}"
-    implementation 'org.json:json:20220320'
+    implementation 'org.json:json:20230227'
     implementation 'org.slf4j:slf4j-simple:1.7.36'
     implementation 'com.konghq:unirest-java:3.13.8'
     implementation 'com.github.tomakehurst:wiremock:2.27.2'
