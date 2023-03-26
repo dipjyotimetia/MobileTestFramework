@@ -67,7 +67,7 @@ public class AppiumController implements Access {
     private final String apk_url = System.getenv("APK_URL");
     private final String ipa_url = System.getenv("IPA_URL");
     private final String serverIp = "127.0.0.1";    //Local
-    private final String cloudURL = "https://" + username + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub";
+    private final String cloudURL = "https://" + username + ":" + accessKey + "@hub.browserstack.com/wd/hub";
     DesiredCapabilities _caps = new DesiredCapabilities();
     private String testName = null;
 
