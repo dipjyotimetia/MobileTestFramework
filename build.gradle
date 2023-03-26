@@ -34,7 +34,7 @@ version = '2.0'
 ext {
     allureVersion= "2.21.0"
     restAssured="5.3.0"
-    poi="5.2.2"
+    poi="5.2.3"
 }
 
 repositories {
