@@ -196,6 +196,7 @@ public class AppiumController implements Access {
         _caps.setCapability("project", appConfig.getApplicationName());
         _caps.setCapability("build", testName + sysTime());
         _caps.setCapability("name", testName);
+        _caps.setCapability("isRealMobile", true);
     }
 
     /**
@@ -207,7 +208,8 @@ public class AppiumController implements Access {
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
-        _caps.setCapability(AndroidMobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+        _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+        _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13");
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
         _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
@@ -222,10 +224,11 @@ public class AppiumController implements Access {
     private void _iosCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
+        _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
+        _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "16");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID, "");
-        _caps.setCapability(IOSMobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         _caps.setCapability(IOSMobileCapabilityType.AUTO_DISMISS_ALERTS, true);
         _caps.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "com.saucelabs.SwagLabsMobileApp");
         _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "com.saucelabs.SwagLabsMobileApp");
