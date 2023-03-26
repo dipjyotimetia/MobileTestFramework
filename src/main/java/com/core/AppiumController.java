@@ -205,10 +205,10 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _androidCapabilities(DesiredCapabilities _caps) {
+        _caps.setCapability("platformName", "Android");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
-        _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13");
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
@@ -222,9 +222,9 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _iosCapabilities(DesiredCapabilities _caps) {
+        _caps.setCapability("platformName", "ios");
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
-        _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "16");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
