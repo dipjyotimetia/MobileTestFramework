@@ -21,68 +21,74 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
+plugins {
+    id "java"
+    id "idea"
+    id "io.qameta.allure" version "2.11.2"
+}
+
 group 'github.com.MobileTestFramework'
 version = '2.0'
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'maven'
-apply plugin: 'groovy'
-apply plugin: 'io.qameta.allure'
-apply plugin: 'maven-publish'
-apply plugin: 'distribution'
-
-repositories {
-    maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "https://plugins.gradle.org/m2/" }
-    mavenCentral()
+ext {
+    allureVersion= "2.21.0"
+    restAssured="5.3.0"
+    poi="5.2.2"
 }
 
-buildscript {
-    repositories {
-        maven { url "https://repo.maven.apache.org/maven2" }
-        maven { url "https://plugins.gradle.org/m2/" }
-        mavenCentral()
+repositories {
+    maven { // The google mirror is less flaky than mavenCentral()
+        url "https://maven-central.storage-download.googleapis.com/maven2/"
     }
-    dependencies {
-        classpath "io.qameta.allure:allure-gradle:+"
-    }
+    maven { url "https://packages.confluent.io/maven/" }
+    google()
+    gradlePluginPortal()
 }
 
 allure {
-    version = '2.17.2'
-    useTestNG {
-        version = '2.17.2'
+    version = "2.21.0"
+}
+
+tasks.register('E2E', Test){
+    useTestNG() {
+        useDefaultListeners = true
+        suites 'src/test/suite/testng.xml'
+        // includeGroups 'smoke'
     }
-    downloadLink = 'https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.17.2/allure-commandline-2.17.2.zip'
+    testLogging.events "passed", "skipped", "failed"
+    testLogging.showStandardStreams = true
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
 }
 
 dependencies {
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.210'
-    implementation 'io.appium:java-client:7.6.0'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.232'
+    implementation 'io.appium:java-client:8.3.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.8.2'
     implementation 'org.assertj:assertj-core:3.22.0'
     implementation 'org.hamcrest:hamcrest-all:1.3'
-    implementation 'org.testng:testng:7.5'
+    implementation 'org.testng:testng:7.7.0'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
     implementation 'commons-io:commons-io:20030203.000550'
     implementation group: 'net.sourceforge.javacsv', name: 'javacsv', version: '2.0'
-    implementation 'org.apache.poi:poi-ooxml:5.2.2'
-    implementation 'org.apache.poi:poi-ooxml-schemas:4.1.2'
-    implementation 'org.apache.poi:poi-excelant:5.2.0'
-    implementation 'org.apache.poi:poi-scratchpad:5.2.0'
-    implementation 'org.apache.poi:poi:5.2.0'
-    implementation 'org.apache.xmlbeans:xmlbeans:5.0.3'
-    implementation 'com.microsoft.sqlserver:mssql-jdbc:11.1.1.jre11-preview'
+    implementation "org.apache.poi:poi-ooxml:${poi}"
+    implementation "org.apache.poi:poi-excelant:${poi}"
+    implementation "org.apache.poi:poi-scratchpad:${poi}"
+    implementation "org.apache.poi:poi:${poi}"
+    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:12.2.0.jre11'
     implementation 'io.qameta.allure:allure-gradle:2.8.1'
-    implementation 'io.qameta.allure:allure-testng:2.17.3'
-    implementation 'io.qameta.allure:allure-rest-assured:2.17.3'
-    implementation 'io.qameta.allure:allure-attachments:2.17.3'
+    implementation "io.qameta.allure:allure-testng:${allureVersion}"
+    implementation "io.qameta.allure:allure-rest-assured:${allureVersion}"
+    implementation "io.qameta.allure:allure-attachments:${allureVersion}"
     implementation 'com.github.javafaker:javafaker:1.0.2'
-    implementation 'io.rest-assured:rest-assured:5.0.1'
-    implementation 'io.rest-assured:json-schema-validator:5.0.1'
-    implementation 'io.rest-assured:json-path:5.0.1'
-    implementation 'org.json:json:20211205'
+    implementation "io.rest-assured:rest-assured:${restAssured}"
+    implementation "io.rest-assured:json-schema-validator:${restAssured}"
+    implementation "io.rest-assured:json-path:${restAssured}"
+    implementation 'org.json:json:20220320'
     implementation 'org.slf4j:slf4j-simple:1.7.36'
     implementation 'com.konghq:unirest-java:3.13.8'
     implementation 'com.github.tomakehurst:wiremock:2.27.2'
@@ -93,18 +99,6 @@ dependencies {
     implementation 'org.testcontainers:testcontainers:1.17.1'
     implementation 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
-}
-
-task E2E(type: Test) {
-    useTestNG() {
-        useDefaultListeners = true
-        suites 'src/test/suite/testng.xml'
-        // includeGroups 'smoke'
-    }
-    testLogging.events "passed", "skipped", "failed"
-    testLogging.showStandardStreams = true
-    testLogging.exceptionFormat = "full"
-    // systemProperties=["TestEnv":"${TestEnv}","TestServer":"${TestServer}"]
 }
 
 javadoc {

@@ -25,8 +25,8 @@ package com.pages;
 
 import com.core.Constants;
 import com.core.UserActions;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 /**
@@ -36,15 +36,15 @@ public class LoginPage extends UserActions implements Constants {
 
     @iOSXCUITFindBys(value = {@iOSXCUITBy(accessibility = "test-Username"), @iOSXCUITBy(xpath = "//XCUIElementTypeTextField[@name=\"test-Username\"]")})
     @AndroidFindBy(accessibility = "test-Username")
-    private MobileElement userName;
+    private WebElement userName;
 
     @iOSXCUITFindBy(accessibility = "test-Password")
     @AndroidFindBy(accessibility = "test-Password")
-    private MobileElement password;
+    private WebElement password;
 
     @iOSXCUITFindBy(accessibility = "test-LOGIN")
     @AndroidFindBy(accessibility = "test-LOGIN")
-    private MobileElement loginButton;
+    private WebElement loginButton;
 
     public LoginPage() {
         super();

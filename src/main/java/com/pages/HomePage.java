@@ -25,10 +25,11 @@ package com.pages;
 
 import com.core.Constants;
 import com.core.UserActions;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITBy;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 /**
@@ -38,31 +39,31 @@ public class HomePage extends UserActions implements Constants {
 
     @AndroidFindBy(id = "com.booking:id/search_details_text")
     @iOSXCUITBy(xpath = "")
-    private MobileElement destination;
+    private WebElement destination;
 
     @AndroidFindBy(id = "com.booking:id/disam_search")
-    private MobileElement search;
+    private WebElement search;
 
     @AndroidFindBy(id = "com.booking:id/bt_accept")
-    private MobileElement acceptCookie;
+    private WebElement acceptCookie;
 
     @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]")
-    private MobileElement closeButton;
+    private WebElement closeButton;
 
     @AndroidFindBy(id = "com.booking:id/disambiguation_search_edittext")
-    private MobileElement searchEdit;
+    private WebElement searchEdit;
 
     @AndroidFindBy(id = "com.booking:id/button_positive")
-    private MobileElement gotIt;
+    private WebElement gotIt;
 
     @AndroidFindBy(xpath = "(//android.widget.TextView[contains(@text,'Paris')])[1]")
-    private MobileElement select;
+    private WebElement select;
 
     @AndroidFindBy(id = "com.booking:id/calendar_confirm")
-    private MobileElement selectDate;
+    private WebElement selectDate;
 
     @AndroidFindBy(id = "com.booking:id/search_search")
-    private MobileElement searchButton;
+    private WebElement searchButton;
 
     public HomePage() {
         super();
@@ -70,7 +71,7 @@ public class HomePage extends UserActions implements Constants {
     }
 
     public HomePage searchDestination() {
-        if (driver.findElementsById(("com.booking:id/bt_accept")).size() != 0) {
+        if (driver.findElements(By.id("com.booking:id/bt_accept")).size() != 0) {
             click(acceptCookie);
             click(closeButton);
         }

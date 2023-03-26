@@ -105,7 +105,7 @@ public class AppiumController implements Access {
                     _androidCapabilities(_caps);
                     _createService().start();
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    _driver = new AndroidDriver(new URL(serverUrl), _caps);
                     break;
                 case "PIXEL":
                     log.info("Selected device is PIXEL");
@@ -117,7 +117,7 @@ public class AppiumController implements Access {
                     _androidCapabilities(_caps);
                     _createService().start();
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    _driver = new AndroidDriver(new URL(serverUrl), _caps);
                     break;
                 case "samsung":
                     log.info("Selected device is SAMSUNG");
@@ -127,7 +127,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "samsung");
                     _androidCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new AndroidDriver<>(new URL(cloudURL), _caps);
+                    _driver = new AndroidDriver(new URL(cloudURL), _caps);
                     break;
                 case "iPhone12":
                     log.info("Selected device is IPHONE");
@@ -137,7 +137,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "iPhone12");
                     _iosCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new IOSDriver<>(new URL(cloudURL), _caps);
+                    _driver = new IOSDriver(new URL(cloudURL), _caps);
                     break;
                 case "IPHONE":
                     log.info("Selected device is IPHONE");
@@ -149,7 +149,7 @@ public class AppiumController implements Access {
                     _iosCapabilities(_caps);
                     _createService().start();
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new IOSDriver<>(new URL(serverUrl), _caps);
+                    _driver = new IOSDriver(new URL(serverUrl), _caps);
                     break;
                 case "WEB":
                     log.info("Selected device is WEB");
@@ -158,11 +158,11 @@ public class AppiumController implements Access {
                     _createService().start();
                     _browserCapabilities(_caps, "chrome");
                     log.info("Argument to driver object : " + serverUrl);
-                    _driver = new AndroidDriver<>(new URL(serverUrl), _caps);
+                    _driver = new AndroidDriver(new URL(serverUrl), _caps);
                     break;
             }
         } catch (NullPointerException |
-                MalformedURLException ex) {
+                 MalformedURLException ex) {
             log.error("Appium driver could not be initialised for device", ex);
             throw new RuntimeException("Appium driver could not be initialised for device: " + device);
         }
@@ -212,7 +212,6 @@ public class AppiumController implements Access {
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-        _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
         _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
         // _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
@@ -227,7 +226,6 @@ public class AppiumController implements Access {
         _caps.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-        _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "XCUITest");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
@@ -244,7 +242,6 @@ public class AppiumController implements Access {
      */
     private void _browserCapabilities(DesiredCapabilities _caps, String browser) {
         if (browser.contains("chrome")) {
-            _caps.setCapability(AndroidMobileCapabilityType.APPLICATION_NAME, "UiAutomator2");
             _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
             _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "69");
         } else {
