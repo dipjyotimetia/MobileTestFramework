@@ -38,6 +38,7 @@ import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.commons.exec.OS;
 import org.openqa.selenium.Proxy;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 import org.testng.annotations.AfterTest;
@@ -205,7 +206,7 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _androidCapabilities(DesiredCapabilities _caps) {
-        _caps.setCapability("platformName", "Android");
+        _caps.setCapability(CapabilityType.PLATFORM_NAME, "Android");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
@@ -222,7 +223,7 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _iosCapabilities(DesiredCapabilities _caps) {
-        _caps.setCapability("platformName", "ios");
+        _caps.setCapability(CapabilityType.PLATFORM_NAME, "ios");
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "16");
