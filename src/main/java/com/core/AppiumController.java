@@ -177,8 +177,8 @@ public class AppiumController implements Access {
     private void _browserstackCapabilities(DesiredCapabilities _caps, String device) {
         switch (device) {
             case "samsung" -> {
-                _caps.setCapability("os_version", "10.0");
-                _caps.setCapability("device", "Samsung Galaxy S20");
+                _caps.setCapability("os_version", "13.0");
+                _caps.setCapability("device", "Samsung Galaxy S23");
                 _caps.setCapability("app", apk_url);
             }
             case "pixel" -> {
@@ -206,11 +206,11 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _androidCapabilities(DesiredCapabilities _caps) {
-        _caps.setCapability(CapabilityType.PLATFORM_NAME, "Android");
+        _caps.setCapability("platformName", "android");
+        _caps.setCapability("platformVersion", "13.0");
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
-        _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13");
         _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
         _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
         _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
@@ -223,10 +223,10 @@ public class AppiumController implements Access {
      * @param _caps capabilities
      */
     private void _iosCapabilities(DesiredCapabilities _caps) {
-        _caps.setCapability(CapabilityType.PLATFORM_NAME, "ios");
+        _caps.setCapability("platformName", "ios");
+        _caps.setCapability("platformVersion", "16");
         _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
         _caps.setCapability(MobileCapabilityType.NO_RESET, true);
-        _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "16");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
         // _caps.setCapability(IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID, "");
