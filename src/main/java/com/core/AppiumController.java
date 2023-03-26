@@ -40,6 +40,7 @@ import org.apache.commons.exec.OS;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.service.DriverService;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
@@ -127,7 +128,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "samsung");
                     _androidCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new AndroidDriver(new URL(cloudURL), _caps);
+                    _driver = (AppiumDriver) new RemoteWebDriver(new URL(cloudURL), _caps);
                 }
                 case "iPhone14" -> {
                     log.info("Selected device is IPHONE");
@@ -137,7 +138,7 @@ public class AppiumController implements Access {
                     _browserstackCapabilities(_caps, "iPhone14");
                     _iosCapabilities(_caps);
                     log.info("Argument to driver object : " + cloudURL);
-                    _driver = new IOSDriver(new URL(cloudURL), _caps);
+                    _driver = (AppiumDriver) new  RemoteWebDriver(new URL(cloudURL), _caps);
                 }
                 case "IPHONE" -> {
                     log.info("Selected device is IPHONE");
