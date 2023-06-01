@@ -32,7 +32,7 @@ group 'github.com.MobileTestFramework'
 version = '2.0'
 
 ext {
-    allureVersion= "2.22.0"
+    allureVersion= "2.22.1"
     restAssured="5.3.0"
     poi="5.2.3"
 }
