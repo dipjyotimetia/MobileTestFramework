@@ -91,7 +91,7 @@ dependencies {
     implementation "io.rest-assured:json-path:${restAssured}"
     implementation 'org.json:json:20230227'
     implementation 'org.slf4j:slf4j-simple:2.0.7'
-    implementation 'com.konghq:unirest-java:3.13.8'
+    implementation 'com.konghq:unirest-java:3.14.5'
     implementation 'com.github.tomakehurst:wiremock:3.0.0'
     implementation 'net.lightbody.bmp:browsermob-core:2.1.5'
     implementation 'org.xerial:sqlite-jdbc:3.43.0.0'
