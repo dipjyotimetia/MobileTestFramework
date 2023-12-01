@@ -80,7 +80,7 @@ dependencies {
     implementation "org.apache.poi:poi-scratchpad:${poi}"
     implementation "org.apache.poi:poi:${poi}"
     implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
-    implementation 'com.microsoft.sqlserver:mssql-jdbc:12.4.2.jre11'
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:12.5.0.jre11-preview'
     implementation 'io.qameta.allure:allure-gradle:2.8.1'
     implementation "io.qameta.allure:allure-testng:${allureVersion}"
     implementation "io.qameta.allure:allure-rest-assured:${allureVersion}"
