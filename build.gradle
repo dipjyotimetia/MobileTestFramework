@@ -64,7 +64,7 @@ tasks.register('E2E', Test){
 }
 
 dependencies {
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.578'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.676'
     implementation 'io.appium:java-client:9.0.0'
     implementation 'org.seleniumhq.selenium:selenium-java:4.13.0'
     implementation 'org.seleniumhq.selenium:selenium-remote-driver:4.18.1'
