@@ -100,7 +100,7 @@ dependencies {
     implementation 'org.testcontainers:testcontainers:1.19.7'
     implementation 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
-    implementation 'com.browserstack:browserstack-java-sdk:1.13.12'
+    implementation 'com.browserstack:browserstack-java-sdk:1.13.20'
 }
 
 javadoc {
