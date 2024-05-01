@@ -90,7 +90,7 @@ dependencies {
     implementation "io.rest-assured:json-schema-validator:${restAssured}"
     implementation "io.rest-assured:json-path:${restAssured}"
     implementation 'org.json:json:20240303'
-    implementation 'org.slf4j:slf4j-simple:2.0.12'
+    implementation 'org.slf4j:slf4j-simple:2.0.13'
     implementation 'com.konghq:unirest-java:3.14.5'
     implementation 'com.github.tomakehurst:wiremock:3.0.1'
     implementation 'net.lightbody.bmp:browsermob-core:2.1.5'
