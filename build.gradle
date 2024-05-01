@@ -94,7 +94,7 @@ dependencies {
     implementation 'com.konghq:unirest-java:3.14.5'
     implementation 'com.github.tomakehurst:wiremock:3.0.1'
     implementation 'net.lightbody.bmp:browsermob-core:2.1.5'
-    implementation 'org.xerial:sqlite-jdbc:3.45.2.0'
+    implementation 'org.xerial:sqlite-jdbc:3.45.3.0'
     implementation 'com.google.guava:guava:33.1.0-jre'
     implementation 'com.typesafe:config:1.4.3'
     implementation 'org.testcontainers:testcontainers:1.19.7'
