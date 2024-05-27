@@ -28,11 +28,10 @@ import com.constants.Arg;
 import com.typesafe.config.ConfigFactory;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.MobileBrowserType;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.BrowserMobProxy;
@@ -41,6 +40,7 @@ import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.proxy.CaptureType;
 import org.apache.commons.exec.OS;
 import org.openqa.selenium.Proxy;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.service.DriverService;
@@ -101,10 +101,10 @@ public class AppiumController implements Access {
                 case "NEXUS" -> {
                     log.info("Selected device is NEXUS");
                     if (apps.equals("Y")) {
-                        _caps.setCapability(MobileCapabilityType.APP, app);
+                        _caps.setCapability(UiAutomator2Options.APP_OPTION, app);
                     }
-                    _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
-                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
+                    _caps.setCapability(UiAutomator2Options.UDID_OPTION, NEXUS);
+                    _caps.setCapability(UiAutomator2Options.DEVICE_NAME_OPTION, "NEXUS");
                     _androidCapabilities(_caps);
                     _createService().start();
                     log.info("Argument to driver object : " + serverUrl);
@@ -113,10 +113,10 @@ public class AppiumController implements Access {
                 case "PIXEL" -> {
                     log.info("Selected device is PIXEL");
                     if (apps.equals("Y")) {
-                        _caps.setCapability(MobileCapabilityType.APP, app);
+                        _caps.setCapability(UiAutomator2Options.APP_OPTION, app);
                     }
-                    _caps.setCapability(MobileCapabilityType.UDID, PIXEL);
-                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "PIXEL");
+                    _caps.setCapability(UiAutomator2Options.UDID_OPTION, PIXEL);
+                    _caps.setCapability(UiAutomator2Options.DEVICE_NAME_OPTION, "PIXEL");
                     _androidCapabilities(_caps);
                     _createService().start();
                     log.info("Argument to driver object : " + serverUrl);
@@ -125,7 +125,7 @@ public class AppiumController implements Access {
                 case "samsung" -> {
                     log.info("Selected device is SAMSUNG");
                     if (apps.equals("Y")) {
-                        _caps.setCapability(MobileCapabilityType.APP, app);
+                        _caps.setCapability(UiAutomator2Options.APP_OPTION, app);
                     }
                     _browserstackCapabilities(_caps, "samsung");
                     _androidCapabilities(_caps);
@@ -135,7 +135,7 @@ public class AppiumController implements Access {
                 case "iPhone14" -> {
                     log.info("Selected device is IPHONE");
                     if (apps.equals("Y")) {
-                        _caps.setCapability(MobileCapabilityType.APP, app);
+                        _caps.setCapability(XCUITestOptions.APP_OPTION, app);
                     }
                     _browserstackCapabilities(_caps, "iPhone14");
                     _iosCapabilities(_caps);
@@ -145,10 +145,10 @@ public class AppiumController implements Access {
                 case "IPHONE" -> {
                     log.info("Selected device is IPHONE");
                     if (apps.equals("Y")) {
-                        _caps.setCapability(MobileCapabilityType.APP, app);
+                        _caps.setCapability(XCUITestOptions.APP_OPTION, app);
                     }
-                    _caps.setCapability(MobileCapabilityType.UDID, "iphone");
-                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iphone");
+                    _caps.setCapability(XCUITestOptions.UDID_OPTION, "iphone");
+                    _caps.setCapability(XCUITestOptions.DEVICE_NAME_OPTION, "iphone");
                     _iosCapabilities(_caps);
                     _createService().start();
                     log.info("Argument to driver object : " + serverUrl);
@@ -156,8 +156,8 @@ public class AppiumController implements Access {
                 }
                 case "WEB" -> {
                     log.info("Selected device is WEB");
-                    _caps.setCapability(MobileCapabilityType.UDID, NEXUS);
-                    _caps.setCapability(MobileCapabilityType.DEVICE_NAME, "NEXUS");
+                    _caps.setCapability(UiAutomator2Options.UDID_OPTION, NEXUS);
+                    _caps.setCapability(UiAutomator2Options.DEVICE_NAME_OPTION, "NEXUS");
                     _createService().start();
                     _browserCapabilities(_caps, "chrome");
                     log.info("Argument to driver object : " + serverUrl);
@@ -213,13 +213,13 @@ public class AppiumController implements Access {
     private void _androidCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability("platformName", "android");
         _caps.setCapability("platformVersion", "13.0");
-        _caps.setCapability(MobileCapabilityType.NO_RESET, true);
-        _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
-        _caps.setCapability(MobileCapabilityType.AUTO_WEBVIEW, false);
-        _caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-        _caps.setCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, 60);
-        _caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.swaglabsmobileapp");
-        // _caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.swaglabsmobileapp.MainActivity");
+        _caps.setCapability(UiAutomator2Options.NO_RESET_OPTION, true);
+        _caps.setCapability(UiAutomator2Options.FULL_RESET_OPTION, false);
+        _caps.setCapability(UiAutomator2Options.AUTO_WEB_VIEW_OPTION, false);
+        _caps.setCapability(UiAutomator2Options.AUTO_GRANT_PERMISSIONS_OPTION, true);
+        _caps.setCapability(UiAutomator2Options.ANDROID_INSTALL_TIMEOUT_OPTION, 60);
+        _caps.setCapability(UiAutomator2Options.APP_PACKAGE_OPTION, "com.swaglabsmobileapp");
+//         _caps.setCapability(UiAutomator2Options.APP_ACTIVITY_OPTION, "com.swaglabsmobileapp.MainActivity");
     }
 
     /**
@@ -230,14 +230,14 @@ public class AppiumController implements Access {
     private void _iosCapabilities(DesiredCapabilities _caps) {
         _caps.setCapability("platformName", "ios");
         _caps.setCapability("platformVersion", "16");
-        _caps.setCapability(MobileCapabilityType.FULL_RESET, false);
-        _caps.setCapability(MobileCapabilityType.NO_RESET, true);
-        // _caps.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, "");
-        // _caps.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, "");
-        // _caps.setCapability(IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID, "");
-        _caps.setCapability(IOSMobileCapabilityType.AUTO_DISMISS_ALERTS, true);
-        _caps.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "com.saucelabs.SwagLabsMobileApp");
-        _caps.setCapability(IOSMobileCapabilityType.APP_NAME, "com.saucelabs.SwagLabsMobileApp");
+        _caps.setCapability(XCUITestOptions.FULL_RESET_OPTION, false);
+        _caps.setCapability(XCUITestOptions.NO_RESET_OPTION, true);
+//         _caps.setCapability(XCUITestOptions.XCODE_ORG_ID_OPTION, "");
+//         _caps.setCapability(XCUITestOptions.XCODE_SIGNING_ID_OPTION, "");
+//         _caps.setCapability(XCUITestOptions.UPDATED_WDA_BUNDLE_ID_OPTION, "");
+        _caps.setCapability(XCUITestOptions.AUTO_DISMISS_ALERTS_OPTION, true);
+        _caps.setCapability(XCUITestOptions.BUNDLE_ID_OPTION, "com.saucelabs.SwagLabsMobileApp");
+        _caps.setCapability(XCUITestOptions.AUTOMATION_NAME_OPTION, "com.saucelabs.SwagLabsMobileApp");
     }
 
     /**
@@ -248,11 +248,11 @@ public class AppiumController implements Access {
      */
     private void _browserCapabilities(DesiredCapabilities _caps, String browser) {
         if (browser.contains("chrome")) {
-            _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
-            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "69");
+            _caps.setCapability(UiAutomator2Options.BROWSER_NAME_OPTION, MobileBrowserType.CHROME);
+            _caps.setCapability(UiAutomator2Options.PLATFORM_VERSION_OPTION, "126");
         } else {
-            _caps.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-            _caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1");
+            _caps.setCapability(XCUITestOptions.BROWSER_NAME_OPTION, MobileBrowserType.SAFARI);
+            _caps.setCapability(XCUITestOptions.PLATFORM_VERSION_OPTION, "8.1");
         }
     }
 
@@ -268,7 +268,7 @@ public class AppiumController implements Access {
         server.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
         server.enableHarCaptureTypes(CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
         Proxy proxy = ClientUtil.createSeleniumProxy(server);
-        _caps.setCapability(MobileCapabilityType.PROXY, proxy);
+        _caps.setCapability(CapabilityType.PROXY, proxy);
         server.newHar("appiumPerf.har");
     }
 

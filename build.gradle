@@ -47,7 +47,7 @@ repositories {
 }
 
 allure {
-    version = "2.21.0"
+    version = "2.25.0"
 }
 
 tasks.register('E2E', Test){
@@ -110,3 +110,14 @@ javadoc {
 }
 
 gradle.startParameter.continueOnFailure = true
+
+// https://github.com/DiUS/java-faker/issues/331#issuecomment-1091166953
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.module.toString() == 'org.yaml:snakeyaml') {
+            details.artifactSelection {
+                it.selectArtifact(DependencyArtifact.DEFAULT_TYPE, null, null)
+            }
+        }
+    }
+}
