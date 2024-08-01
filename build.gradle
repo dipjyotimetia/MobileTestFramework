@@ -25,7 +25,7 @@ SOFTWARE.
 plugins {
     id "java"
     id "idea"
-    id "io.qameta.allure" version "2.11.2"
+    id "io.qameta.allure" version "2.12.0"
 }
 
 group 'github.com.MobileTestFramework'
