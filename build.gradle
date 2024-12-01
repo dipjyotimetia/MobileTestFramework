@@ -98,8 +98,8 @@ dependencies {
     implementation 'com.google.guava:guava:33.3.1-jre'
     implementation 'com.typesafe:config:1.4.3'
     implementation 'org.testcontainers:testcontainers:1.20.3'
-    implementation 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    implementation 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
     implementation 'com.browserstack:browserstack-java-sdk:1.27.3'
 }
 
