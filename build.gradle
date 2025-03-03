@@ -97,7 +97,7 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.48.0.0'
     implementation 'com.google.guava:guava:33.4.0-jre'
     implementation 'com.typesafe:config:1.4.3'
-    implementation 'org.testcontainers:testcontainers:1.20.4'
+    implementation 'org.testcontainers:testcontainers:1.20.5'
     implementation 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
     implementation 'com.browserstack:browserstack-java-sdk:1.30.2'
