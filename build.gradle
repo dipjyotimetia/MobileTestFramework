@@ -33,7 +33,7 @@ version = '2.0'
 
 ext {
     allureVersion= "2.29.1"
-    restAssured="5.5.1"
+    restAssured="5.5.5"
     poi="5.4.1"
 }
 
