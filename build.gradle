@@ -95,7 +95,7 @@ dependencies {
     implementation 'com.github.tomakehurst:wiremock:3.0.1'
     implementation 'net.lightbody.bmp:browsermob-core:2.1.5'
     implementation 'org.xerial:sqlite-jdbc:3.49.1.0'
-    implementation 'com.google.guava:guava:33.4.6-jre'
+    implementation 'com.google.guava:guava:33.4.8-jre'
     implementation 'com.typesafe:config:1.4.3'
     implementation 'org.testcontainers:testcontainers:1.21.1'
     implementation 'org.projectlombok:lombok:1.18.38'
